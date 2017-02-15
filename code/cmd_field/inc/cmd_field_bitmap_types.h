@@ -30,7 +30,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmAdcmodel::AdcModel const & bmc) {
     using AdcModel = BmAdcmodel::AdcModel;
-    bm_os << "\n   adc_model : ";
+    bm_os << "adc_model : ";
     switch(bmc) {
 
     case AdcModel::no_adc_module_installed : {
@@ -52,7 +52,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmAdcmodel::AdcModel cons
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmAdcmodel const & bm) {
-    bm_os << "\n";
     bm_os << bm.adc_model();
     bm_os << "\n";
     return bm_os;
@@ -76,7 +75,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmAlerts const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.load_0_will_be_off_after_delay() ) << "] " <<
         "load_0_will_be_off_after_delay";
     bm_os << "\n   [" << bm.bool_indicator( bm.load_1_will_be_off_after_delay() ) << "] " <<
@@ -126,7 +124,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::AuxReportingInterval const & bmc) {
     using AuxReportingInterval = BmAuxStatusWebFlags::AuxReportingInterval;
-    bm_os << "\n   aux_reporting_interval : ";
+    bm_os << "aux_reporting_interval : ";
     switch(bmc) {
 
     case AuxReportingInterval::not_reported : {
@@ -142,7 +140,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::AuxR
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::StatusPortReportingInterval const & bmc) {
     using StatusPortReportingInterval = BmAuxStatusWebFlags::StatusPortReportingInterval;
-    bm_os << "\n   status_port_reporting_interval : ";
+    bm_os << "status_port_reporting_interval : ";
     switch(bmc) {
 
     case StatusPortReportingInterval::not_reported : {
@@ -156,7 +154,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::Stat
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.allow_unauthenticated_baler_power_control_on_web_page() ) << "] " <<
         "allow_unauthenticated_baler_power_control_on_web_page";
     bm_os << "\n   [" << bm.bool_indicator( bm.allow_unauthenticated_baler_link_web_page() ) << "] " <<
@@ -193,7 +190,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatus::BalerPowerStatus const & bmc) {
     using BalerPowerStatus = BmBalerstatus::BalerPowerStatus;
-    bm_os << "\n   baler_power_status : ";
+    bm_os << "baler_power_status : ";
     switch(bmc) {
 
     case BalerPowerStatus::baler_off : {
@@ -215,7 +212,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatus::BalerPower
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatus const & bm) {
-    bm_os << "\n";
     bm_os << "\n   timeout_counts : " << bm.timeout_counts();
     bm_os << "\n   [" << bm.bool_indicator( bm.baler_is_currently_forced_off_for_the_minimum_off_time() ) << "] " <<
         "baler_is_currently_forced_off_for_the_minimum_off_time";
@@ -242,7 +238,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatusSpecial const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.baler_is_connected_on_serial_1() ) << "] " <<
         "baler_is_connected_on_serial_1";
     bm_os << "\n   [" << bm.bool_indicator( bm.baler_is_connected_on_serial_2() ) << "] " <<
@@ -277,7 +272,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalFail const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_1_failed_calibration() ) << "] " <<
         "channel_1_failed_calibration";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_2_failed_calibration() ) << "] " <<
@@ -320,7 +314,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalMonitorChannel const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_1() ) << "] " <<
         "channel_1";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_2() ) << "] " <<
@@ -363,7 +356,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalSensorControlBitmap const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.genen_1_a() ) << "] " <<
         "genen_1_a";
     bm_os << "\n   [" << bm.bool_indicator( bm.genen_2_a() ) << "] " <<
@@ -411,7 +403,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalWaveform::Waveform const & bmc) {
     using Waveform = BmCalWaveform::Waveform;
-    bm_os << "\n   waveform : ";
+    bm_os << "waveform : ";
     switch(bmc) {
 
     case Waveform::sine : {
@@ -437,7 +429,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmCalWaveform::Waveform c
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalWaveform const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.negative_step() ) << "] " <<
         "negative_step";
     bm_os << "\n   [" << bm.bool_indicator( bm.automatic_calibration() ) << "] " <<
@@ -467,7 +458,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalibrationBitmap::Input const & bmc) {
     using Input = BmCalibrationBitmap::Input;
-    bm_os << "\n   input : ";
+    bm_os << "input : ";
     switch(bmc) {
 
     case Input::a : {
@@ -481,7 +472,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmCalibrationBitmap::Inpu
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalibrationBitmap const & bm) {
-    bm_os << "\n";
     bm_os << bm.input();
     bm_os << "\n";
     return bm_os;
@@ -517,7 +507,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmCerr::ErrorCode const & bmc) {
     using ErrorCode = BmCerr::ErrorCode;
-    bm_os << "\n   error_code : ";
+    bm_os << "error_code : ";
     switch(bmc) {
 
     case ErrorCode::no_permission_invalid_password : {
@@ -575,7 +565,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmCerr::ErrorCode const &
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmCerr const & bm) {
-    bm_os << "\n";
     bm_os << bm.error_code();
     bm_os << "\n";
     return bm_os;
@@ -603,7 +592,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmChannelMap const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_1() ) << "] " <<
         "channel_1";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_2() ) << "] " <<
@@ -642,7 +630,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmChargingPhase::ChargingPhase const & bmc) {
     using ChargingPhase = BmChargingPhase::ChargingPhase;
-    bm_os << "\n   charging_phase : ";
+    bm_os << "charging_phase : ";
     switch(bmc) {
 
     case ChargingPhase::not_charging : {
@@ -668,7 +656,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmChargingPhase::Charging
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmChargingPhase const & bm) {
-    bm_os << "\n";
     bm_os << bm.charging_phase();
     bm_os << "\n";
     return bm_os;
@@ -700,7 +687,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCtrlFlags const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.save_current_programming_to_eeprom() ) << "] " <<
         "save_current_programming_to_eeprom";
     bm_os << "\n   [" << bm.bool_indicator( bm.reboot() ) << "] " <<
@@ -732,7 +718,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmDevOpt const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.polling_for_data_status_enabled() ) << "] " <<
         "polling_for_data_status_enabled";
     bm_os << "\n";
@@ -763,7 +748,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmDevUnitid::UnitId const & bmc) {
     using UnitId = BmDevUnitid::UnitId;
-    bm_os << "\n   unit_id : ";
+    bm_os << "unit_id : ";
     switch(bmc) {
 
     case UnitId::sp1320_power_supply : {
@@ -797,7 +782,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmDevUnitid::UnitId const
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmDevUnitid const & bm) {
-    bm_os << "\n";
     bm_os << bm.unit_id();
     bm_os << "\n";
     return bm_os;
@@ -815,7 +799,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmEthernetLinkstatus const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.polarity_ok() ) << "] " <<
         "polarity_ok";
     bm_os << "\n   [" << bm.bool_indicator( bm.link_ok() ) << "] " <<
@@ -838,7 +821,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgDataport const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.baler_should_disconnect_and_prepare_to_reconnect_to_a_data_vacuum() ) << "] " <<
         "baler_should_disconnect_and_prepare_to_reconnect_to_a_data_vacuum";
     bm_os << "\n   [" << bm.bool_indicator( bm.baler_should_stay_powered_on() ) << "] " <<
@@ -864,7 +846,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgEnvironmental const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.flash_manufacturing_constants_are_not_valid() ) << "] " <<
         "flash_manufacturing_constants_are_not_valid";
     bm_os << "\n   [" << bm.bool_indicator( bm.aux_io_line_1_is_active() ) << "] " <<
@@ -893,7 +874,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgFix const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.ethernet_installed() ) << "] " <<
         "ethernet_installed";
     bm_os << "\n   [" << bm.bool_indicator( bm.can_statreq_dynamic_ip() ) << "] " <<
@@ -946,7 +926,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgSphy const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.fill_mode_enabled() ) << "] " <<
         "fill_mode_enabled";
     bm_os << "\n   [" << bm.bool_indicator( bm.flush_packet_buffer_time_based() ) << "] " <<
@@ -987,7 +966,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgThread const & bm) {
-    bm_os << "\n";
     bm_os << "\n   global_event_value : " << bm.global_event_value();
     bm_os << "\n   [" << bm.bool_indicator( bm.global_event() ) << "] " <<
         "global_event";
@@ -1011,7 +989,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFirmwareversion const & bm) {
-    bm_os << "\n";
     bm_os << "\n   firmware_version : " << bm.firmware_version();
     bm_os << "\n   firmware_revision : " << bm.firmware_revision();
     bm_os << "\n";
@@ -1078,7 +1055,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel1 const & bmc) {
     using GainPreAmpChannel1 = BmGainPreAmp::GainPreAmpChannel1;
-    bm_os << "\n   gain_pre_amp_channel_1 : ";
+    bm_os << "gain_pre_amp_channel_1 : ";
     switch(bmc) {
 
     case GainPreAmpChannel1::disabled : {
@@ -1098,7 +1075,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel2 const & bmc) {
     using GainPreAmpChannel2 = BmGainPreAmp::GainPreAmpChannel2;
-    bm_os << "\n   gain_pre_amp_channel_2 : ";
+    bm_os << "gain_pre_amp_channel_2 : ";
     switch(bmc) {
 
     case GainPreAmpChannel2::disabled : {
@@ -1118,7 +1095,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel3 const & bmc) {
     using GainPreAmpChannel3 = BmGainPreAmp::GainPreAmpChannel3;
-    bm_os << "\n   gain_pre_amp_channel_3 : ";
+    bm_os << "gain_pre_amp_channel_3 : ";
     switch(bmc) {
 
     case GainPreAmpChannel3::disabled : {
@@ -1138,7 +1115,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel4 const & bmc) {
     using GainPreAmpChannel4 = BmGainPreAmp::GainPreAmpChannel4;
-    bm_os << "\n   gain_pre_amp_channel_4 : ";
+    bm_os << "gain_pre_amp_channel_4 : ";
     switch(bmc) {
 
     case GainPreAmpChannel4::disabled : {
@@ -1158,7 +1135,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel5 const & bmc) {
     using GainPreAmpChannel5 = BmGainPreAmp::GainPreAmpChannel5;
-    bm_os << "\n   gain_pre_amp_channel_5 : ";
+    bm_os << "gain_pre_amp_channel_5 : ";
     switch(bmc) {
 
     case GainPreAmpChannel5::disabled : {
@@ -1178,7 +1155,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel6 const & bmc) {
     using GainPreAmpChannel6 = BmGainPreAmp::GainPreAmpChannel6;
-    bm_os << "\n   gain_pre_amp_channel_6 : ";
+    bm_os << "gain_pre_amp_channel_6 : ";
     switch(bmc) {
 
     case GainPreAmpChannel6::disabled : {
@@ -1196,7 +1173,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp const & bm) {
-    bm_os << "\n";
     bm_os << bm.gain_pre_amp_channel_1();
     bm_os << bm.gain_pre_amp_channel_2();
     bm_os << bm.gain_pre_amp_channel_3();
@@ -1219,7 +1195,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmInitialVco const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.automatic_vco_setting_by_pll() ) << "] " <<
         "automatic_vco_setting_by_pll";
     bm_os << "\n   initial_vco : " << bm.initial_vco();
@@ -1263,7 +1238,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputAType const & bmc) {
     using InputAType = BmInputBitmap::InputAType;
-    bm_os << "\n   input_a_type : ";
+    bm_os << "input_a_type : ";
     switch(bmc) {
 
     case InputAType::one_pps_input : {
@@ -1287,7 +1262,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputAType
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputBType const & bmc) {
     using InputBType = BmInputBitmap::InputBType;
-    bm_os << "\n   input_b_type : ";
+    bm_os << "input_b_type : ";
     switch(bmc) {
 
     case InputBType::one_pps_input : {
@@ -1309,7 +1284,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputBType
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_1_uses_mux_special_input() ) << "] " <<
         "channel_1_uses_mux_special_input";
     bm_os << "\n   [" << bm.bool_indicator( bm.channel_2_uses_mux_special_input() ) << "] " <<
@@ -1358,7 +1332,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::LinearPhaseFiltersInputA const & bmc) {
     using LinearPhaseFiltersInputA = BmLinearPhaseFilters::LinearPhaseFiltersInputA;
-    bm_os << "\n   linear_phase_filters_input_a : ";
+    bm_os << "linear_phase_filters_input_a : ";
     switch(bmc) {
 
     case LinearPhaseFiltersInputA::for_all_frequencies : {
@@ -1382,7 +1356,7 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::Lin
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::LinearPhaseFiltersInputB const & bmc) {
     using LinearPhaseFiltersInputB = BmLinearPhaseFilters::LinearPhaseFiltersInputB;
-    bm_os << "\n   linear_phase_filters_input_b : ";
+    bm_os << "linear_phase_filters_input_b : ";
     switch(bmc) {
 
     case LinearPhaseFiltersInputB::for_all_frequencies : {
@@ -1404,7 +1378,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::Lin
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters const & bm) {
-    bm_os << "\n";
     bm_os << bm.linear_phase_filters_input_a();
     bm_os << bm.linear_phase_filters_input_b();
     bm_os << "\n";
@@ -1429,7 +1402,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmLoadsOff const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.load_0_is_currently_off() ) << "] " <<
         "load_0_is_currently_off";
     bm_os << "\n   [" << bm.bool_indicator( bm.load_1_is_currently_off() ) << "] " <<
@@ -1467,7 +1439,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmMiscInputs const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.ac_ok() ) << "] " <<
         "ac_ok";
     bm_os << "\n   [" << bm.bool_indicator( bm.input_spare_1() ) << "] " <<
@@ -1507,7 +1478,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmPllState::PllStatus const & bmc) {
     using PllStatus = BmPllState::PllStatus;
-    bm_os << "\n   pll_status : ";
+    bm_os << "pll_status : ";
     switch(bmc) {
 
     case PllStatus::pll_not_enabled : {
@@ -1529,7 +1500,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmPllState::PllStatus con
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmPllState const & bm) {
-    bm_os << "\n";
     bm_os << bm.pll_status();
     bm_os << "\n";
     return bm_os;
@@ -1549,7 +1519,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmProcessorid const & bm) {
-    bm_os << "\n";
     bm_os << "\n   architecture_revision : " << bm.architecture_revision();
     bm_os << "\n   architecture_type : " << bm.architecture_type();
     bm_os << "\n   processor_revision : " << bm.processor_revision();
@@ -1610,7 +1579,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmRqstat const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.global_status() ) << "] " <<
         "global_status";
     bm_os << "\n   [" << bm.bool_indicator( bm.gps_status() ) << "] " <<
@@ -1675,7 +1643,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdidriver::SdiDriver const & bmc) {
     using SdiDriver = BmSdidriver::SdiDriver;
-    bm_os << "\n   sdi_driver : ";
+    bm_os << "sdi_driver : ";
     switch(bmc) {
 
     case SdiDriver::vaisala_wxt520_weather_station : {
@@ -1685,7 +1653,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSdidriver::SdiDriver co
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdidriver const & bm) {
-    bm_os << "\n";
     bm_os << bm.sdi_driver();
     bm_os << "\n";
     return bm_os;
@@ -1711,7 +1678,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdiphase::SdiPhase const & bmc) {
     using SdiPhase = BmSdiphase::SdiPhase;
-    bm_os << "\n   sdi_phase : ";
+    bm_os << "sdi_phase : ";
     switch(bmc) {
 
     case SdiPhase::ready_to_run : {
@@ -1729,7 +1696,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSdiphase::SdiPhase cons
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdiphase const & bm) {
-    bm_os << "\n";
     bm_os << bm.sdi_phase();
     bm_os << "\n";
     return bm_os;
@@ -1759,7 +1725,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSeedHeaderActivityFlags const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.calibration_signals_present() ) << "] " <<
         "calibration_signals_present";
     bm_os << "\n   [" << bm.bool_indicator( bm.time_correction_applied() ) << "] " <<
@@ -1804,7 +1769,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSeedHeaderDataQualityFlags const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.amplifier_saturation_detected() ) << "] " <<
         "amplifier_saturation_detected";
     bm_os << "\n   [" << bm.bool_indicator( bm.digitizer_clipping_detected() ) << "] " <<
@@ -1847,7 +1811,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSeedHeaderIoAndClockFlags const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.station_volume_parity_error_possibly_present() ) << "] " <<
         "station_volume_parity_error_possibly_present";
     bm_os << "\n   [" << bm.bool_indicator( bm.long_record_read() ) << "] " <<
@@ -1871,42 +1834,41 @@ friend std::ostream & operator<<(std::ostream & bm_os, BmSensorControlEnable con
 
 public:
     explicit BmSensorControlEnable() : CmdFieldBitmap<2>{} {};
-    bool const output_1() const {return this -> data_.test(0);}
-    bool const output_2() const {return this -> data_.test(1);}
-    bool const output_3() const {return this -> data_.test(2);}
-    bool const output_4() const {return this -> data_.test(3);}
-    bool const output_5() const {return this -> data_.test(4);}
-    bool const output_6() const {return this -> data_.test(5);}
-    bool const output_7() const {return this -> data_.test(6);}
-    bool const output_8() const {return this -> data_.test(7);}
-    void output_1(const bool b) {this -> data_.set(0, b);}
-    void output_2(const bool b) {this -> data_.set(1, b);}
-    void output_3(const bool b) {this -> data_.set(2, b);}
-    void output_4(const bool b) {this -> data_.set(3, b);}
-    void output_5(const bool b) {this -> data_.set(4, b);}
-    void output_6(const bool b) {this -> data_.set(5, b);}
-    void output_7(const bool b) {this -> data_.set(6, b);}
-    void output_8(const bool b) {this -> data_.set(7, b);}
+    bool const output_1a() const {return this -> data_.test(0);}
+    bool const output_2a() const {return this -> data_.test(1);}
+    bool const output_3a() const {return this -> data_.test(2);}
+    bool const output_4a() const {return this -> data_.test(3);}
+    bool const output_1b() const {return this -> data_.test(4);}
+    bool const output_2b() const {return this -> data_.test(5);}
+    bool const output_3b() const {return this -> data_.test(6);}
+    bool const output_4b() const {return this -> data_.test(7);}
+    void output_1a(const bool b) {this -> data_.set(0, b);}
+    void output_2a(const bool b) {this -> data_.set(1, b);}
+    void output_3a(const bool b) {this -> data_.set(2, b);}
+    void output_4a(const bool b) {this -> data_.set(3, b);}
+    void output_1b(const bool b) {this -> data_.set(4, b);}
+    void output_2b(const bool b) {this -> data_.set(5, b);}
+    void output_3b(const bool b) {this -> data_.set(6, b);}
+    void output_4b(const bool b) {this -> data_.set(7, b);}
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlEnable const & bm) {
-    bm_os << "\n";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_1() ) << "] " <<
-        "output_1";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_2() ) << "] " <<
-        "output_2";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_3() ) << "] " <<
-        "output_3";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_4() ) << "] " <<
-        "output_4";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_5() ) << "] " <<
-        "output_5";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_6() ) << "] " <<
-        "output_6";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_7() ) << "] " <<
-        "output_7";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_8() ) << "] " <<
-        "output_8";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_1a() ) << "] " <<
+        "output_1a";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_2a() ) << "] " <<
+        "output_2a";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_3a() ) << "] " <<
+        "output_3a";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_4a() ) << "] " <<
+        "output_4a";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_1b() ) << "] " <<
+        "output_1b";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_2b() ) << "] " <<
+        "output_2b";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_3b() ) << "] " <<
+        "output_3b";
+    bm_os << "\n   [" << bm.bool_indicator( bm.output_4b() ) << "] " <<
+        "output_4b";
     bm_os << "\n";
     return bm_os;
 }
@@ -1944,7 +1906,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlOutput::Line const & bmc) {
     using Line = BmSensorControlOutput::Line;
-    bm_os << "\n   line : ";
+    bm_os << "line : ";
     switch(bmc) {
 
     case Line::idle : {
@@ -2010,7 +1972,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlOutput::Li
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlOutput const & bm) {
-    bm_os << "\n";
     bm_os << bm.line();
     bm_os << "\n";
     return bm_os;
@@ -2042,7 +2003,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorUnits::PressureUnits const & bmc) {
     using PressureUnits = BmSerialsensorUnits::PressureUnits;
-    bm_os << "\n   pressure_units : ";
+    bm_os << "pressure_units : ";
     switch(bmc) {
 
     case PressureUnits::unknown : {
@@ -2084,7 +2045,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorUnits::Pres
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorUnits const & bm) {
-    bm_os << "\n";
     bm_os << bm.pressure_units();
     bm_os << "\n";
     return bm_os;
@@ -2104,7 +2064,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorValidfields const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.pressure_measurement_is_valid() ) << "] " <<
         "pressure_measurement_is_valid";
     bm_os << "\n   [" << bm.bool_indicator( bm.internal_temperature_measurement_is_valid() ) << "] " <<
@@ -2130,7 +2089,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatCalibratorStatus const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.calibration_enable_is_on_this_second() ) << "] " <<
         "calibration_enable_is_on_this_second";
     bm_os << "\n   [" << bm.bool_indicator( bm.calibration_signal_is_on_this_second() ) << "] " <<
@@ -2168,7 +2126,7 @@ public:
 //! special operator<< for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatClockQuality::PllStatus const & bmc) {
     using PllStatus = BmStatClockQuality::PllStatus;
-    bm_os << "\n   pll_status : ";
+    bm_os << "pll_status : ";
     switch(bmc) {
 
     case PllStatus::pll_not_enabled : {
@@ -2190,7 +2148,6 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmStatClockQuality::PllSt
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatClockQuality const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.clock_has_ever_had_lock() ) << "] " <<
         "clock_has_ever_had_lock";
     bm_os << "\n   [" << bm.bool_indicator( bm.clock_currently_has_2d_lock() ) << "] " <<
@@ -2239,7 +2196,6 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatStatusBitmap const & bm) {
-    bm_os << "\n";
     bm_os << "\n   [" << bm.bool_indicator( bm.global_status() ) << "] " <<
         "global_status";
     bm_os << "\n   [" << bm.bool_indicator( bm.gps_status() ) << "] " <<

@@ -202,14 +202,14 @@ private:
 
         BmSensorControlEnable sce;
 
-        if (cmd_sc.sensor_output_1.line() == sco) sce.output_1(true); else
-        if (cmd_sc.sensor_output_2.line() == sco) sce.output_2(true); else
-        if (cmd_sc.sensor_output_3.line() == sco) sce.output_3(true); else
-        if (cmd_sc.sensor_output_4.line() == sco) sce.output_4(true); else
-        if (cmd_sc.sensor_output_5.line() == sco) sce.output_5(true); else
-        if (cmd_sc.sensor_output_6.line() == sco) sce.output_6(true); else
-        if (cmd_sc.sensor_output_7.line() == sco) sce.output_7(true); else
-        if (cmd_sc.sensor_output_8.line() == sco) sce.output_8(true); else
+        if (cmd_sc.sensor_output_1a.line() == sco) sce.output_1a(true); else
+        if (cmd_sc.sensor_output_2a.line() == sco) sce.output_2a(true); else
+        if (cmd_sc.sensor_output_3a.line() == sco) sce.output_3a(true); else
+        if (cmd_sc.sensor_output_4a.line() == sco) sce.output_4a(true); else
+        if (cmd_sc.sensor_output_1b.line() == sco) sce.output_1b(true); else
+        if (cmd_sc.sensor_output_2b.line() == sco) sce.output_2b(true); else
+        if (cmd_sc.sensor_output_3b.line() == sco) sce.output_3b(true); else
+        if (cmd_sc.sensor_output_4b.line() == sco) sce.output_4b(true); else
         throw WarningException("Comm",
                                "sensor_control_cal",
                                "No sensor control configured for calibration");
@@ -231,14 +231,14 @@ private:
 
         BmSensorControlEnable sce;
 
-        if (cmd_sc.sensor_output_1.line() == sco) sce.output_1(true); else
-        if (cmd_sc.sensor_output_2.line() == sco) sce.output_2(true); else
-        if (cmd_sc.sensor_output_3.line() == sco) sce.output_3(true); else
-        if (cmd_sc.sensor_output_4.line() == sco) sce.output_4(true); else
-        if (cmd_sc.sensor_output_5.line() == sco) sce.output_5(true); else
-        if (cmd_sc.sensor_output_6.line() == sco) sce.output_6(true); else
-        if (cmd_sc.sensor_output_7.line() == sco) sce.output_7(true); else
-        if (cmd_sc.sensor_output_8.line() == sco) sce.output_8(true); else
+        if (cmd_sc.sensor_output_1a.line() == sco) sce.output_1a(true); else
+        if (cmd_sc.sensor_output_2a.line() == sco) sce.output_2a(true); else
+        if (cmd_sc.sensor_output_3a.line() == sco) sce.output_3a(true); else
+        if (cmd_sc.sensor_output_4a.line() == sco) sce.output_4a(true); else
+        if (cmd_sc.sensor_output_1b.line() == sco) sce.output_1b(true); else
+        if (cmd_sc.sensor_output_2b.line() == sco) sce.output_2b(true); else
+        if (cmd_sc.sensor_output_3b.line() == sco) sce.output_3b(true); else
+        if (cmd_sc.sensor_output_4b.line() == sco) sce.output_4b(true); else
         throw WarningException("Comm",
                                "sensor_control_center",
                                "No sensor control configured for centering");

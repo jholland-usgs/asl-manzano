@@ -90,16 +90,6 @@ bm_h_fs << "#define _MZN_CMD_FIELD_BITMAP_TYPES_H\n";
 bm_h_fs << "\n#include \"cmd_field_bitmap.h\"\n";
 bm_h_fs << "\nnamespace mzn {";
 
-// cmd_field_bitmap_types.cpp file truncate
-//bm_cpp_fs.open("../../code/cmd_field/src/cmd_field_bitmap_types.cpp",
- //   std::ofstream::out | std::ofstream::trunc);
-/*
-if (!bm_cpp_fs) {
-    std::cerr << "ERROR: can't open cmd_field_bitmap_types.cpp file" << std::endl;
-    std::exit(EXIT_FAILURE);
-}
-*/
-
 // include.h
 //bm_cpp_fs << "\n#include \"cmd_field_bitmap_types.h\"\n\n";
 
@@ -469,7 +459,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
         // in this case, in addition to the value of the field
         // a description of the code is wanted
         // value first using getter
-        bm_h_fs << "\n    bm_os << "  << "\"\\n   ";
+        bm_h_fs << "\n    bm_os << "  << "\"";
         bm_h_fs  << bmf_name << " : \";";
 
         // description:
@@ -479,9 +469,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
 
         // loop over codes of this bitmap field
         for (int bmf_ci = 0; bmf_ci < bmf_cn; bmf_ci++) {
-
             // int bmf_code = bmf_json["bmf_codes"][bmf_ci]["bmf_code"];
-
             std::string bmf_code_name =
                 bmf_json["bmf_codes"][bmf_ci]["bmf_code_name"];
 
@@ -506,8 +494,8 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
     bm_h_fs << "\ninline std::ostream & operator<<(std::ostream & bm_os, "
             << bm_classname << " const & bm) {";
 
-    // new line in bm stream
-    bm_h_fs << "\n    bm_os << \"\\n\";";
+    // new line in bm stream?
+    // bm_h_fs << "\n    bm_os << \"\\n\";";
 
     // loop over bitmap fields and stream data
     for (int bmfi = 0; bmfi < bmfn; bmfi++) {

@@ -3,30 +3,30 @@
 namespace mzn {
 C1Sc::C1Sc():
     Command(0xAF, 32),
-    sensor_output_1_ignore(),
-    sensor_output_1_active_high(),
-    sensor_output_1(),
-    sensor_output_2_ignore(),
-    sensor_output_2_active_high(),
-    sensor_output_2(),
-    sensor_output_3_ignore(),
-    sensor_output_3_active_high(),
-    sensor_output_3(),
-    sensor_output_4_ignore(),
-    sensor_output_4_active_high(),
-    sensor_output_4(),
-    sensor_output_5_ignore(),
-    sensor_output_5_active_high(),
-    sensor_output_5(),
-    sensor_output_6_ignore(),
-    sensor_output_6_active_high(),
-    sensor_output_6(),
-    sensor_output_7_ignore(),
-    sensor_output_7_active_high(),
-    sensor_output_7(),
-    sensor_output_8_ignore(),
-    sensor_output_8_active_high(),
-    sensor_output_8() { }
+    sensor_output_1a_ignore(),
+    sensor_output_1a_active_high(),
+    sensor_output_1a(),
+    sensor_output_2a_ignore(),
+    sensor_output_2a_active_high(),
+    sensor_output_2a(),
+    sensor_output_3a_ignore(),
+    sensor_output_3a_active_high(),
+    sensor_output_3a(),
+    sensor_output_4a_ignore(),
+    sensor_output_4a_active_high(),
+    sensor_output_4a(),
+    sensor_output_1b_ignore(),
+    sensor_output_1b_active_high(),
+    sensor_output_1b(),
+    sensor_output_2b_ignore(),
+    sensor_output_2b_active_high(),
+    sensor_output_2b(),
+    sensor_output_3b_ignore(),
+    sensor_output_3b_active_high(),
+    sensor_output_3b(),
+    sensor_output_4b_ignore(),
+    sensor_output_4b_active_high(),
+    sensor_output_4b() { }
 
 uint16_t C1Sc::msg_to_data(std::vector<uint8_t> const & msg,
                            uint16_t mf_begin) {
@@ -42,29 +42,29 @@ uint16_t C1Sc::msg_to_data(std::vector<uint8_t> const & msg,
     }
 
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_1_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_1.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_1a_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_1a.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_2_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_2.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_2a_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_2a.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_3_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_3.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_3a_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_3a.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_4_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_4.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_4a_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_4a.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_5_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_5.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_1b_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_1b.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_6_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_6.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_2b_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_2b.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_7_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_7.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_3b_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_3b.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_8_active_high.msg_to_data(msg, mf_begin);
-    mf_begin = sensor_output_8.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_4b_active_high.msg_to_data(msg, mf_begin);
+    mf_begin = sensor_output_4b.msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -83,29 +83,29 @@ uint16_t C1Sc::data_to_msg(std::vector<uint8_t> & msg,
     }
 
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_1_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_1.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_1a_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_1a.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_2_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_2.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_2a_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_2a.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_3_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_3.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_3a_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_3a.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_4_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_4.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_4a_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_4a.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_5_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_5.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_1b_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_1b.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_6_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_6.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_2b_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_2b.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_7_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_7.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_3b_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_3b.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = sensor_output_8_active_high.data_to_msg(msg, mf_begin);
-    mf_begin = sensor_output_8.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_4b_active_high.data_to_msg(msg, mf_begin);
+    mf_begin = sensor_output_4b.data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }
@@ -113,37 +113,37 @@ uint16_t C1Sc::data_to_msg(std::vector<uint8_t> & msg,
 std::ostream & C1Sc::os_print(std::ostream & cmd_os) const {
     cmd_os << "\n --- C1_SC ---  \n";
 
-    cmd_os << "\nsensor_output_1_active_high: "; cmd_os << sensor_output_1_active_high;
+    cmd_os << "\nsensor_output_1a_active_high: "; cmd_os << sensor_output_1a_active_high;
 
-    cmd_os << "\nsensor_output_1: "; cmd_os << sensor_output_1;
+    cmd_os << "\nsensor_output_1a: "; cmd_os << sensor_output_1a;
 
-    cmd_os << "\nsensor_output_2_active_high: "; cmd_os << sensor_output_2_active_high;
+    cmd_os << "\nsensor_output_2a_active_high: "; cmd_os << sensor_output_2a_active_high;
 
-    cmd_os << "\nsensor_output_2: "; cmd_os << sensor_output_2;
+    cmd_os << "\nsensor_output_2a: "; cmd_os << sensor_output_2a;
 
-    cmd_os << "\nsensor_output_3_active_high: "; cmd_os << sensor_output_3_active_high;
+    cmd_os << "\nsensor_output_3a_active_high: "; cmd_os << sensor_output_3a_active_high;
 
-    cmd_os << "\nsensor_output_3: "; cmd_os << sensor_output_3;
+    cmd_os << "\nsensor_output_3a: "; cmd_os << sensor_output_3a;
 
-    cmd_os << "\nsensor_output_4_active_high: "; cmd_os << sensor_output_4_active_high;
+    cmd_os << "\nsensor_output_4a_active_high: "; cmd_os << sensor_output_4a_active_high;
 
-    cmd_os << "\nsensor_output_4: "; cmd_os << sensor_output_4;
+    cmd_os << "\nsensor_output_4a: "; cmd_os << sensor_output_4a;
 
-    cmd_os << "\nsensor_output_5_active_high: "; cmd_os << sensor_output_5_active_high;
+    cmd_os << "\nsensor_output_1b_active_high: "; cmd_os << sensor_output_1b_active_high;
 
-    cmd_os << "\nsensor_output_5: "; cmd_os << sensor_output_5;
+    cmd_os << "\nsensor_output_1b: "; cmd_os << sensor_output_1b;
 
-    cmd_os << "\nsensor_output_6_active_high: "; cmd_os << sensor_output_6_active_high;
+    cmd_os << "\nsensor_output_2b_active_high: "; cmd_os << sensor_output_2b_active_high;
 
-    cmd_os << "\nsensor_output_6: "; cmd_os << sensor_output_6;
+    cmd_os << "\nsensor_output_2b: "; cmd_os << sensor_output_2b;
 
-    cmd_os << "\nsensor_output_7_active_high: "; cmd_os << sensor_output_7_active_high;
+    cmd_os << "\nsensor_output_3b_active_high: "; cmd_os << sensor_output_3b_active_high;
 
-    cmd_os << "\nsensor_output_7: "; cmd_os << sensor_output_7;
+    cmd_os << "\nsensor_output_3b: "; cmd_os << sensor_output_3b;
 
-    cmd_os << "\nsensor_output_8_active_high: "; cmd_os << sensor_output_8_active_high;
+    cmd_os << "\nsensor_output_4b_active_high: "; cmd_os << sensor_output_4b_active_high;
 
-    cmd_os << "\nsensor_output_8: "; cmd_os << sensor_output_8;
+    cmd_os << "\nsensor_output_4b: "; cmd_os << sensor_output_4b;
     cmd_os << std::endl;
 
     return cmd_os;
