@@ -640,6 +640,59 @@ void Comm::run<Action::auto_, Kind::stat>(TA const & ta, OI const & oi) {
 
 // -------------------------------------------------------------------------- //
 template<>
+void Comm::run<Action::set, Kind::output>(TA const & ta, OI const & oi) {
+
+    auto & q = sn.q_ref(ta);
+    auto const & s = sn.s_const_ref(ta);
+
+    // returns a vector for general case, only one needed
+    auto cmds_ssc = cmd_file_reader_.construct_cmds<C1Ssc>(ta);
+    auto & cmd_ssc = cmds_ssc[0];
+
+    // the intention is to be  able to set outputs for a specific sensor,
+    // the outputs of the other sensor should be the same as the current one
+
+    // get current sensor_control_map, C1Rqsc , C1Sc
+    C1Rqsc cmd_rqsc;
+    C1Sc cmd_sc;
+    md.send_recv(q.port_config, cmd_rqsc, cmd_sc, false);
+
+    if (s.config.input == Sensor::Input::a) {
+        // sensor b outputs stay the same
+        cmd_ssc.sensor_output_1b.line( cmd_sc.sensor_output_1b.line() );
+        cmd_ssc.sensor_output_2b.line( cmd_sc.sensor_output_2b.line() );
+        cmd_ssc.sensor_output_3b.line( cmd_sc.sensor_output_3b.line() );
+        cmd_ssc.sensor_output_4b.line( cmd_sc.sensor_output_4b.line() );
+        cmd_ssc.sensor_output_1b_active_high = cmd_sc.sensor_output_1b_active_high;
+        cmd_ssc.sensor_output_2b_active_high = cmd_sc.sensor_output_2b_active_high;
+        cmd_ssc.sensor_output_3b_active_high = cmd_sc.sensor_output_3b_active_high;
+        cmd_ssc.sensor_output_4b_active_high = cmd_sc.sensor_output_4b_active_high;
+    } else {
+        // sensor a outputs stay the same
+        cmd_ssc.sensor_output_1a.line( cmd_sc.sensor_output_1a.line() );
+        cmd_ssc.sensor_output_2a.line( cmd_sc.sensor_output_2a.line() );
+        cmd_ssc.sensor_output_3a.line( cmd_sc.sensor_output_3a.line() );
+        cmd_ssc.sensor_output_4a.line( cmd_sc.sensor_output_4a.line() );
+        cmd_ssc.sensor_output_1a_active_high = cmd_sc.sensor_output_1a_active_high;
+        cmd_ssc.sensor_output_2a_active_high = cmd_sc.sensor_output_2a_active_high;
+        cmd_ssc.sensor_output_3a_active_high = cmd_sc.sensor_output_3a_active_high;
+        cmd_ssc.sensor_output_4a_active_high = cmd_sc.sensor_output_4a_active_high;
+    }
+
+    C1Cack cmd_cack;
+    // only the first element on the vector is needed
+    md.send_recv(q.port_config, cmd_ssc, cmd_cack);
+
+    // create task_id
+    auto constexpr ui_id = UserInstruction::hash(Action::set, Kind::output);
+    auto const task_id = ta.hash() + ui_id;
+
+    output_store.cmd_map[task_id] =
+        std::make_unique<C1Cack>( std::move(cmd_cack) );
+}
+
+// -------------------------------------------------------------------------- //
+template<>
 void Comm::run<Action::set, Kind::center>(TA const & ta, OI const & oi) {
 
     auto & q = sn.q_ref(ta);
@@ -690,7 +743,6 @@ void Comm::run<Action::set, Kind::center>(TA const & ta, OI const & oi) {
         cmd_samass.squelch_interval_2(squelch_interval);
         cmd_samass.sensor_control_enable_2 = sce;
     }
-
 
     C1Cack cmd_cack;
     md.send_recv(q.port_config, cmd_samass, cmd_cack);

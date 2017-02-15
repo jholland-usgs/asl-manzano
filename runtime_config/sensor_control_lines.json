@@ -1,12 +1,18 @@
 {
-"STS_1": { },
-"STS_2": { },
-"STS_2.5_SG": { },
-"TR_240": { },
-"KS54000": { },
-"CMG3_T": { },
-"CMG3_TB": { },
-"KS36000": { },
-"GS13": { },
-"ES_T": { }
+"STS_1": {
+            "cal":    {"line": 4, "active_high": true}
+         },
+
+"STS_2": {
+            "center": {"line": 1, "active_high": true},
+            "cal":    {"line": 4, "active_high": true}
+         },
+
+"TR_240": {},
+"KS54000": {},
+"CMG3_T": {},
+"CMG3_TB": {},
+"KS36000": {},
+"GS13": {},
+"ES_T": {}
 }

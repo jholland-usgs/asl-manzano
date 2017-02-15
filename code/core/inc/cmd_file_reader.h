@@ -43,14 +43,15 @@ public:
     class Co = typename Co<action, kind>::type >
     std::vector<MsgTask> construct_msg_tasks(UserInstruction const & ui,
                                              TargetAddress const & ta);
-private:
-    //! checks json format and throws if error
-    //! @throws if json format error
-    void check_json(bool const check, std::string const & e_what);
 
     //! read cals cal sequences config file and setup cal_tasks_;
     template <typename Ci>
     std::vector<Ci> construct_cmds(TargetAddress const & ta);
+
+private:
+    //! checks json format and throws if error
+    //! @throws if json format error
+    void check_json(bool const check, std::string const & e_what);
 
     //! when using msg_task_manager, the delays allows for independent delayed
     //! msg sending, calibrations not currently using the msg_task_manager

@@ -441,7 +441,13 @@ public:
             throw FatalException("SeismicNetwork", "setup",
                                  ss.str() );
         } else {
-            return json[key]; }
+            return json[key];
+        }
+    }
+
+    bool has(std::string  const key) const {
+        if ( json.find(key) == json.end() ) return false;
+        else return true;
     }
 };
 

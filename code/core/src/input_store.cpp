@@ -32,7 +32,6 @@ get_default_cmd<Action::get, Kind::stat>(TargetAddress const & ta,
 
     //  unless there an option is provided and is in the cmd_map
     //if (ui.option != "") return get_live_cmd<C1Ping4>(ui.option);
-
     using Ci = typename Ci<Action::get, Kind::stat>::type;
     Ci cmd;
 
@@ -148,7 +147,6 @@ get_default_cmd<Action::set, Kind::ctrl>(TargetAddress const & ta,
     Ci cmd;
 
     // no default command without explicit option
-
     if (option == "save")
         cmd.ctrl_flags.save_current_programming_to_eeprom(true); else
 

@@ -1,5 +1,5 @@
 #include "cmd_file_reader.h"
-#include "json.h"
+#include "json_sn.h"
 
 namespace mzn {
 
@@ -18,7 +18,6 @@ void CmdFileReader::check_json(bool const check, std::string const & e_what) {
 template <>
 std::vector<C1Qcal>
 CmdFileReader::construct_cmds(TargetAddress const & ta) {
-
 
     std::ifstream cals_fs;
 
@@ -48,8 +47,7 @@ CmdFileReader::construct_cmds(TargetAddress const & ta) {
                 std::string(") not found in cal sequences file") );
 
     // setup complete, now to read the parsed configuration file
-    auto const sensor_cals_json =
-        cals_json[ s.config.cals.c_str() ]["cals"];
+    auto const sensor_cals_json = cals_json[ s.config.cals.c_str() ]["cals"];
 
     // --------------------------------------------------------------------- //
     std::vector<C1Qcal> cmds;
@@ -228,5 +226,203 @@ CmdFileReader::calculate_run_durations(std::vector<C1Qcal> const & cmds) {
     return run_durations;
 }
 
+// -------------------------------------------------------------------------- //
+void set_center_a(C1Ssc & cmd_ssc, int const line, bool const active_high) {
+
+    auto const center_line = BmSensorControlOutput::Line::sensor_a_centering;
+
+    switch (line) {
+
+        case 1 : {
+            cmd_ssc.sensor_output_1a.line(center_line);
+            cmd_ssc.sensor_output_1a_active_high(active_high);
+            break;
+        }
+        case 2 : {
+            cmd_ssc.sensor_output_2a.line(center_line);
+            cmd_ssc.sensor_output_2a_active_high(active_high);
+            break;
+        }
+        case 3 : {
+            cmd_ssc.sensor_output_3a.line(center_line);
+            cmd_ssc.sensor_output_3a_active_high(active_high);
+            break;
+        }
+        case 4 : {
+            cmd_ssc.sensor_output_4a.line(center_line);
+            cmd_ssc.sensor_output_4a_active_high(active_high);
+            break;
+        }
+        default : {
+            throw WarningException("CmdFileReader",
+                                   "construct_cmds",
+                                   "input lines are [1, 2, 3, 4]");
+        }
+    }
+}
+
+// -------------------------------------------------------------------------- //
+void set_control_lines_a(C1Ssc & cmd_ssc,
+                         int const line_number,
+                         BmSensorControlOutput::Line const enable_line,
+                         bool const active_high) {
+
+    switch (line_number) {
+
+        case 1 : {
+            cmd_ssc.sensor_output_1a.line(enable_line);
+            cmd_ssc.sensor_output_1a_active_high(active_high);
+            break;
+        }
+        case 2 : {
+            cmd_ssc.sensor_output_2a.line(enable_line);
+            cmd_ssc.sensor_output_2a_active_high(active_high);
+            break;
+        }
+        case 3 : {
+            cmd_ssc.sensor_output_3a.line(enable_line);
+            cmd_ssc.sensor_output_3a_active_high(active_high);
+            break;
+        }
+        case 4 : {
+            cmd_ssc.sensor_output_4a.line(enable_line);
+            cmd_ssc.sensor_output_4a_active_high(active_high);
+            break;
+        }
+        default : {
+            throw WarningException("CmdFileReader",
+                                   "construct_cmds",
+                                   "input lines are [1, 2, 3, 4]");
+        }
+    }
+}
+
+// -------------------------------------------------------------------------- //
+void set_control_lines_b(C1Ssc & cmd_ssc,
+                         int const line_number,
+                         BmSensorControlOutput::Line const enable_line,
+                         bool const active_high) {
+
+    switch (line_number) {
+
+        case 1 : {
+            cmd_ssc.sensor_output_1b.line(enable_line);
+            cmd_ssc.sensor_output_1b_active_high(active_high);
+            break;
+        }
+        case 2 : {
+            cmd_ssc.sensor_output_2b.line(enable_line);
+            cmd_ssc.sensor_output_2b_active_high(active_high);
+            break;
+        }
+        case 3 : {
+            cmd_ssc.sensor_output_3b.line(enable_line);
+            cmd_ssc.sensor_output_3b_active_high(active_high);
+            break;
+        }
+        case 4 : {
+            cmd_ssc.sensor_output_4b.line(enable_line);
+            cmd_ssc.sensor_output_4b_active_high(active_high);
+            break;
+        }
+        default : {
+            throw WarningException("CmdFileReader",
+                                   "construct_cmds",
+                                   "input lines are [1, 2, 3, 4]");
+        }
+    }
+}
+
+// -------------------------------------------------------------------------- //
+template <>
+std::vector<C1Ssc>
+CmdFileReader::construct_cmds(TargetAddress const & ta) {
+
+    std::ifstream outputs_fs;
+
+    auto const runtime_config_path = Utility::get_runtime_config_path();
+    std::string const sc_control_lines{"/sensor_control_lines.json"};
+
+    outputs_fs.open(runtime_config_path + sc_control_lines);
+
+    if (not outputs_fs) {
+        throw WarningException("CmdFileReader",
+                                "construct_cmds<C1Ssc>",
+                                "can't open sc file: " + sc_control_lines);
+    }
+
+    std::stringstream outputs_ss;
+    outputs_ss << outputs_fs.rdbuf();
+
+    Json outputs_json = Json::parse( outputs_ss.str() );
+
+    check_json(outputs_json.is_object(), "sc not in json format");
+
+    // is the expected sc on the sc list?
+    auto const & s = sn_.s_const_ref(ta);
+
+    check_json( outputs_json.find( s.config.model.c_str() )
+               != outputs_json.end(),
+                std::string("sensor (") + s.config.model +
+                std::string(") not found in sc file") );
+
+    // setup complete, now to read the parsed configuration file
+    Utility::JsonRef sensor_outputs_json =
+        outputs_json[s.config.model.c_str()];
+
+    // just one needed
+    // ---------------------------------------------------------------------- //
+    std::vector<C1Ssc> cmds{ C1Ssc() };
+    using BSCL = BmSensorControlOutput::Line;
+    bool center_or_cal_found = false;
+
+    // center
+    // --------------------------------------------------------------------- //
+    if ( sensor_outputs_json.has("center") ) {
+
+        center_or_cal_found = true;
+        auto const center_output_json = sensor_outputs_json["center"];
+        Utility::JsonRef const center_output = center_output_json;
+        int const line_number = center_output["line"];
+        bool const active_high = center_output["active_high"];
+
+        if (s.config.input == Sensor::Input::a) {
+            auto const enable_line = BSCL::sensor_a_centering;
+            set_control_lines_a(cmds[0], line_number, enable_line, active_high);
+        } else  {
+            auto const enable_line = BSCL::sensor_b_centering;
+            set_control_lines_b(cmds[0], line_number, enable_line, active_high);
+        }
+    }
+
+    // cal
+    // --------------------------------------------------------------------- //
+    if ( sensor_outputs_json.has("cal") ) {
+
+        center_or_cal_found = true;
+        auto const cal_output_json = sensor_outputs_json["cal"];
+        Utility::JsonRef const cal_output = cal_output_json;
+        int const line_number = cal_output["line"];
+        bool const active_high = cal_output["active_high"];
+
+        if (s.config.input == Sensor::Input::a) {
+            auto const enable_line = BSCL::sensor_a_calibration;
+            set_control_lines_a(cmds[0], line_number, enable_line, active_high);
+        } else  {
+            auto const enable_line = BSCL::sensor_b_calibration;
+            set_control_lines_b(cmds[0], line_number, enable_line, active_high);
+        }
+    }
+
+    // for now only center or cal, aux1, aux2, etc can be added
+    // --------------------------------------------------------------------- //
+    if (not center_or_cal_found) {
+        throw WarningException("CmdFileReader",
+                               "construct_cmds<C1Ssc>",
+                               "no center or cal found");
+    }
+
+    return cmds;
+}
 
 } // <- mzn

@@ -86,7 +86,7 @@ InstructionMap::filter_kinds(TargetAddress const & ta, Action const action) {
     if (scope == Scope::sensor) {
 
         switch (action) {
-            case Action::set: return VK{Kind::center};
+            case Action::set: return VK{Kind::center, Kind::output};
 
             case Action::start: return VK{Kind::cal,
                                           Kind::center,

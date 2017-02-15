@@ -71,4 +71,5 @@ set(DIR_install_config_files $ENV{HOME}/.config/manzano)
 
 set(runtime_config_files ${k_mzn_runtime_config_DIR}/test.qrun
                          ${k_mzn_runtime_config_DIR}/cal_sequences.json
+                         ${k_mzn_runtime_config_DIR}/sensor_control_lines.json
                          ${k_mzn_runtime_config_DIR}/example_config.json)

@@ -1,5 +1,4 @@
 // Manzano software
-
 #include "message_dispatch.h"
 
 namespace mzn {
