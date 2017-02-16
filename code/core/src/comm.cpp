@@ -113,19 +113,29 @@ void Comm::run<Action::get, Kind::tokens>(TA const & ta,  OI const & oi) {
     cmd_rqmem.starting_address(0);
     cmd_rqmem.byte_count(0);
     using MT = BmMemoryType::MemoryType;
-    cmd_rqmem.memory_type.memory_type(MT::slave_processor_eeprom);
+    cmd_rqmem.memory_type.memory_type(MT::data_port_1);
 
     auto & q = sn.q_ref(ta);
+
+    /*
     std::stringstream ss;
     ss << std::hex      << std::setfill('0')
        << std::setw(16) << q.port_config.auth_code;
     std::string const pw_string = ss.str();
     std::array<uint8_t, 16> pw;
     std::copy( pw_string.begin(), pw_string.end(), pw.begin() );
+    */
+
+    std::array<uint8_t, 16> pw {0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0};
     cmd_rqmem.pw(pw);
 
-    // cmd_rqmem.pw(0);
+    C1Mem cmd_mem;
     std::cout << std::endl << "get tokens\n" << cmd_rqmem;
+
+    md.send_recv(q.port_config, cmd_rqmem, cmd_mem, true);
 }
 
 // -------------------------------------------------------------------------- //

@@ -125,7 +125,7 @@ private:
     int const port_host_;
 
     //! print debug messages
-    bool debug_ = false;
+    bool debug_ = true;
 };
 
 // -------------------------------------------------------------------------- //

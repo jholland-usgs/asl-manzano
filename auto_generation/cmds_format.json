@@ -1306,19 +1306,30 @@
 },
 
 "c1_rqmem":{
-"cmd_fields":[
+    "cmd_fields":[
 
-  {"cf_name": "starting_address", "cf_size": 4, "cf_type": "CmdFieldHex<uint32_t>"},
-  {"cf_name": "byte_count", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
-  {"cf_name": "memory_type", "cf_size": 2, "cf_type": "BmMemoryType"},
-  {"cf_name": "pw", "cf_size": 16, "cf_type": "CmdFieldArrayUByte<16>"}
+      {"cf_name": "starting_address", "cf_size": 4, "cf_type": "CmdFieldHex<uint32_t>"},
+      {"cf_name": "byte_count", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+      {"cf_name": "memory_type", "cf_size": 2, "cf_type": "BmMemoryType"},
+      {"cf_name": "pw", "cf_size": 16, "cf_type": "CmdFieldArrayUByte<16>"}
 
-],
-"cmd_number": "0x41",
-"crc_and_header": true,
-"originator": "dp"
+    ],
+    "cmd_number": "0x41",
+    "crc_and_header": true,
+    "originator": "dp"
 },
 
+
+"c1_mem":{
+    "cmd_fields":[
+
+      {"cf_name": "mem", "cf_size": 484, "cf_type": "CmdFieldArrayUByte<536>"}
+
+    ],
+    "cmd_number": "0xB8",
+    "crc_and_header": true,
+    "originator": "q"
+},
 "dt_open":{
 "cmd_fields":
   [
