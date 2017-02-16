@@ -27,10 +27,9 @@ public:
     AdcModel const adc_model() const {return static_cast<AdcModel>( CmdFieldBitmap<1>::raw_value() );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmAdcmodel::AdcModel const & bmc) {
     using AdcModel = BmAdcmodel::AdcModel;
-    bm_os << "adc_model : ";
     switch(bmc) {
 
     case AdcModel::no_adc_module_installed : {
@@ -52,6 +51,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmAdcmodel::AdcModel cons
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmAdcmodel const & bm) {
+    bm_os << "\n    ";
+    bm_os << "adc_model:";
     bm_os << bm.adc_model();
     bm_os << "\n";
     return bm_os;
@@ -75,21 +76,29 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmAlerts const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_0_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_0_will_be_off_after_delay() ) << "] " << 
         "load_0_will_be_off_after_delay";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_1_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_1_will_be_off_after_delay() ) << "] " << 
         "load_1_will_be_off_after_delay";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_2_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_2_will_be_off_after_delay() ) << "] " << 
         "load_2_will_be_off_after_delay";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_3_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_3_will_be_off_after_delay() ) << "] " << 
         "load_3_will_be_off_after_delay";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_4_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_4_will_be_off_after_delay() ) << "] " << 
         "load_4_will_be_off_after_delay";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_5_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_5_will_be_off_after_delay() ) << "] " << 
         "load_5_will_be_off_after_delay";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_6_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_6_will_be_off_after_delay() ) << "] " << 
         "load_6_will_be_off_after_delay";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_7_will_be_off_after_delay() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_7_will_be_off_after_delay() ) << "] " << 
         "load_7_will_be_off_after_delay";
     bm_os << "\n";
     return bm_os;
@@ -121,10 +130,9 @@ public:
     StatusPortReportingInterval const status_port_reporting_interval() const {return static_cast<StatusPortReportingInterval>( CmdFieldBitmap<2>::raw_value_from_range(8, 0x3) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::AuxReportingInterval const & bmc) {
     using AuxReportingInterval = BmAuxStatusWebFlags::AuxReportingInterval;
-    bm_os << "aux_reporting_interval : ";
     switch(bmc) {
 
     case AuxReportingInterval::not_reported : {
@@ -137,10 +145,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::AuxR
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::StatusPortReportingInterval const & bmc) {
     using StatusPortReportingInterval = BmAuxStatusWebFlags::StatusPortReportingInterval;
-    bm_os << "status_port_reporting_interval : ";
     switch(bmc) {
 
     case StatusPortReportingInterval::not_reported : {
@@ -154,13 +161,20 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags::Stat
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmAuxStatusWebFlags const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.allow_unauthenticated_baler_power_control_on_web_page() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.allow_unauthenticated_baler_power_control_on_web_page() ) << "] " << 
         "allow_unauthenticated_baler_power_control_on_web_page";
-    bm_os << "\n   [" << bm.bool_indicator( bm.allow_unauthenticated_baler_link_web_page() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.allow_unauthenticated_baler_link_web_page() ) << "] " << 
         "allow_unauthenticated_baler_link_web_page";
-    bm_os << "\n   [" << bm.bool_indicator( bm.show_q330_serial_number_on_web_page() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.show_q330_serial_number_on_web_page() ) << "] " << 
         "show_q330_serial_number_on_web_page";
+    bm_os << "\n    ";
+    bm_os << "aux_reporting_interval:";
     bm_os << bm.aux_reporting_interval();
+    bm_os << "\n    ";
+    bm_os << "status_port_reporting_interval:";
     bm_os << bm.status_port_reporting_interval();
     bm_os << "\n";
     return bm_os;
@@ -187,10 +201,9 @@ public:
     BalerPowerStatus const baler_power_status() const {return static_cast<BalerPowerStatus>( CmdFieldBitmap<2>::raw_value_from_range(14, 0x3) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatus::BalerPowerStatus const & bmc) {
     using BalerPowerStatus = BmBalerstatus::BalerPowerStatus;
-    bm_os << "baler_power_status : ";
     switch(bmc) {
 
     case BalerPowerStatus::baler_off : {
@@ -212,11 +225,17 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatus::BalerPower
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatus const & bm) {
-    bm_os << "\n   timeout_counts : " << bm.timeout_counts();
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_is_currently_forced_off_for_the_minimum_off_time() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "timeout_counts: ";
+    bm_os << bm.timeout_counts();
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_is_currently_forced_off_for_the_minimum_off_time() ) << "] " << 
         "baler_is_currently_forced_off_for_the_minimum_off_time";
-    bm_os << "\n   [" << bm.bool_indicator( bm.set_to_one() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.set_to_one() ) << "] " << 
         "set_to_one";
+    bm_os << "\n    ";
+    bm_os << "baler_power_status:";
     bm_os << bm.baler_power_status();
     bm_os << "\n";
     return bm_os;
@@ -238,17 +257,23 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmBalerstatusSpecial const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_is_connected_on_serial_1() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_is_connected_on_serial_1() ) << "] " << 
         "baler_is_connected_on_serial_1";
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_is_connected_on_serial_2() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_is_connected_on_serial_2() ) << "] " << 
         "baler_is_connected_on_serial_2";
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_is_connected_on_ethernet() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_is_connected_on_ethernet() ) << "] " << 
         "baler_is_connected_on_ethernet";
-    bm_os << "\n   [" << bm.bool_indicator( bm.q330_will_accept_a_connection_on_serial_1_from_a_baler_assigned_to_another_q330() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.q330_will_accept_a_connection_on_serial_1_from_a_baler_assigned_to_another_q330() ) << "] " << 
         "q330_will_accept_a_connection_on_serial_1_from_a_baler_assigned_to_another_q330";
-    bm_os << "\n   [" << bm.bool_indicator( bm.q330_will_accept_a_connection_on_serial_2_from_a_baler_assigned_to_another_q330() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.q330_will_accept_a_connection_on_serial_2_from_a_baler_assigned_to_another_q330() ) << "] " << 
         "q330_will_accept_a_connection_on_serial_2_from_a_baler_assigned_to_another_q330";
-    bm_os << "\n   [" << bm.bool_indicator( bm.q330_will_accept_a_connection_on_ethernet_from_a_baler_assigned_to_another_q330() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.q330_will_accept_a_connection_on_ethernet_from_a_baler_assigned_to_another_q330() ) << "] " << 
         "q330_will_accept_a_connection_on_ethernet_from_a_baler_assigned_to_another_q330";
     bm_os << "\n";
     return bm_os;
@@ -272,21 +297,29 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalFail const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_1_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_1_failed_calibration() ) << "] " << 
         "channel_1_failed_calibration";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_2_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_2_failed_calibration() ) << "] " << 
         "channel_2_failed_calibration";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_3_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_3_failed_calibration() ) << "] " << 
         "channel_3_failed_calibration";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_4_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_4_failed_calibration() ) << "] " << 
         "channel_4_failed_calibration";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_5_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_5_failed_calibration() ) << "] " << 
         "channel_5_failed_calibration";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_6_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_6_failed_calibration() ) << "] " << 
         "channel_6_failed_calibration";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_7_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_7_failed_calibration() ) << "] " << 
         "channel_7_failed_calibration";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_8_failed_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_8_failed_calibration() ) << "] " << 
         "channel_8_failed_calibration";
     bm_os << "\n";
     return bm_os;
@@ -314,17 +347,23 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalMonitorChannel const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_1() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_1() ) << "] " << 
         "channel_1";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_2() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_2() ) << "] " << 
         "channel_2";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_3() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_3() ) << "] " << 
         "channel_3";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_4() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_4() ) << "] " << 
         "channel_4";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_5() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_5() ) << "] " << 
         "channel_5";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_6() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_6() ) << "] " << 
         "channel_6";
     bm_os << "\n";
     return bm_os;
@@ -356,21 +395,29 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalSensorControlBitmap const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.genen_1_a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.genen_1_a() ) << "] " << 
         "genen_1_a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.genen_2_a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.genen_2_a() ) << "] " << 
         "genen_2_a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.genen_3_a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.genen_3_a() ) << "] " << 
         "genen_3_a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.calen_a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.calen_a() ) << "] " << 
         "calen_a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.genen_1_b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.genen_1_b() ) << "] " << 
         "genen_1_b";
-    bm_os << "\n   [" << bm.bool_indicator( bm.genen_2_b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.genen_2_b() ) << "] " << 
         "genen_2_b";
-    bm_os << "\n   [" << bm.bool_indicator( bm.genen_3_b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.genen_3_b() ) << "] " << 
         "genen_3_b";
-    bm_os << "\n   [" << bm.bool_indicator( bm.calen_b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.calen_b() ) << "] " << 
         "calen_b";
     bm_os << "\n";
     return bm_os;
@@ -400,10 +447,9 @@ public:
     void waveform(Waveform const c) {CmdFieldBitmap<2>::set_raw_value_in_range(0, 0x7, static_cast<unsigned long>(c) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalWaveform::Waveform const & bmc) {
     using Waveform = BmCalWaveform::Waveform;
-    bm_os << "waveform : ";
     switch(bmc) {
 
     case Waveform::sine : {
@@ -429,10 +475,14 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmCalWaveform::Waveform c
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalWaveform const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.negative_step() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.negative_step() ) << "] " << 
         "negative_step";
-    bm_os << "\n   [" << bm.bool_indicator( bm.automatic_calibration() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.automatic_calibration() ) << "] " << 
         "automatic_calibration";
+    bm_os << "\n    ";
+    bm_os << "waveform:";
     bm_os << bm.waveform();
     bm_os << "\n";
     return bm_os;
@@ -455,10 +505,9 @@ public:
     void input(Input const c) {this -> data_ = std::bitset<16>( static_cast<unsigned long>(c) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalibrationBitmap::Input const & bmc) {
     using Input = BmCalibrationBitmap::Input;
-    bm_os << "input : ";
     switch(bmc) {
 
     case Input::a : {
@@ -472,6 +521,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmCalibrationBitmap::Inpu
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmCalibrationBitmap const & bm) {
+    bm_os << "\n    ";
+    bm_os << "input:";
     bm_os << bm.input();
     bm_os << "\n";
     return bm_os;
@@ -504,10 +555,9 @@ public:
     ErrorCode const error_code() const {return static_cast<ErrorCode>( CmdFieldBitmap<2>::raw_value() );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmCerr::ErrorCode const & bmc) {
     using ErrorCode = BmCerr::ErrorCode;
-    bm_os << "error_code : ";
     switch(bmc) {
 
     case ErrorCode::no_permission_invalid_password : {
@@ -565,6 +615,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmCerr::ErrorCode const &
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmCerr const & bm) {
+    bm_os << "\n    ";
+    bm_os << "error_code:";
     bm_os << bm.error_code();
     bm_os << "\n";
     return bm_os;
@@ -592,17 +644,23 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmChannelMap const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_1() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_1() ) << "] " << 
         "channel_1";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_2() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_2() ) << "] " << 
         "channel_2";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_3() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_3() ) << "] " << 
         "channel_3";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_4() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_4() ) << "] " << 
         "channel_4";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_5() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_5() ) << "] " << 
         "channel_5";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_6() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_6() ) << "] " << 
         "channel_6";
     bm_os << "\n";
     return bm_os;
@@ -627,10 +685,9 @@ public:
     ChargingPhase const charging_phase() const {return static_cast<ChargingPhase>( CmdFieldBitmap<2>::raw_value() );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmChargingPhase::ChargingPhase const & bmc) {
     using ChargingPhase = BmChargingPhase::ChargingPhase;
-    bm_os << "charging_phase : ";
     switch(bmc) {
 
     case ChargingPhase::not_charging : {
@@ -656,6 +713,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmChargingPhase::Charging
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmChargingPhase const & bm) {
+    bm_os << "\n    ";
+    bm_os << "charging_phase:";
     bm_os << bm.charging_phase();
     bm_os << "\n";
     return bm_os;
@@ -687,21 +746,29 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmCtrlFlags const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.save_current_programming_to_eeprom() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.save_current_programming_to_eeprom() ) << "] " << 
         "save_current_programming_to_eeprom";
-    bm_os << "\n   [" << bm.bool_indicator( bm.reboot() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.reboot() ) << "] " << 
         "reboot";
-    bm_os << "\n   [" << bm.bool_indicator( bm.re_sync() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.re_sync() ) << "] " << 
         "re_sync";
-    bm_os << "\n   [" << bm.bool_indicator( bm.turn_gps_on() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.turn_gps_on() ) << "] " << 
         "turn_gps_on";
-    bm_os << "\n   [" << bm.bool_indicator( bm.turn_gps_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.turn_gps_off() ) << "] " << 
         "turn_gps_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.cold_start_gps() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.cold_start_gps() ) << "] " << 
         "cold_start_gps";
-    bm_os << "\n   [" << bm.bool_indicator( bm.reboot_envproc_on_serial_1() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.reboot_envproc_on_serial_1() ) << "] " << 
         "reboot_envproc_on_serial_1";
-    bm_os << "\n   [" << bm.bool_indicator( bm.reboot_envproc_on_serial_2() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.reboot_envproc_on_serial_2() ) << "] " << 
         "reboot_envproc_on_serial_2";
     bm_os << "\n";
     return bm_os;
@@ -718,7 +785,8 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmDevOpt const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.polling_for_data_status_enabled() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.polling_for_data_status_enabled() ) << "] " << 
         "polling_for_data_status_enabled";
     bm_os << "\n";
     return bm_os;
@@ -745,10 +813,9 @@ public:
     UnitId const unit_id() const {return static_cast<UnitId>( CmdFieldBitmap<2>::raw_value() );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmDevUnitid::UnitId const & bmc) {
     using UnitId = BmDevUnitid::UnitId;
-    bm_os << "unit_id : ";
     switch(bmc) {
 
     case UnitId::sp1320_power_supply : {
@@ -782,6 +849,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmDevUnitid::UnitId const
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmDevUnitid const & bm) {
+    bm_os << "\n    ";
+    bm_os << "unit_id:";
     bm_os << bm.unit_id();
     bm_os << "\n";
     return bm_os;
@@ -799,9 +868,11 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmEthernetLinkstatus const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.polarity_ok() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.polarity_ok() ) << "] " << 
         "polarity_ok";
-    bm_os << "\n   [" << bm.bool_indicator( bm.link_ok() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.link_ok() ) << "] " << 
         "link_ok";
     bm_os << "\n";
     return bm_os;
@@ -821,13 +892,17 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgDataport const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_should_disconnect_and_prepare_to_reconnect_to_a_data_vacuum() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_should_disconnect_and_prepare_to_reconnect_to_a_data_vacuum() ) << "] " << 
         "baler_should_disconnect_and_prepare_to_reconnect_to_a_data_vacuum";
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_should_stay_powered_on() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_should_stay_powered_on() ) << "] " << 
         "baler_should_stay_powered_on";
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_should_shutdown_immediately() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_should_shutdown_immediately() ) << "] " << 
         "baler_should_shutdown_immediately";
-    bm_os << "\n   [" << bm.bool_indicator( bm.packet_memory_reduced_due_to_bad_packet_memory_ram() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.packet_memory_reduced_due_to_bad_packet_memory_ram() ) << "] " << 
         "packet_memory_reduced_due_to_bad_packet_memory_ram";
     bm_os << "\n";
     return bm_os;
@@ -846,11 +921,14 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgEnvironmental const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.flash_manufacturing_constants_are_not_valid() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.flash_manufacturing_constants_are_not_valid() ) << "] " << 
         "flash_manufacturing_constants_are_not_valid";
-    bm_os << "\n   [" << bm.bool_indicator( bm.aux_io_line_1_is_active() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.aux_io_line_1_is_active() ) << "] " << 
         "aux_io_line_1_is_active";
-    bm_os << "\n   [" << bm.bool_indicator( bm.aux_io_line_2_is_active() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.aux_io_line_2_is_active() ) << "] " << 
         "aux_io_line_2_is_active";
     bm_os << "\n";
     return bm_os;
@@ -874,21 +952,29 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgFix const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.ethernet_installed() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.ethernet_installed() ) << "] " << 
         "ethernet_installed";
-    bm_os << "\n   [" << bm.bool_indicator( bm.can_statreq_dynamic_ip() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.can_statreq_dynamic_ip() ) << "] " << 
         "can_statreq_dynamic_ip";
-    bm_os << "\n   [" << bm.bool_indicator( bm.can_statreq_auxiliary_board() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.can_statreq_auxiliary_board() ) << "] " << 
         "can_statreq_auxiliary_board";
-    bm_os << "\n   [" << bm.bool_indicator( bm.can_expanded_c1_web_cmds() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.can_expanded_c1_web_cmds() ) << "] " << 
         "can_expanded_c1_web_cmds";
-    bm_os << "\n   [" << bm.bool_indicator( bm.can_statreq_serial_sensor() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.can_statreq_serial_sensor() ) << "] " << 
         "can_statreq_serial_sensor";
-    bm_os << "\n   [" << bm.bool_indicator( bm.can_report_255maplus_supply_current() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.can_report_255maplus_supply_current() ) << "] " << 
         "can_report_255maplus_supply_current";
-    bm_os << "\n   [" << bm.bool_indicator( bm.at_least_one_environmental_proc_configured() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.at_least_one_environmental_proc_configured() ) << "] " << 
         "at_least_one_environmental_proc_configured";
-    bm_os << "\n   [" << bm.bool_indicator( bm.is_Q330S() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.is_Q330S() ) << "] " << 
         "is_Q330S";
     bm_os << "\n";
     return bm_os;
@@ -926,27 +1012,38 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgSphy const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.fill_mode_enabled() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.fill_mode_enabled() ) << "] " << 
         "fill_mode_enabled";
-    bm_os << "\n   [" << bm.bool_indicator( bm.flush_packet_buffer_time_based() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.flush_packet_buffer_time_based() ) << "] " << 
         "flush_packet_buffer_time_based";
-    bm_os << "\n   [" << bm.bool_indicator( bm.freeze_data_port_output() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.freeze_data_port_output() ) << "] " << 
         "freeze_data_port_output";
-    bm_os << "\n   [" << bm.bool_indicator( bm.freeze_packet_buff_input() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.freeze_packet_buff_input() ) << "] " << 
         "freeze_packet_buff_input";
-    bm_os << "\n   [" << bm.bool_indicator( bm.keep_oldest_data_packet_buffer() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.keep_oldest_data_packet_buffer() ) << "] " << 
         "keep_oldest_data_packet_buffer";
-    bm_os << "\n   [" << bm.bool_indicator( bm.dp_piggyback_statreq_with_dt_dack() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.dp_piggyback_statreq_with_dt_dack() ) << "] " << 
         "dp_piggyback_statreq_with_dt_dack";
-    bm_os << "\n   [" << bm.bool_indicator( bm.comm_fault_led_if_last_flush_buff_5plus() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.comm_fault_led_if_last_flush_buff_5plus() ) << "] " << 
         "comm_fault_led_if_last_flush_buff_5plus";
-    bm_os << "\n   [" << bm.bool_indicator( bm.allow_hotswap_on_this_dataport() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.allow_hotswap_on_this_dataport() ) << "] " << 
         "allow_hotswap_on_this_dataport";
-    bm_os << "\n   [" << bm.bool_indicator( bm.flush_sliding_window_buff_based_on_time() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.flush_sliding_window_buff_based_on_time() ) << "] " << 
         "flush_sliding_window_buff_based_on_time";
-    bm_os << "\n   [" << bm.bool_indicator( bm.send_datapackets_encoded_base_96() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.send_datapackets_encoded_base_96() ) << "] " << 
         "send_datapackets_encoded_base_96";
-    bm_os << "\n   [" << bm.bool_indicator( bm.save_changes_in_eeprom() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.save_changes_in_eeprom() ) << "] " << 
         "save_changes_in_eeprom";
     bm_os << "\n";
     return bm_os;
@@ -966,12 +1063,17 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFgThread const & bm) {
-    bm_os << "\n   global_event_value : " << bm.global_event_value();
-    bm_os << "\n   [" << bm.bool_indicator( bm.global_event() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "global_event_value: ";
+    bm_os << bm.global_event_value();
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.global_event() ) << "] " << 
         "global_event";
-    bm_os << "\n   [" << bm.bool_indicator( bm.thread_is_waiting_for_an_event() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.thread_is_waiting_for_an_event() ) << "] " << 
         "thread_is_waiting_for_an_event";
-    bm_os << "\n   [" << bm.bool_indicator( bm.thread_is_blocked() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.thread_is_blocked() ) << "] " << 
         "thread_is_blocked";
     bm_os << "\n";
     return bm_os;
@@ -989,8 +1091,12 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmFirmwareversion const & bm) {
-    bm_os << "\n   firmware_version : " << bm.firmware_version();
-    bm_os << "\n   firmware_revision : " << bm.firmware_revision();
+    bm_os << "\n    ";
+    bm_os << "firmware_version: ";
+    bm_os << bm.firmware_version();
+    bm_os << "\n    ";
+    bm_os << "firmware_revision: ";
+    bm_os << bm.firmware_revision();
     bm_os << "\n";
     return bm_os;
 }
@@ -1052,10 +1158,9 @@ public:
     GainPreAmpChannel6 const gain_pre_amp_channel_6() const {return static_cast<GainPreAmpChannel6>( CmdFieldBitmap<2>::raw_value_from_range(10, 0x3) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel1 const & bmc) {
     using GainPreAmpChannel1 = BmGainPreAmp::GainPreAmpChannel1;
-    bm_os << "gain_pre_amp_channel_1 : ";
     switch(bmc) {
 
     case GainPreAmpChannel1::disabled : {
@@ -1072,10 +1177,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel2 const & bmc) {
     using GainPreAmpChannel2 = BmGainPreAmp::GainPreAmpChannel2;
-    bm_os << "gain_pre_amp_channel_2 : ";
     switch(bmc) {
 
     case GainPreAmpChannel2::disabled : {
@@ -1092,10 +1196,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel3 const & bmc) {
     using GainPreAmpChannel3 = BmGainPreAmp::GainPreAmpChannel3;
-    bm_os << "gain_pre_amp_channel_3 : ";
     switch(bmc) {
 
     case GainPreAmpChannel3::disabled : {
@@ -1112,10 +1215,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel4 const & bmc) {
     using GainPreAmpChannel4 = BmGainPreAmp::GainPreAmpChannel4;
-    bm_os << "gain_pre_amp_channel_4 : ";
     switch(bmc) {
 
     case GainPreAmpChannel4::disabled : {
@@ -1132,10 +1234,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel5 const & bmc) {
     using GainPreAmpChannel5 = BmGainPreAmp::GainPreAmpChannel5;
-    bm_os << "gain_pre_amp_channel_5 : ";
     switch(bmc) {
 
     case GainPreAmpChannel5::disabled : {
@@ -1152,10 +1253,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpChannel6 const & bmc) {
     using GainPreAmpChannel6 = BmGainPreAmp::GainPreAmpChannel6;
-    bm_os << "gain_pre_amp_channel_6 : ";
     switch(bmc) {
 
     case GainPreAmpChannel6::disabled : {
@@ -1173,11 +1273,23 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp::GainPreAmpC
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmGainPreAmp const & bm) {
+    bm_os << "\n    ";
+    bm_os << "gain_pre_amp_channel_1:";
     bm_os << bm.gain_pre_amp_channel_1();
+    bm_os << "\n    ";
+    bm_os << "gain_pre_amp_channel_2:";
     bm_os << bm.gain_pre_amp_channel_2();
+    bm_os << "\n    ";
+    bm_os << "gain_pre_amp_channel_3:";
     bm_os << bm.gain_pre_amp_channel_3();
+    bm_os << "\n    ";
+    bm_os << "gain_pre_amp_channel_4:";
     bm_os << bm.gain_pre_amp_channel_4();
+    bm_os << "\n    ";
+    bm_os << "gain_pre_amp_channel_5:";
     bm_os << bm.gain_pre_amp_channel_5();
+    bm_os << "\n    ";
+    bm_os << "gain_pre_amp_channel_6:";
     bm_os << bm.gain_pre_amp_channel_6();
     bm_os << "\n";
     return bm_os;
@@ -1195,9 +1307,12 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmInitialVco const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.automatic_vco_setting_by_pll() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.automatic_vco_setting_by_pll() ) << "] " << 
         "automatic_vco_setting_by_pll";
-    bm_os << "\n   initial_vco : " << bm.initial_vco();
+    bm_os << "\n    ";
+    bm_os << "initial_vco: ";
+    bm_os << bm.initial_vco();
     bm_os << "\n";
     return bm_os;
 }
@@ -1235,10 +1350,9 @@ public:
     InputBType const input_b_type() const {return static_cast<InputBType>( CmdFieldBitmap<2>::raw_value_from_range(10, 0x3) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputAType const & bmc) {
     using InputAType = BmInputBitmap::InputAType;
-    bm_os << "input_a_type : ";
     switch(bmc) {
 
     case InputAType::one_pps_input : {
@@ -1259,10 +1373,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputAType
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputBType const & bmc) {
     using InputBType = BmInputBitmap::InputBType;
-    bm_os << "input_b_type : ";
     switch(bmc) {
 
     case InputBType::one_pps_input : {
@@ -1284,19 +1397,29 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap::InputBType
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmInputBitmap const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_1_uses_mux_special_input() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_1_uses_mux_special_input() ) << "] " << 
         "channel_1_uses_mux_special_input";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_2_uses_mux_special_input() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_2_uses_mux_special_input() ) << "] " << 
         "channel_2_uses_mux_special_input";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_3_uses_mux_special_input() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_3_uses_mux_special_input() ) << "] " << 
         "channel_3_uses_mux_special_input";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_4_uses_mux_special_input() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_4_uses_mux_special_input() ) << "] " << 
         "channel_4_uses_mux_special_input";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_5_uses_mux_special_input() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_5_uses_mux_special_input() ) << "] " << 
         "channel_5_uses_mux_special_input";
-    bm_os << "\n   [" << bm.bool_indicator( bm.channel_6_uses_mux_special_input() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.channel_6_uses_mux_special_input() ) << "] " << 
         "channel_6_uses_mux_special_input";
+    bm_os << "\n    ";
+    bm_os << "input_a_type:";
     bm_os << bm.input_a_type();
+    bm_os << "\n    ";
+    bm_os << "input_b_type:";
     bm_os << bm.input_b_type();
     bm_os << "\n";
     return bm_os;
@@ -1329,10 +1452,9 @@ public:
     LinearPhaseFiltersInputB const linear_phase_filters_input_b() const {return static_cast<LinearPhaseFiltersInputB>( CmdFieldBitmap<2>::raw_value_from_range(2, 0x3) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::LinearPhaseFiltersInputA const & bmc) {
     using LinearPhaseFiltersInputA = BmLinearPhaseFilters::LinearPhaseFiltersInputA;
-    bm_os << "linear_phase_filters_input_a : ";
     switch(bmc) {
 
     case LinearPhaseFiltersInputA::for_all_frequencies : {
@@ -1353,10 +1475,9 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::Lin
     } // end switch
     return bm_os;
 }
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::LinearPhaseFiltersInputB const & bmc) {
     using LinearPhaseFiltersInputB = BmLinearPhaseFilters::LinearPhaseFiltersInputB;
-    bm_os << "linear_phase_filters_input_b : ";
     switch(bmc) {
 
     case LinearPhaseFiltersInputB::for_all_frequencies : {
@@ -1378,7 +1499,11 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters::Lin
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmLinearPhaseFilters const & bm) {
+    bm_os << "\n    ";
+    bm_os << "linear_phase_filters_input_a:";
     bm_os << bm.linear_phase_filters_input_a();
+    bm_os << "\n    ";
+    bm_os << "linear_phase_filters_input_b:";
     bm_os << bm.linear_phase_filters_input_b();
     bm_os << "\n";
     return bm_os;
@@ -1402,22 +1527,129 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmLoadsOff const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_0_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_0_is_currently_off() ) << "] " << 
         "load_0_is_currently_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_1_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_1_is_currently_off() ) << "] " << 
         "load_1_is_currently_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_2_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_2_is_currently_off() ) << "] " << 
         "load_2_is_currently_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_3_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_3_is_currently_off() ) << "] " << 
         "load_3_is_currently_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_4_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_4_is_currently_off() ) << "] " << 
         "load_4_is_currently_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_5_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_5_is_currently_off() ) << "] " << 
         "load_5_is_currently_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_6_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_6_is_currently_off() ) << "] " << 
         "load_6_is_currently_off";
-    bm_os << "\n   [" << bm.bool_indicator( bm.load_7_is_currently_off() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.load_7_is_currently_off() ) << "] " << 
         "load_7_is_currently_off";
+    bm_os << "\n";
+    return bm_os;
+}
+
+// -------------------------------------------------------------------------- //
+class BmMemoryType : public CmdFieldBitmap<2> {
+
+friend std::ostream & operator<<(std::ostream & bm_os, BmMemoryType const & bm);
+
+public:
+    explicit BmMemoryType() : CmdFieldBitmap<2>{} {};
+
+    enum class MemoryType {
+        flash = 0,
+        data_port_1 = 1,
+        data_port_2 = 2,
+        data_port_3 = 3,
+        data_port_4 = 4,
+        web_page = 5,
+        slave_processor_eeprom = 10,
+        slave_processor_pic_internal = 11,
+        clock_chip_ram = 12,
+        calibrator_pic_internal = 13,
+        qapchp_eeprom = 14,
+        packet_buffer = 15,
+        dsp_program = 16,
+        dsp_data = 17,
+    };
+
+    MemoryType const memory_type() const {return static_cast<MemoryType>( CmdFieldBitmap<2>::raw_value() );}
+};
+
+//! special for enum class (codes) in bm
+inline std::ostream & operator<<(std::ostream & bm_os, BmMemoryType::MemoryType const & bmc) {
+    using MemoryType = BmMemoryType::MemoryType;
+    switch(bmc) {
+
+    case MemoryType::flash : {
+         bm_os << "flash";
+         break;}
+
+    case MemoryType::data_port_1 : {
+         bm_os << "data_port_1";
+         break;}
+
+    case MemoryType::data_port_2 : {
+         bm_os << "data_port_2";
+         break;}
+
+    case MemoryType::data_port_3 : {
+         bm_os << "data_port_3";
+         break;}
+
+    case MemoryType::data_port_4 : {
+         bm_os << "data_port_4";
+         break;}
+
+    case MemoryType::web_page : {
+         bm_os << "web_page";
+         break;}
+
+    case MemoryType::slave_processor_eeprom : {
+         bm_os << "slave_processor_eeprom";
+         break;}
+
+    case MemoryType::slave_processor_pic_internal : {
+         bm_os << "slave_processor_pic_internal";
+         break;}
+
+    case MemoryType::clock_chip_ram : {
+         bm_os << "clock_chip_ram";
+         break;}
+
+    case MemoryType::calibrator_pic_internal : {
+         bm_os << "calibrator_pic_internal";
+         break;}
+
+    case MemoryType::qapchp_eeprom : {
+         bm_os << "qapchp_eeprom";
+         break;}
+
+    case MemoryType::packet_buffer : {
+         bm_os << "packet_buffer";
+         break;}
+
+    case MemoryType::dsp_program : {
+         bm_os << "dsp_program";
+         break;}
+
+    case MemoryType::dsp_data : {
+         bm_os << "dsp_data";
+         break;}
+    } // end switch
+    return bm_os;
+}
+inline std::ostream & operator<<(std::ostream & bm_os, BmMemoryType const & bm) {
+    bm_os << "\n    ";
+    bm_os << "memory_type:";
+    bm_os << bm.memory_type();
     bm_os << "\n";
     return bm_os;
 }
@@ -1439,19 +1671,26 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmMiscInputs const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.ac_ok() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.ac_ok() ) << "] " << 
         "ac_ok";
-    bm_os << "\n   [" << bm.bool_indicator( bm.input_spare_1() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.input_spare_1() ) << "] " << 
         "input_spare_1";
-    bm_os << "\n   [" << bm.bool_indicator( bm.input_spare_2() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.input_spare_2() ) << "] " << 
         "input_spare_2";
-    bm_os << "\n   [" << bm.bool_indicator( bm.analog_fault() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.analog_fault() ) << "] " << 
         "analog_fault";
-    bm_os << "\n   [" << bm.bool_indicator( bm.main_power() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.main_power() ) << "] " << 
         "main_power";
-    bm_os << "\n   [" << bm.bool_indicator( bm.analog_power() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.analog_power() ) << "] " << 
         "analog_power";
-    bm_os << "\n   [" << bm.bool_indicator( bm.trigger() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.trigger() ) << "] " << 
         "trigger";
     bm_os << "\n";
     return bm_os;
@@ -1475,10 +1714,9 @@ public:
     PllStatus const pll_status() const {return static_cast<PllStatus>( CmdFieldBitmap<2>::raw_value_from_range(6, 0x3) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmPllState::PllStatus const & bmc) {
     using PllStatus = BmPllState::PllStatus;
-    bm_os << "pll_status : ";
     switch(bmc) {
 
     case PllStatus::pll_not_enabled : {
@@ -1500,6 +1738,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmPllState::PllStatus con
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmPllState const & bm) {
+    bm_os << "\n    ";
+    bm_os << "pll_status:";
     bm_os << bm.pll_status();
     bm_os << "\n";
     return bm_os;
@@ -1519,10 +1759,18 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmProcessorid const & bm) {
-    bm_os << "\n   architecture_revision : " << bm.architecture_revision();
-    bm_os << "\n   architecture_type : " << bm.architecture_type();
-    bm_os << "\n   processor_revision : " << bm.processor_revision();
-    bm_os << "\n   processor_type : " << bm.processor_type();
+    bm_os << "\n    ";
+    bm_os << "architecture_revision: ";
+    bm_os << bm.architecture_revision();
+    bm_os << "\n    ";
+    bm_os << "architecture_type: ";
+    bm_os << bm.architecture_type();
+    bm_os << "\n    ";
+    bm_os << "processor_revision: ";
+    bm_os << bm.processor_revision();
+    bm_os << "\n    ";
+    bm_os << "processor_type: ";
+    bm_os << bm.processor_type();
     bm_os << "\n";
     return bm_os;
 }
@@ -1579,47 +1827,68 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmRqstat const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.global_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.global_status() ) << "] " << 
         "global_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.gps_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.gps_status() ) << "] " << 
         "gps_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.power_supply_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.power_supply_status() ) << "] " << 
         "power_supply_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.boom_positions() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.boom_positions() ) << "] " << 
         "boom_positions";
-    bm_os << "\n   [" << bm.bool_indicator( bm.thread_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.thread_status() ) << "] " << 
         "thread_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.pll_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.pll_status() ) << "] " << 
         "pll_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.gps_satellites() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.gps_satellites() ) << "] " << 
         "gps_satellites";
-    bm_os << "\n   [" << bm.bool_indicator( bm.arp_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.arp_status() ) << "] " << 
         "arp_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_1_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_1_status() ) << "] " << 
         "data_port_1_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_2_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_2_status() ) << "] " << 
         "data_port_2_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_3_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_3_status() ) << "] " << 
         "data_port_3_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_4_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_4_status() ) << "] " << 
         "data_port_4_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_interface_1_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_interface_1_status() ) << "] " << 
         "serial_interface_1_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_interface_2_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_interface_2_status() ) << "] " << 
         "serial_interface_2_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_interface_3_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_interface_3_status() ) << "] " << 
         "serial_interface_3_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.ethernet_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.ethernet_status() ) << "] " << 
         "ethernet_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_status() ) << "] " << 
         "baler_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.dynamic_ip() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.dynamic_ip() ) << "] " << 
         "dynamic_ip";
-    bm_os << "\n   [" << bm.bool_indicator( bm.auxiliary_board_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.auxiliary_board_status() ) << "] " << 
         "auxiliary_board_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_sensor_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_sensor_status() ) << "] " << 
         "serial_sensor_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.environmental_processor_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.environmental_processor_status() ) << "] " << 
         "environmental_processor_status";
     bm_os << "\n";
     return bm_os;
@@ -1640,10 +1909,9 @@ public:
     SdiDriver const sdi_driver() const {return static_cast<SdiDriver>( CmdFieldBitmap<1>::raw_value() );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdidriver::SdiDriver const & bmc) {
     using SdiDriver = BmSdidriver::SdiDriver;
-    bm_os << "sdi_driver : ";
     switch(bmc) {
 
     case SdiDriver::vaisala_wxt520_weather_station : {
@@ -1653,6 +1921,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSdidriver::SdiDriver co
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdidriver const & bm) {
+    bm_os << "\n    ";
+    bm_os << "sdi_driver:";
     bm_os << bm.sdi_driver();
     bm_os << "\n";
     return bm_os;
@@ -1675,10 +1945,9 @@ public:
     SdiPhase const sdi_phase() const {return static_cast<SdiPhase>( CmdFieldBitmap<1>::raw_value() );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdiphase::SdiPhase const & bmc) {
     using SdiPhase = BmSdiphase::SdiPhase;
-    bm_os << "sdi_phase : ";
     switch(bmc) {
 
     case SdiPhase::ready_to_run : {
@@ -1696,6 +1965,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSdiphase::SdiPhase cons
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSdiphase const & bm) {
+    bm_os << "\n    ";
+    bm_os << "sdi_phase:";
     bm_os << bm.sdi_phase();
     bm_os << "\n";
     return bm_os;
@@ -1725,19 +1996,26 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSeedHeaderActivityFlags const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.calibration_signals_present() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.calibration_signals_present() ) << "] " << 
         "calibration_signals_present";
-    bm_os << "\n   [" << bm.bool_indicator( bm.time_correction_applied() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.time_correction_applied() ) << "] " << 
         "time_correction_applied";
-    bm_os << "\n   [" << bm.bool_indicator( bm.beginning_of_an_event() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.beginning_of_an_event() ) << "] " << 
         "beginning_of_an_event";
-    bm_os << "\n   [" << bm.bool_indicator( bm.end_of_an_event() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.end_of_an_event() ) << "] " << 
         "end_of_an_event";
-    bm_os << "\n   [" << bm.bool_indicator( bm.positive_leap_second_happened() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.positive_leap_second_happened() ) << "] " << 
         "positive_leap_second_happened";
-    bm_os << "\n   [" << bm.bool_indicator( bm.negative_leap_second_happened() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.negative_leap_second_happened() ) << "] " << 
         "negative_leap_second_happened";
-    bm_os << "\n   [" << bm.bool_indicator( bm.event_in_progress() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.event_in_progress() ) << "] " << 
         "event_in_progress";
     bm_os << "\n";
     return bm_os;
@@ -1769,21 +2047,29 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSeedHeaderDataQualityFlags const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.amplifier_saturation_detected() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.amplifier_saturation_detected() ) << "] " << 
         "amplifier_saturation_detected";
-    bm_os << "\n   [" << bm.bool_indicator( bm.digitizer_clipping_detected() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.digitizer_clipping_detected() ) << "] " << 
         "digitizer_clipping_detected";
-    bm_os << "\n   [" << bm.bool_indicator( bm.spikes_detected() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.spikes_detected() ) << "] " << 
         "spikes_detected";
-    bm_os << "\n   [" << bm.bool_indicator( bm.glitches_detected() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.glitches_detected() ) << "] " << 
         "glitches_detected";
-    bm_os << "\n   [" << bm.bool_indicator( bm.missing_or_padded_data_present() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.missing_or_padded_data_present() ) << "] " << 
         "missing_or_padded_data_present";
-    bm_os << "\n   [" << bm.bool_indicator( bm.telemetry_synchronization_error() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.telemetry_synchronization_error() ) << "] " << 
         "telemetry_synchronization_error";
-    bm_os << "\n   [" << bm.bool_indicator( bm.a_digital_filter_may_be_charging() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.a_digital_filter_may_be_charging() ) << "] " << 
         "a_digital_filter_may_be_charging";
-    bm_os << "\n   [" << bm.bool_indicator( bm.time_tag_is_questionable() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.time_tag_is_questionable() ) << "] " << 
         "time_tag_is_questionable";
     bm_os << "\n";
     return bm_os;
@@ -1811,17 +2097,23 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSeedHeaderIoAndClockFlags const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.station_volume_parity_error_possibly_present() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.station_volume_parity_error_possibly_present() ) << "] " << 
         "station_volume_parity_error_possibly_present";
-    bm_os << "\n   [" << bm.bool_indicator( bm.long_record_read() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.long_record_read() ) << "] " << 
         "long_record_read";
-    bm_os << "\n   [" << bm.bool_indicator( bm.short_record_read() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.short_record_read() ) << "] " << 
         "short_record_read";
-    bm_os << "\n   [" << bm.bool_indicator( bm.start_of_time_series() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.start_of_time_series() ) << "] " << 
         "start_of_time_series";
-    bm_os << "\n   [" << bm.bool_indicator( bm.end_of_time_series() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.end_of_time_series() ) << "] " << 
         "end_of_time_series";
-    bm_os << "\n   [" << bm.bool_indicator( bm.clocked_locked() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.clocked_locked() ) << "] " << 
         "clocked_locked";
     bm_os << "\n";
     return bm_os;
@@ -1853,21 +2145,29 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlEnable const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_1a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_1a() ) << "] " << 
         "output_1a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_2a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_2a() ) << "] " << 
         "output_2a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_3a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_3a() ) << "] " << 
         "output_3a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_4a() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_4a() ) << "] " << 
         "output_4a";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_1b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_1b() ) << "] " << 
         "output_1b";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_2b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_2b() ) << "] " << 
         "output_2b";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_3b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_3b() ) << "] " << 
         "output_3b";
-    bm_os << "\n   [" << bm.bool_indicator( bm.output_4b() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.output_4b() ) << "] " << 
         "output_4b";
     bm_os << "\n";
     return bm_os;
@@ -1903,10 +2203,9 @@ public:
     void line(Line const c) {this -> data_ = std::bitset<8>( static_cast<unsigned long>(c) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlOutput::Line const & bmc) {
     using Line = BmSensorControlOutput::Line;
-    bm_os << "line : ";
     switch(bmc) {
 
     case Line::idle : {
@@ -1972,6 +2271,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlOutput::Li
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSensorControlOutput const & bm) {
+    bm_os << "\n    ";
+    bm_os << "line:";
     bm_os << bm.line();
     bm_os << "\n";
     return bm_os;
@@ -2000,10 +2301,9 @@ public:
     PressureUnits const pressure_units() const {return static_cast<PressureUnits>( CmdFieldBitmap<2>::raw_value() );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorUnits::PressureUnits const & bmc) {
     using PressureUnits = BmSerialsensorUnits::PressureUnits;
-    bm_os << "pressure_units : ";
     switch(bmc) {
 
     case PressureUnits::unknown : {
@@ -2045,6 +2345,8 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorUnits::Pres
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorUnits const & bm) {
+    bm_os << "\n    ";
+    bm_os << "pressure_units:";
     bm_os << bm.pressure_units();
     bm_os << "\n";
     return bm_os;
@@ -2064,13 +2366,17 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmSerialsensorValidfields const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.pressure_measurement_is_valid() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.pressure_measurement_is_valid() ) << "] " << 
         "pressure_measurement_is_valid";
-    bm_os << "\n   [" << bm.bool_indicator( bm.internal_temperature_measurement_is_valid() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.internal_temperature_measurement_is_valid() ) << "] " << 
         "internal_temperature_measurement_is_valid";
-    bm_os << "\n   [" << bm.bool_indicator( bm.humidity_measurement_is_valid() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.humidity_measurement_is_valid() ) << "] " << 
         "humidity_measurement_is_valid";
-    bm_os << "\n   [" << bm.bool_indicator( bm.external_temperature_measurement_is_valid() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.external_temperature_measurement_is_valid() ) << "] " << 
         "external_temperature_measurement_is_valid";
     bm_os << "\n";
     return bm_os;
@@ -2089,11 +2395,14 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatCalibratorStatus const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.calibration_enable_is_on_this_second() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.calibration_enable_is_on_this_second() ) << "] " << 
         "calibration_enable_is_on_this_second";
-    bm_os << "\n   [" << bm.bool_indicator( bm.calibration_signal_is_on_this_second() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.calibration_signal_is_on_this_second() ) << "] " << 
         "calibration_signal_is_on_this_second";
-    bm_os << "\n   [" << bm.bool_indicator( bm.calibrator_should_be_generating_a_signal_but_isnt() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.calibrator_should_be_generating_a_signal_but_isnt() ) << "] " << 
         "calibrator_should_be_generating_a_signal_but_isnt";
     bm_os << "\n";
     return bm_os;
@@ -2123,10 +2432,9 @@ public:
     PllStatus const pll_status() const {return static_cast<PllStatus>( CmdFieldBitmap<2>::raw_value_from_range(6, 0x3) );}
 };
 
-//! special operator<< for enum class (codes) in bm
+//! special for enum class (codes) in bm
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatClockQuality::PllStatus const & bmc) {
     using PllStatus = BmStatClockQuality::PllStatus;
-    bm_os << "pll_status : ";
     switch(bmc) {
 
     case PllStatus::pll_not_enabled : {
@@ -2148,18 +2456,26 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmStatClockQuality::PllSt
     return bm_os;
 }
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatClockQuality const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.clock_has_ever_had_lock() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.clock_has_ever_had_lock() ) << "] " << 
         "clock_has_ever_had_lock";
-    bm_os << "\n   [" << bm.bool_indicator( bm.clock_currently_has_2d_lock() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.clock_currently_has_2d_lock() ) << "] " << 
         "clock_currently_has_2d_lock";
-    bm_os << "\n   [" << bm.bool_indicator( bm.clock_currently_has_3d_lock() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.clock_currently_has_3d_lock() ) << "] " << 
         "clock_currently_has_3d_lock";
-    bm_os << "\n   [" << bm.bool_indicator( bm.clock_currently_has_1d_lock() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.clock_currently_has_1d_lock() ) << "] " << 
         "clock_currently_has_1d_lock";
-    bm_os << "\n   [" << bm.bool_indicator( bm.timemarks_current_frozen_due_to_filtering() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.timemarks_current_frozen_due_to_filtering() ) << "] " << 
         "timemarks_current_frozen_due_to_filtering";
-    bm_os << "\n   [" << bm.bool_indicator( bm.speculative_lock_based_on_internal_clock() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.speculative_lock_based_on_internal_clock() ) << "] " << 
         "speculative_lock_based_on_internal_clock";
+    bm_os << "\n    ";
+    bm_os << "pll_status:";
     bm_os << bm.pll_status();
     bm_os << "\n";
     return bm_os;
@@ -2196,47 +2512,68 @@ public:
 };
 
 inline std::ostream & operator<<(std::ostream & bm_os, BmStatStatusBitmap const & bm) {
-    bm_os << "\n   [" << bm.bool_indicator( bm.global_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.global_status() ) << "] " << 
         "global_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.gps_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.gps_status() ) << "] " << 
         "gps_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.power_supply_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.power_supply_status() ) << "] " << 
         "power_supply_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.boom_positions_temperatures_and_voltages() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.boom_positions_temperatures_and_voltages() ) << "] " << 
         "boom_positions_temperatures_and_voltages";
-    bm_os << "\n   [" << bm.bool_indicator( bm.thread_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.thread_status() ) << "] " << 
         "thread_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.pll_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.pll_status() ) << "] " << 
         "pll_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.gps_satellites() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.gps_satellites() ) << "] " << 
         "gps_satellites";
-    bm_os << "\n   [" << bm.bool_indicator( bm.arp_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.arp_status() ) << "] " << 
         "arp_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_1_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_1_status() ) << "] " << 
         "data_port_1_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_2_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_2_status() ) << "] " << 
         "data_port_2_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_3_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_3_status() ) << "] " << 
         "data_port_3_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.data_port_4_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.data_port_4_status() ) << "] " << 
         "data_port_4_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_interface_1_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_interface_1_status() ) << "] " << 
         "serial_interface_1_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_interface_2_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_interface_2_status() ) << "] " << 
         "serial_interface_2_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_interface_3_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_interface_3_status() ) << "] " << 
         "serial_interface_3_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.ethernet_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.ethernet_status() ) << "] " << 
         "ethernet_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.baler_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.baler_status() ) << "] " << 
         "baler_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.dynamic_ip_addresses() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.dynamic_ip_addresses() ) << "] " << 
         "dynamic_ip_addresses";
-    bm_os << "\n   [" << bm.bool_indicator( bm.auxiliary_board_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.auxiliary_board_status() ) << "] " << 
         "auxiliary_board_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.serial_sensor_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.serial_sensor_status() ) << "] " << 
         "serial_sensor_status";
-    bm_os << "\n   [" << bm.bool_indicator( bm.environmental_processor_status() ) << "] " <<
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.environmental_processor_status() ) << "] " << 
         "environmental_processor_status";
     bm_os << "\n";
     return bm_os;

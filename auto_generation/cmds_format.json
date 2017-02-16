@@ -1305,6 +1305,20 @@
   "originator": "dp"
 },
 
+"c1_rqmem":{
+"cmd_fields":[
+
+  {"cf_name": "starting_address", "cf_size": 4, "cf_type": "CmdFieldHex<uint32_t>"},
+  {"cf_name": "byte_count", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+  {"cf_name": "memory_type", "cf_size": 2, "cf_type": "BmMemoryType"},
+  {"cf_name": "pw", "cf_size": 16, "cf_type": "CmdFieldArrayUByte<16>"}
+
+],
+"cmd_number": "0x41",
+"crc_and_header": true,
+"originator": "dp"
+},
+
 "dt_open":{
 "cmd_fields":
   [
@@ -1346,6 +1360,7 @@
   "crc_and_header": false,
   "originator": "both"
 }
+
 }
 
 

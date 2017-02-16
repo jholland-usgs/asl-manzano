@@ -179,6 +179,31 @@
 ,   "mf_size": 2, "bm_originator": "q"
 },
 
+ "bm_memory_type":{
+    "bm_fields":[
+      {"bmf_name": "memory_type", "bmf_code_full_range": true,
+         "bmf_codes": [
+            {"bmf_code_name": "flash",  "bmf_code": 0},
+            {"bmf_code_name": "data_port_1", "bmf_code": 1},
+            {"bmf_code_name": "data_port_2", "bmf_code": 2},
+            {"bmf_code_name": "data_port_3", "bmf_code": 3},
+            {"bmf_code_name": "data_port_4", "bmf_code": 4},
+            {"bmf_code_name": "web_page", "bmf_code": 5},
+            {"bmf_code_name": "slave_processor_eeprom", "bmf_code": 10},
+            {"bmf_code_name": "slave_processor_pic_internal", "bmf_code": 11},
+            {"bmf_code_name": "clock_chip_ram", "bmf_code": 12},
+            {"bmf_code_name": "calibrator_pic_internal", "bmf_code": 13},
+            {"bmf_code_name": "qapchp_eeprom", "bmf_code": 14},
+            {"bmf_code_name": "packet_buffer", "bmf_code": 15},
+            {"bmf_code_name": "dsp_program", "bmf_code": 16},
+            {"bmf_code_name": "dsp_data", "bmf_code": 17}
+         ]
+      }
+    ]
+
+,   "mf_size": 2, "bm_originator": "q"
+},
+
  "bm_aux_status_web_flags":{
     "bm_fields":[
 

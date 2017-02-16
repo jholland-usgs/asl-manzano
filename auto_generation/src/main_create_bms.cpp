@@ -15,6 +15,7 @@
 #include "json.h"
 #include "ag_functions.h"
 
+// -------------------------------------------------------------------------- //
 std::string make_classname_format(std::string bm_name) {
 
     //bm in camel case for class name
@@ -36,9 +37,8 @@ std::string make_classname_format(std::string bm_name) {
     return bm_name;
 }
 
+// -------------------------------------------------------------------------- //
 int main() {
-
-using Json = nlohmann::json;
 
 std::cout << "bitmap class builder" << std::endl;
 
@@ -52,7 +52,8 @@ std::ifstream bmf_fs;
 bmf_fs.open("../bm_format.json");
 
 if (not bmf_fs) {
-    std::cerr << "ERROR: can't open cmd_field_bitmap_types format file" << std::endl;
+    std::cerr << "ERROR: can't open cmd_field_bitmap_types format file"
+              << std::endl;
     std::exit(EXIT_FAILURE);
 }
 
@@ -70,7 +71,7 @@ std::ofstream bm_h_fs;
 // cmd_field_bitmap_types.h file truncate
 // if it doesn't exists, it creates it
 bm_h_fs.open("../../code/cmd_field/inc/cmd_field_bitmap_types.h",
-    std::ofstream::out | std::ofstream::trunc);
+             std::ofstream::out | std::ofstream::trunc);
 
 if (not bm_h_fs) {
     std::cerr << "ERROR: can't open cmd_field_bitmap_types.h file" << std::endl;
@@ -116,7 +117,8 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
     //! bmfn : number of bitmap fields
     int bmfn = bms_json[bm_name.c_str()]["bm_fields"].size();
 
-    bm_h_fs << "\n\n// -------------------------------------------------------------------------- //";
+    bm_h_fs << "\n\n// -------------------------------------------------"
+            << "------------------------- //";
 
     //! bm_T : bitmap class type, created from class template CmdFieldBitmap<N>
     std::string bm_T = "CmdFieldBitmap<" + std::to_string(mf_size) + ">";
@@ -341,15 +343,18 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
             int bmf_val_begin = bmf_json["bmf_val_begin"];
             std::string bmf_val_mask = bmf_json["bmf_val_mask"];
 
-            bm_h_fs << "\n    ";
-            bm_h_fs << "const unsigned long " << bmf_name << "() const {";
-            bm_h_fs << "return " << bm_T << "::raw_value_from_range(" << bmf_val_begin << ", ";
-            bm_h_fs << bmf_val_mask << ");}";
+            bm_h_fs << "\n    "
+                    << "const unsigned long " << bmf_name << "() const {"
+                    << "return " << bm_T << "::raw_value_from_range("
+                    << bmf_val_begin << ", "
+                    << bmf_val_mask << ");}";
 
         } else {
-            std::cerr << "\n\n ------- ERROR ------------ \n Unexpected bitmap type";
+            std::cerr << "\n\n ------- ERROR ------------ \n"
+                      << "Unexpected bitmap type";
             std::exit(EXIT_FAILURE);
         }
+
     } // end for, getter
 
     //! ------------- setter ---------------- //
@@ -371,8 +376,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
 
     // information originating in the digitizer (q)
     // does not need a setter
-    std::string bm_originator =
-        bms_json[bm_name.c_str()]["bm_originator"];
+    std::string bm_originator = bms_json[bm_name.c_str()]["bm_originator"];
 
     if (bm_originator != "q") {
         // loop over bitmap fields
@@ -409,18 +413,17 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
                     std::string bmf_code_mask =
                         bmf_json["bmf_code_mask"];
 
-                    bm_h_fs << "\n    ";
-                    bm_h_fs << "void " << bmf_name << "("
-                            << bmf_class_name << " const c) {";
-
-                    bm_h_fs << bm_T << "::set_raw_value_in_range("
+                    bm_h_fs << "\n    "
+                            << "void " << bmf_name << "("
+                            << bmf_class_name << " const c) {"
+                            << bm_T << "::set_raw_value_in_range("
                             << bmf_code_begin << ", " << bmf_code_mask
                             << ", static_cast<unsigned long>(c) );}";
                 } else {
                     // the whole bitset is a code
 
-                    bm_h_fs << "\n    ";
-                    bm_h_fs << "void " << bmf_name << "(" << bmf_class_name
+                    bm_h_fs << "\n    "
+                            << "void " << bmf_name << "(" << bmf_class_name
                             << " const c) {";
 
                     bm_h_fs << "this -> data_ = std::bitset<" << (mf_size * 8)
@@ -433,9 +436,9 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
 
     bm_h_fs << "\n};\n"; // end of class declaration
 
-    // ------------------------------------------------------------- //
-    //                      OPERATOR<< OVERLOAD (codes)              //
-    // ------------------------------------------------------------- //
+    // ---------------------------------------------------------------------- //
+    //                        OPERATOR<< OVERLOAD (codes)                     //
+    // ---------------------------------------------------------------------- //
     // loop over bitmap fields (codes) and stream data
     for (int bmfi = 0; bmfi < bmfn; bmfi++) {
 
@@ -447,7 +450,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
         std::string bmf_name = bmf_json["bmf_name"];
         std::string bmf_enum_class_name = make_classname_format(bmf_name);
 
-        bm_h_fs << "\n//! special operator<< for enum class (codes) in bm";
+        bm_h_fs << "\n//! special for enum class (codes) in bm";
         bm_h_fs << "\ninline std::ostream & operator<<(std::ostream & bm_os, "
                 << bm_classname << "::"
                 << bmf_enum_class_name  << " const & bmc) {";
@@ -457,10 +460,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
 
         // *** code in bitset ***
         // in this case, in addition to the value of the field
-        // a description of the code is wanted
-        // value first using getter
-        bm_h_fs << "\n    bm_os << "  << "\"";
-        bm_h_fs  << bmf_name << " : \";";
+        // a description of the code is wanted, value first using getter
 
         // description:
         bm_h_fs << "\n    switch(bmc) {";
@@ -469,7 +469,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
 
         // loop over codes of this bitmap field
         for (int bmf_ci = 0; bmf_ci < bmf_cn; bmf_ci++) {
-            // int bmf_code = bmf_json["bmf_codes"][bmf_ci]["bmf_code"];
+
             std::string bmf_code_name =
                 bmf_json["bmf_codes"][bmf_ci]["bmf_code_name"];
 
@@ -479,6 +479,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
 
             bm_h_fs << "\n         bm_os << \"" << bmf_code_name << "\";";
             bm_h_fs << "\n         break;}";
+
         } // end for, bmf codes loop for stream
 
         bm_h_fs << "\n    } // end switch";
@@ -494,78 +495,39 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
     bm_h_fs << "\ninline std::ostream & operator<<(std::ostream & bm_os, "
             << bm_classname << " const & bm) {";
 
-    // new line in bm stream?
-    // bm_h_fs << "\n    bm_os << \"\\n\";";
-
     // loop over bitmap fields and stream data
     for (int bmfi = 0; bmfi < bmfn; bmfi++) {
 
         auto bmf_json = bms_json[bm_name.c_str()]["bm_fields"][bmfi];
-
         std::string bmf_name = bmf_json["bmf_name"];
 
-        if (json_has_key(bmf_json, "bmf_bit")) {
+        // new line and tab spaces on stream for each  bitmap field
+        bm_h_fs << "\n    bm_os << \"\\n    \";";
+
+        if ( json_has_key(bmf_json, "bmf_bit") ) {
 
             // *** binary value ****
-            bm_h_fs << "\n    bm_os << \"\\n   [\" << bm.bool_indicator( ";
-            bm_h_fs << "bm." << bmf_name << "() ) << \"] \" <<\n        ";
+            bm_h_fs << "\n    bm_os << \"[\" << bm.bool_indicator( ";
+            bm_h_fs << "bm." << bmf_name << "() ) << \"] \" << \n        ";
             bm_h_fs << "\"" << bmf_name << "\";";
 
-        } else if (json_has_key(bmf_json, "bmf_codes")) {
+        } else if ( json_has_key(bmf_json, "bmf_codes") ) {
+
             // *** code in bitset ***
-            // in this case, in addition to the value of the field
+            // In addition to the value of the field
             // a description of the code is wanted
-
+            bm_h_fs << "\n    bm_os << " << "\"" << bmf_name << ":\";";
             bm_h_fs << "\n    bm_os << bm." << bmf_name << "();";
-            /*
-            // code name and code
-            std::string bmf_name =
-                bmf_json["bmf_name"];
 
-            bm_h_fs << "\n // just in case there is more than one code in a bmf";
-            bm_h_fs << "\n // as in BmAuxStatusWebFlags";
-            bm_h_fs << "\n{";
-            // value first using getter
-            bm_h_fs << "\n    unsigned int c = " << "bm." << bmf_name << "();";
-            bm_h_fs << "\n    bm_os << "  << "\"\\n   ";
-            bm_h_fs  << bmf_name << " : \"";
-            bm_h_fs << " << c << \" : \";";
-
-            // description:
-            bm_h_fs << "\n    switch(c) {";
-
-            int bmf_cn = bmf_json["bmf_codes"].size();
-
-            // loop over codes of this bitmap field
-            for (int bmf_ci = 0; bmf_ci < bmf_cn; bmf_ci++) {
-
-                int bmf_code =
-                    bmf_json["bmf_codes"][bmf_ci]["bmf_code"];
-
-                std::string bmf_code_name =
-                    bmf_json["bmf_codes"][bmf_ci]["bmf_code_name"];
-
-                // for the code with the code name
-                bm_h_fs << "\n\n    case " << bmf_code << " : {";
-                bm_h_fs << "\n         bm_os << \"" << bmf_code_name << "\";";
-                bm_h_fs << "\n         break;}";
-            } // end for, bmf codes loop for stream
-
-            bm_h_fs << "\n    }";
-            bm_h_fs << "\n}";
-
-            */
         } else if (json_has_key(bmf_json, "bmf_val_begin")) {
 
             // *** raw value in bitset ***
             // use the getter for the value
-
-            bm_h_fs << "\n    bm_os << ";
-            bm_h_fs << "\"\\n   " << bmf_name << " : \"";
-            bm_h_fs << " << " << "bm." << bmf_name << "();";
+            bm_h_fs << "\n    bm_os << " << "\"" << bmf_name << ": \";";
+            bm_h_fs << "\n    bm_os << bm." << bmf_name << "();";
 
         } // end if, bmf types
-    } // end for, operator<< bmf loop
+    } // end for
 
     bm_h_fs << "\n    bm_os << \"\\n\";";
     bm_h_fs << "\n    return bm_os;";
