@@ -48,6 +48,7 @@ void InstructionInterpreter::match(UserInstruction const & ui,
         case Kind::mzn:     cm.run<action, Kind::mzn>(ta, oi);     break;
         case Kind::plan:    cm.run<action, Kind::plan>(ta, oi);    break;
         case Kind::link:    cm.run<action, Kind::link>(ta, oi);    break;
+        case Kind::tokens:  cm.run<action, Kind::tokens>(ta, oi);  break;
         case Kind::wait:    cm.run<action, Kind::wait>(ta, oi);    break;
         case Kind::output:  cm.run<action, Kind::output>(ta, oi);  break;
         default:

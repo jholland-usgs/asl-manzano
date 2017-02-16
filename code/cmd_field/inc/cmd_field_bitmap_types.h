@@ -1581,6 +1581,7 @@ public:
     };
 
     MemoryType const memory_type() const {return static_cast<MemoryType>( CmdFieldBitmap<2>::raw_value() );}
+    void memory_type(MemoryType const c) {this -> data_ = std::bitset<16>( static_cast<unsigned long>(c) );}
 };
 
 //! special for enum class (codes) in bm

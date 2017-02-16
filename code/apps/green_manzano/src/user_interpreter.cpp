@@ -49,6 +49,7 @@ Kind UserInterpreter::match_kind(std::string const & token) {
     if (token == "uptime")  return Kind::uptime;
     if (token == "plan")    return Kind::plan;
     if (token == "link")    return Kind::link;
+    if (token == "tokens")  return Kind::tokens;
     if (token == "wait")    return Kind::wait;
     if (token == "dev")     return Kind::dev;
     if (token == "output")  return Kind::output;

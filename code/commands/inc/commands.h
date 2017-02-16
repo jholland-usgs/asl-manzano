@@ -21,6 +21,7 @@
 #include "c1_qcal.h"
 #include "c1_rqdev.h"
 #include "c1_rqglob.h"
+#include "c1_rqmem.h"
 #include "c1_rqsc.h"
 #include "c1_rqsrv.h"
 #include "c1_rqstat.h"

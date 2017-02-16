@@ -107,6 +107,29 @@ void Comm::run<Action::get, Kind::dev>(TA const & ta, OI const & oi) {
 
 // -------------------------------------------------------------------------- //
 template<>
+void Comm::run<Action::get, Kind::tokens>(TA const & ta,  OI const & oi) {
+
+    C1Rqmem cmd_rqmem;
+    cmd_rqmem.starting_address(0);
+    cmd_rqmem.byte_count(0);
+    using MT = BmMemoryType::MemoryType;
+    cmd_rqmem.memory_type.memory_type(MT::slave_processor_eeprom);
+
+    auto & q = sn.q_ref(ta);
+    std::stringstream ss;
+    ss << std::hex      << std::setfill('0')
+       << std::setw(16) << q.port_config.auth_code;
+    std::string const pw_string = ss.str();
+    std::array<uint8_t, 16> pw;
+    std::copy( pw_string.begin(), pw_string.end(), pw.begin() );
+    cmd_rqmem.pw(pw);
+
+    // cmd_rqmem.pw(0);
+    std::cout << std::endl << "get tokens\n" << cmd_rqmem;
+}
+
+// -------------------------------------------------------------------------- //
+template<>
 void Comm::run<Action::stop, Kind::cal>(TA const & ta, OI const & oi) {
 
     // C1Stop, C1Cack
