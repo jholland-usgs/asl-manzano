@@ -3,6 +3,7 @@
 
 // to get environment variable
 #include <string>
+#include <cstring>
 #include <exception>
 #include <cstdlib>
 #include <sys/ioctl.h>
