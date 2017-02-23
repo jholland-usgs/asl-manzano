@@ -98,7 +98,7 @@ bool cin_cancel(std::chrono::duration<Rep, Period> timeout) {
     } else {
 
         std::stringstream ss;
-        ss << "Error from polling: " << strerror(errno) << std::endl;
+        ss << "Error from polling: " << std::strerror(errno) << std::endl;
         std::cin.clear();
         throw WarningException("Manzano", "cin_cancel", ss.str() );
     }
