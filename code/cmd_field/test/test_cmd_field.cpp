@@ -71,6 +71,7 @@ public:
     mzn::BmFgFix bm_fg_fix;
 
     mzn::CmdFieldString<6> string6;
+    mzn::CmdFieldString<0> string0;
 
     mzn::CmdFieldPstring<6> pstring6;
     mzn::CmdFieldPstring<10> pstring10;
@@ -178,6 +179,12 @@ TEST_F(FixtureCmdField, cmd_field_accessor_mutator) {
     EXPECT_THROW( string6("hello"), mzn::WarningException);
     // string bigger than the data size
     EXPECT_THROW( string6("hello world"), mzn::WarningException);
+
+    // different sizes ok
+    string0("");            EXPECT_EQ( std::string(""),            string0() );
+    string0("hi");          EXPECT_EQ( std::string("hi"),          string0() );
+    string0("hello");       EXPECT_EQ( std::string("hello"),       string0() );
+    string0("hello world"); EXPECT_EQ( std::string("hello world"), string0() );
 
     //! Custom types
     ui8hex(0xFF);                       EXPECT_EQ( 0xFF, ui8hex() );
@@ -345,6 +352,11 @@ TEST_F(FixtureCmdField, stream_output) {
     // string same size than the data size
     string6("6chars");
     test_stream_output("6chars", string6);
+
+    // different sizes ok
+    string0("hello");       test_stream_output("hello", string0);
+    string0("hello world"); test_stream_output("hello world", string0);
+    string0("");            test_stream_output("", string0);
 
     test_stream_output("0XFF", ui8hex);
     test_stream_output("0XFFFF", ui16hex);
@@ -657,6 +669,43 @@ TEST_F(FixtureCmdField, msg_and_data_tfloats) {
     }
 }
 
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCmdField, msg_and_data_runtime_strings) {
+
+    string0("hi");
+    auto copy_string0 = string0;
+
+    std::vector<uint8_t> before_msg(2, 1);
+    std::vector<uint8_t> after_msg(2, 2);
+
+    std::size_t mf_pos;
+
+    mf_pos = 0; mf_pos = string0.data_to_msg(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = string0.msg_to_data(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = string0.data_to_msg(after_msg, mf_pos);
+
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(before_msg[i], after_msg[i]);
+    }
+
+    EXPECT_EQ(copy_string0, string0);
+
+    std::vector<uint8_t> msg {'h', 'i'};
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(msg[i], after_msg[i]);
+    }
+
+    // additional check, since the size changes at run time, the relationship
+    // with the msg size needs to be checked at the CmdFieldString level
+    std::vector<uint8_t> bad_msg(1, 1);
+    mf_pos = 0;
+    EXPECT_THROW(string0.data_to_msg(bad_msg, mf_pos), mzn::WarningException);
+    EXPECT_THROW(string0.msg_to_data(bad_msg, mf_pos), mzn::WarningException);
+    // good msg, bad mf_pos
+    mf_pos = 1;
+    EXPECT_THROW(string0.data_to_msg(after_msg, mf_pos), mzn::WarningException);
+    EXPECT_THROW(string0.msg_to_data(after_msg, mf_pos), mzn::WarningException);
+}
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCmdField, msg_and_data_strings) {
 

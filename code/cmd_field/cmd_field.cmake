@@ -30,6 +30,7 @@ set(SOURCES_CMD_FIELD
                       ${DIR_CMD_FIELD}/src/cmd_field_ignore.cpp
                       ${DIR_CMD_FIELD}/src/cmd_field_cal_amplitude.cpp
                       ${DIR_CMD_FIELD}/src/cmd_field_pstring.cpp
+                      ${DIR_CMD_FIELD}/src/cmd_field_string.cpp
                       ${DIR_CMD_FIELD}/src/cmd_field_ip.cpp
                       ${DIR_CMD_FIELD}/src/cmd_field_time.cpp
 )
