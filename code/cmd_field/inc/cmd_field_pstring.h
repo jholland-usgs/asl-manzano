@@ -31,7 +31,6 @@ public:
     ~CmdFieldPstring() = default;
 };
 
-
 // -------------------------------------------------------------------------- //
 template <std::size_t osN>
 inline

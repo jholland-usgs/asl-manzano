@@ -26,6 +26,7 @@ public:
    mzn::BmCerr bm_cerr;
    mzn::BmChannelMap bm_channel_map;
    mzn::BmChargingPhase bm_charging_phase;
+   mzn::BmConfigurationIdentificationFlags bm_configuration_identification_flags;
    mzn::BmCtrlFlags bm_ctrl_flags;
    mzn::BmDevOpt bm_dev_opt;
    mzn::BmDevUnitid bm_dev_unitid;
@@ -38,24 +39,224 @@ public:
    mzn::BmFirmwareversion bm_firmwareversion;
    mzn::BmGainPreAmp bm_gain_pre_amp;
    mzn::BmInitialVco bm_initial_vco;
+   mzn::BmInputBitmap bm_input_bitmap;
    mzn::BmLinearPhaseFilters bm_linear_phase_filters;
    mzn::BmLoadsOff bm_loads_off;
+   mzn::BmMemoryType bm_memory_type;
    mzn::BmMiscInputs bm_misc_inputs;
    mzn::BmPllState bm_pll_state;
    mzn::BmProcessorid bm_processorid;
    mzn::BmRqstat bm_rqstat;
    mzn::BmSdidriver bm_sdidriver;
    mzn::BmSdiphase bm_sdiphase;
-   mzn::BmSensorControlBitmap bm_sensor_control_bitmap;
+   mzn::BmSeedHeaderActivityFlags bm_seed_header_activity_flags;
+   mzn::BmSeedHeaderDataQualityFlags bm_seed_header_data_quality_flags;
+   mzn::BmSeedHeaderIoAndClockFlags bm_seed_header_io_and_clock_flags;
+   mzn::BmSensorControlEnable bm_sensor_control_enable;
+   mzn::BmSensorControlOutput bm_sensor_control_output;
    mzn::BmSerialsensorUnits bm_serialsensor_units;
    mzn::BmSerialsensorValidfields bm_serialsensor_validfields;
    mzn::BmStatCalibratorStatus bm_stat_calibrator_status;
    mzn::BmStatClockQuality bm_stat_clock_quality;
-   mzn::BmStatSensorControlBitmap bm_stat_sensor_control_bitmap;
    mzn::BmStatStatusBitmap bm_stat_status_bitmap;
 
     virtual void SetUp() {
 
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
    }
 };
 #endif

@@ -87,7 +87,6 @@ public:
     using M = std::vector<uint8_t>;
     using data_type = T;
 
-
     //! used only in operator<<
     //! TODO: units should be done with template meta-programming
     //! compile time and conversions (better with C++17)

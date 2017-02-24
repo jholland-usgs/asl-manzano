@@ -17,6 +17,7 @@
 #include "cmd_field_container.h"
 #include "cmd_field_duration.h"
 #include "cmd_field_pstring.h"
+#include "cmd_field_string.h"
 #include "cmd_field_hex.h"
 #include "cmd_field_ignore.h"
 #include "cmd_field_ip.h"
@@ -68,6 +69,8 @@ public:
     mzn::CmdFieldBitmap<2> ui16bitmap;
     mzn::CmdFieldBitmap<4> ui32bitmap;
     mzn::BmFgFix bm_fg_fix;
+
+    mzn::CmdFieldString<6> string6;
 
     mzn::CmdFieldPstring<6> pstring6;
     mzn::CmdFieldPstring<10> pstring10;
@@ -169,6 +172,12 @@ TEST_F(FixtureCmdField, cmd_field_accessor_mutator) {
     EXPECT_TRUE(ac_eq);
 
     //TODO: gps status map
+    // same size ok
+    string6("6chars"); EXPECT_EQ( std::string("6chars"), string6() );
+    // string smaller than the data size
+    EXPECT_THROW( string6("hello"), mzn::WarningException);
+    // string bigger than the data size
+    EXPECT_THROW( string6("hello world"), mzn::WarningException);
 
     //! Custom types
     ui8hex(0xFF);                       EXPECT_EQ( 0xFF, ui8hex() );
@@ -332,6 +341,10 @@ TEST_F(FixtureCmdField, stream_output) {
     test_stream_output("00010000000000000000001000010101", ui32bitmap);
 
     //test_stream_output("gps status map!", pstring);
+
+    // string same size than the data size
+    string6("6chars");
+    test_stream_output("6chars", string6);
 
     test_stream_output("0XFF", ui8hex);
     test_stream_output("0XFFFF", ui16hex);
@@ -639,6 +652,33 @@ TEST_F(FixtureCmdField, msg_and_data_tfloats) {
     // make sure it is the right number
     // this is 1.234 in big endian order
     std::vector<uint8_t> msg {0x3F, 0x9D, 0xF3, 0xB6};
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(msg[i], after_msg[i]);
+    }
+}
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCmdField, msg_and_data_strings) {
+
+    string6("6chars");
+    auto copy_string6 = string6;
+
+    std::vector<uint8_t> before_msg(6, 1);
+    std::vector<uint8_t> after_msg(6, 2);
+
+    std::size_t mf_pos;
+
+    mf_pos = 0; mf_pos = string6.data_to_msg(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = string6.msg_to_data(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = string6.data_to_msg(after_msg, mf_pos);
+
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(before_msg[i], after_msg[i]);
+    }
+
+    EXPECT_EQ(copy_string6, string6);
+
+    std::vector<uint8_t> msg {'6', 'c', 'h', 'a', 'r', 's'};
     for (int i = 0; i < after_msg.size(); i++) {
         EXPECT_EQ(msg[i], after_msg[i]);
     }

@@ -3,14 +3,17 @@
 #include "cmd_field_cal_amplitude.h"
 namespace mzn {
 
+// -------------------------------------------------------------------------- //
 CmdFieldCalAmplitude::CmdFieldCalAmplitude() :
         CmdField<int16_t>{} {};
 
+// -------------------------------------------------------------------------- //
 int16_t CmdFieldCalAmplitude::operator()() const {
     // always negative
     return - (1 + data() ) * 6;
 }
 
+// -------------------------------------------------------------------------- //
 void CmdFieldCalAmplitude::operator()(int16_t const & in_data) {
 
     if (in_data > -6 or in_data % -6 != 0 )

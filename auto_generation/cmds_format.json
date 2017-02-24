@@ -1442,7 +1442,7 @@
     {"cf_name": "pll_tracking_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
     {"cf_name": "pll_hold_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
     {"cf_name": "pll_off_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
-    {"cf_name": "ignore_0", "cf_size": 1, "cf_type": "CmdFieldIgnore<int8_t>"},
+    {"cf_name": "ignore_0", "cf_size": 1, "cf_type": "CmdFieldIgnore<uint8_t>"},
     {"cf_name": "highest_has_been_locked_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
     {"cf_name": "lowest_has_been_locked_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
     {"cf_name": "never_been_locked_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},

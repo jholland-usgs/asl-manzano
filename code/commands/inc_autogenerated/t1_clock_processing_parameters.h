@@ -31,7 +31,7 @@ public:
     CmdField<int8_t> pll_tracking_quality;
     CmdField<int8_t> pll_hold_quality;
     CmdField<int8_t> pll_off_quality;
-    CmdFieldIgnore<int8_t> ignore_0;
+    CmdFieldIgnore<uint8_t> ignore_0;
     CmdField<int8_t> highest_has_been_locked_quality;
     CmdField<int8_t> lowest_has_been_locked_quality;
     CmdField<int8_t> never_been_locked_quality;

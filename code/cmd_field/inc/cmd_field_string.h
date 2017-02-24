@@ -8,15 +8,13 @@
 
 namespace mzn {
 
-//! String of T, printed as is
 //! TODO: all of this, need runtime checks or a constexpr string implementation
 //! TODO: string_view might work, the strings are mostly view only
 /*! @author rfigueroa@usgs.gov */
 // -------------------------------------------------------------------------- //
-template <typename T, std::size_t N>
-class CmdFieldString : public CmdField< std::string, N > {
+template <std::size_t N>
+class CmdFieldString : public CmdField<std::string, N> {
 
-    static_assert(sizeof(T)==1, "CmdFieldString for sizeof(T) is in progress");
 public:
 
     using data_type = typename std::string;
@@ -31,19 +29,25 @@ public:
     //! same signature as CmdField
     std::size_t msg_to_data(M const & msg, std::size_t const mf_pos);
     std::size_t data_to_msg(M & msg, std::size_t const mf_pos) const;
+
+    data_type operator()() const;
+    void operator()(data_type const & in_data);
 };
 
 // constructor
 // -------------------------------------------------------------------------- //
-template <typename T, std::size_t N>
-CmdFieldString<T, N>::CmdFieldString() : CmdField<data_type, N>{} {};
+template <std::size_t N>
+CmdFieldString<N>::CmdFieldString() :
+        CmdField<data_type, N>{} {
+
+    this->data_.resize(N);
+};
 
 // -------------------------------------------------------------------------- //
-template <typename osT, std::size_t osN>
+template <std::size_t osN>
 inline
 std::ostream & operator<<(std::ostream & cf_os,
-                          CmdFieldString<osT, osN> const & cf) {
-
+                          CmdFieldString<osN> const & cf) {
     cf_os << cf.data();
     return cf_os;
 }
@@ -53,11 +57,10 @@ std::ostream & operator<<(std::ostream & cf_os,
 // or use std::copy_n with parallel execution policy?
 // currently all the strings are really small
 // -------------------------------------------------------------------------- //
-template <typename T, std::size_t N>
-std::size_t CmdFieldString<T, N>::msg_to_data(M const & msg,
-                                             std::size_t const mf_pos) {
+template <std::size_t N>
+std::size_t CmdFieldString<N>::msg_to_data(M const & msg,
+                                           std::size_t const mf_pos) {
 
-    // TODO: change for string
     // no temporary objects, only cast
     auto data_index = 0;
     using DataType = typename data_type::value_type;
@@ -71,10 +74,9 @@ std::size_t CmdFieldString<T, N>::msg_to_data(M const & msg,
 }
 
 // -------------------------------------------------------------------------- //
-template <typename T, std::size_t N>
-std::size_t CmdFieldString<T, N>::data_to_msg(M & msg,
-                                             std::size_t const mf_pos) const {
-    // TODO: change for string
+template <std::size_t N>
+std::size_t CmdFieldString<N>::data_to_msg(M & msg,
+                                           std::size_t const mf_pos) const {
     auto data_index = 0;
     for (auto i = mf_pos; i < mf_pos + N; i++) {
         msg[i] = static_cast<typename M::value_type>(this->data_[data_index]);
@@ -83,6 +85,24 @@ std::size_t CmdFieldString<T, N>::data_to_msg(M & msg,
 
     return mf_pos + N;
 }
+
+// -------------------------------------------------------------------------- //
+template <std::size_t N>
+std::string CmdFieldString<N>::operator()() const {
+    return this->data_;
+}
+
+// -------------------------------------------------------------------------- //
+template <std::size_t N>
+void CmdFieldString<N>::operator()(std::string const & in_data) {
+
+    if ( in_data.size() != this->data_.size() )
+        throw WarningException("CmdFieldString",
+                               "operator()",
+                               "string assignment should have same size");
+    this->data_ = in_data;
+}
+
 } // << mzn
 
 #endif
