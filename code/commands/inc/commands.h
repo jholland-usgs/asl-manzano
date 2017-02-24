@@ -73,5 +73,14 @@
 #include "dt_open.h"
 #include "qdp_crc.h"
 #include "qdp_header.h"
+#include "t1_clock_processing_parameters.h"
+#include "t1_configuration_identification.h"
+#include "t1_data_server.h"
+#include "t1_data_subscription_server_parameter.h"
+#include "t1_dp_netserver.h"
+#include "t1_dp_webserver.h"
+#include "t1_log_and_timing.h"
+#include "t1_network_station.h"
+#include "t1_version_number.h"
 
 #endif // _MZN_CMD_COMMANDS_H

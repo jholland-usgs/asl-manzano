@@ -7,10 +7,21 @@
 
 #include "gtest/gtest.h"
 #include "command.h"
+#include "token_map.h"
 #include "multi_command.h"
 #include "multi_command_map.h"
 #include "commands.h"
+// -------------------------------------------------------------------------- //
+class FixtureTokenMap : public ::testing::Test {
+public:
 
+    mzn::TokenMap tokens{};
+};
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureTokenMap, tokens_setup) {}
+
+// -------------------------------------------------------------------------- //
 class FixtureCommand : public ::testing::Test {
 public:
 
@@ -119,6 +130,7 @@ void print_vector(std::vector<uint8_t> const & msg1,
     }
 }
 
+// test some specific commands
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, msg_to_data) {
     std::vector<uint8_t> msg = {
@@ -279,22 +291,14 @@ TEST_F(FixtureCommand, serializing_c1_stat) {
     EXPECT_EQ(msg, newmsg);
 }
 
-TEST_F(FixtureCommand, console_output) {
-    //c1_cack.ack(4);
-    //EXPECT_EQ(4, c1_cack.ack() );
-/*
-    auto test_console_output = [&](std::string intended, auto cf) {
-        testing::internal::CaptureStdout();
-        std::cout << cf;
-        std::string const out = testing::internal::GetCapturedStdout();
-        EXPECT_STREQ( intended.c_str(), out.c_str() );
-    };
-    */
-}
-
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_dsrv_test) {
     mzn::C1Dsrv cmd{};
-    std::vector<uint8_t> msg = {0XFB, 0X1, 0X3, 0X10, 0X12, 0X2, 0, 0X8, 0, 0X4, 0, 0, 0X1, 0, 0, 0XB, 0X69, 0XBA, 0X17, 0XD3};
+    std::vector<uint8_t> msg = {0XFB, 0X1, 0X3, 0X10,
+                                0X12, 0X2, 0, 0X8,
+                                0, 0X4, 0, 0,
+                                0X1, 0, 0, 0XB,
+                                0X69, 0XBA, 0X17, 0XD3};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -306,9 +310,14 @@ TEST_F(FixtureCommand, c1_dsrv_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_rqsrv_test) {
     mzn::C1Rqsrv cmd{};
-    std::vector<uint8_t> msg = {0XEA, 0X8A, 0XB0, 0X88, 0X10, 0X2, 0, 0X8, 0, 0X1, 0, 0, 0X1, 0, 0, 0XB, 0X69, 0XBA, 0X17, 0XD3};
+    std::vector<uint8_t> msg = {0XEA, 0X8A, 0XB0, 0X88,
+                                0X10, 0X2, 0, 0X8,
+                                0, 0X1, 0, 0,
+                                0X1, 0, 0, 0XB,
+                                0X69, 0XBA, 0X17, 0XD3};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -320,9 +329,24 @@ TEST_F(FixtureCommand, c1_rqsrv_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_srvrsp_test) {
     mzn::C1Srvrsp cmd{};
-    std::vector<uint8_t> msg = {0X4D, 0X9E, 0X1E, 0X98, 0X11, 0X2, 0, 0X30, 0, 0X2, 0, 0, 0X1, 0, 0, 0XB, 0X69, 0XBA, 0X17, 0XD3, 0XD, 0XCD, 0X21, 0XE9, 0XE, 0XC5, 0XA7, 0XF6, 0X88, 0XB1, 0X79, 0X5D, 0X8, 0, 0X1, 0XC4, 0, 0, 0, 0, 0, 0X7A, 0X9F, 0X51, 0X44, 0XC1, 0X75, 0X70, 0X72, 0X22, 0X6B, 0XAE, 0X47, 0X56, 0XEF, 0XA2, 0X86, 0X87, 0X5C, 0X56};
+    std::vector<uint8_t> msg = {0X4D, 0X9E, 0X1E, 0X98,
+                                0X11, 0X2, 0, 0X30,
+                                0, 0X2, 0, 0,
+                                0X1, 0, 0, 0XB,
+                                0X69, 0XBA, 0X17, 0XD3,
+                                0XD, 0XCD, 0X21, 0XE9,
+                                0XE, 0XC5, 0XA7, 0XF6,
+                                0X88, 0XB1, 0X79, 0X5D,
+                                0X8, 0, 0X1, 0XC4,
+                                0, 0, 0, 0,
+                                0, 0X7A, 0X9F, 0X51,
+                                0X44, 0XC1, 0X75, 0X70,
+                                0X72, 0X22, 0X6B, 0XAE,
+                                0X47, 0X56, 0XEF, 0XA2,
+                                0X86, 0X87, 0X5C, 0X56};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -334,9 +358,13 @@ TEST_F(FixtureCommand, c1_srvrsp_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_rqstat_test) {
     mzn::C1Rqstat cmd{};
-    std::vector<uint8_t> msg = {0XED, 0, 0X8, 0X68, 0X1F, 0X2, 0, 0X4, 0, 0X3, 0, 0, 0, 0, 0X80, 0X51};
+    std::vector<uint8_t> msg = {0XED, 0, 0X8, 0X68,
+                                0X1F, 0X2, 0, 0X4,
+                                0, 0X3, 0, 0,
+                                0, 0, 0X80, 0X51};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -348,9 +376,12 @@ TEST_F(FixtureCommand, c1_rqstat_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_rqsc_test) {
     mzn::C1Rqsc cmd{};
-    std::vector<uint8_t> msg = {0X3D, 0X90, 0X9A, 0X98, 0X2F, 0X2, 0, 0, 0, 0X3, 0, 0};
+    std::vector<uint8_t> msg = {0X3D, 0X90, 0X9A, 0X98,
+                                0X2F, 0X2, 0, 0,
+                                0, 0X3, 0, 0};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -362,9 +393,20 @@ TEST_F(FixtureCommand, c1_rqsc_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_sc_test) {
     mzn::C1Sc cmd{};
-    std::vector<uint8_t> msg = {0XCF, 0XE8, 0X2, 0XC0, 0XAF, 0X2, 0, 0X20, 0, 0, 0, 0X3, 0, 0, 0X1, 0X2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0X1, 0X1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0X1, 0X4};
+    std::vector<uint8_t> msg = {0XCF, 0XE8, 0X2, 0XC0,
+                                0XAF, 0X2, 0, 0X20,
+                                0, 0, 0, 0X3,
+                                0, 0, 0X1, 0X2,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0X1, 0X1,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0X1, 0X4};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -377,9 +419,21 @@ TEST_F(FixtureCommand, c1_sc_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_qcal_test) {
     mzn::C1Qcal cmd{};
-    std::vector<uint8_t> msg = {0XE8, 0X6A, 0X8B, 0XA8, 0X23, 0X2, 0, 0X24, 0, 0X3, 0, 0, 0, 0, 0, 0, 0, 0X80, 0, 0X1, 0, 0XA, 0, 0X5, 0, 0X38, 0, 0X5, 0, 0X80, 0, 0X2, 0, 0X1, 0, 0, 0X72, 0X65, 0X73, 0X69, 0X73, 0X74, 0X69, 0X76, 0X65, 0, 0, 0};
+    std::vector<uint8_t> msg = {0XE8, 0X6A, 0X8B, 0XA8,
+                                0X23, 0X2, 0, 0X24,
+                                0, 0X3, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0X80, 0, 0X1,
+                                0, 0XA, 0, 0X5,
+                                0, 0X38, 0, 0X5,
+                                0, 0X80, 0, 0X2,
+                                0, 0X1, 0, 0,
+                                0X72, 0X65, 0X73, 0X69,
+                                0X73, 0X74, 0X69, 0X76,
+                                0X65, 0, 0, 0};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -392,9 +446,12 @@ TEST_F(FixtureCommand, c1_qcal_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_cack_test) {
     mzn::C1Cack cmd{};
-    std::vector<uint8_t> msg = {0XE8, 0X6A, 0X8B, 0XA8, 0X23, 0X2, 0, 0X24, 0, 0X3, 0, 0};
+    std::vector<uint8_t> msg = {0XE8, 0X6A, 0X8B, 0XA8,
+                                0X23, 0X2, 0, 0X24,
+                                0, 0X3, 0, 0};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -407,9 +464,13 @@ TEST_F(FixtureCommand, c1_cack_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_pollsn_test) {
     mzn::C1Cack cmd{};
-    std::vector<uint8_t> msg = {0X43, 0XBA, 0, 0XA8, 0X14, 0X2, 0, 0X4, 0, 0X1, 0, 0, 0, 0, 0, 0};
+    std::vector<uint8_t> msg = {0X43, 0XBA, 0, 0XA8,
+                                0X14, 0X2, 0, 0X4,
+                                0, 0X1, 0, 0,
+                                0, 0, 0, 0};
     cmd.msg_to_data(msg, 20);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -422,9 +483,12 @@ TEST_F(FixtureCommand, c1_pollsn_test) {
     EXPECT_EQ(msg, processed_msg);
 }
 
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, c1_rqdev_test) {
     mzn::C1Rqdev cmd{};
-    std::vector<uint8_t> msg = {0X4D, 0XF9, 0X2E, 0X98, 0X36, 0X2, 0, 0, 0, 0X3, 0, 0};
+    std::vector<uint8_t> msg = {0X4D, 0XF9, 0X2E, 0X98,
+                                0X36, 0X2, 0, 0,
+                                0, 0X3, 0, 0};
     cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
@@ -439,70 +503,66 @@ TEST_F(FixtureCommand, c1_rqdev_test) {
 
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, cmd_code) {
-    /*std::cout << std::hex << std::endl;
-    std::cout << "c1_cack : " << c1_cack.cmd_number << std::endl;
-    std::cout << "c1_cerr : " << c1_cerr.cmd_number << std::endl;
-    std::cout << "c1_ctrl : " << c1_ctrl.cmd_number << std::endl;
-    std::cout << "c1_dev : " << c1_dev.cmd_number << std::endl;
-    std::cout << "c1_dsrv : " << c1_dsrv.cmd_number << std::endl;
-    std::cout << "c1_mysn : " << c1_mysn.cmd_number << std::endl;
-    std::cout << "c1_ping_2 : " << c1_ping_2.cmd_number << std::endl;
-    std::cout << "c1_ping_3 : " << c1_ping_3.cmd_number << std::endl;
-    std::cout << "c1_ping_4 : " << c1_ping_4.cmd_number << std::endl;
-    std::cout << "c1_ping_5 : " << c1_ping_5.cmd_number << std::endl;
-    std::cout << "c1_pollsn : " << c1_pollsn.cmd_number << std::endl;
-    std::cout << "c1_qcal : " << c1_qcal.cmd_number << std::endl;
-    std::cout << "c1_rqdev : " << c1_rqdev.cmd_number << std::endl;
-    std::cout << "c1_rqsc : " << c1_rqsc.cmd_number << std::endl;
-    std::cout << "c1_rqsrv : " << c1_rqsrv.cmd_number << std::endl;
-    std::cout << "c1_rqstat : " << c1_rqstat.cmd_number << std::endl;
-    std::cout << "c1_sc : " << c1_sc.cmd_number << std::endl;
-    std::cout << "c1_srvch : " << c1_srvch.cmd_number << std::endl;
-    std::cout << "c1_srvrsp : " << c1_srvrsp.cmd_number << std::endl;
-    std::cout << "c1_stat : " << c1_stat.cmd_number << std::endl;
-    std::cout << "c1_stop : " << c1_stop.cmd_number << std::endl;
-    std::cout << "c2_qv : " << c2_qv.cmd_number << std::endl;
-    std::cout << "c2_rqqv : " << c2_rqqv.cmd_number << std::endl;
-    std::cout << "cx_arp_status : " << cx_arp_status.cmd_number << std::endl;
-    std::cout << "cx_auxiliary_board_status : " << cx_auxiliary_board_status.cmd_number << std::endl;
-    std::cout << "cx_baler_status : " << cx_baler_status.cmd_number << std::endl;
-    std::cout << "cx_boom_positions : " << cx_boom_positions.cmd_number << std::endl;
-    std::cout << "cx_data_port_1_status : " << cx_data_port_1_status.cmd_number << std::endl;
-    std::cout << "cx_data_port_2_status : " << cx_data_port_2_status.cmd_number << std::endl;
-    std::cout << "cx_data_port_3_status : " << cx_data_port_3_status.cmd_number << std::endl;
-    std::cout << "cx_data_port_4_status : " << cx_data_port_4_status.cmd_number << std::endl;
-    std::cout << "cx_dev : " << cx_dev.cmd_number << std::endl;
-    std::cout << "cx_dynamic_ip : " << cx_dynamic_ip.cmd_number << std::endl;
-    std::cout << "cx_environmental_processor_status : " << cx_environmental_processor_status.cmd_number << std::endl;
-    std::cout << "cx_ethernet_status : " << cx_ethernet_status.cmd_number << std::endl;
-    std::cout << "cx_global_status : " << cx_global_status.cmd_number << std::endl;
-    std::cout << "cx_gps_satellites : " << cx_gps_satellites.cmd_number << std::endl;
-    std::cout << "cx_gps_status : " << cx_gps_status.cmd_number << std::endl;
-    std::cout << "cx_pll_status : " << cx_pll_status.cmd_number << std::endl;
-    std::cout << "cx_power_supply_status : " << cx_power_supply_status.cmd_number << std::endl;
-    std::cout << "cx_qv : " << cx_qv.cmd_number << std::endl;
-    std::cout << "cx_serial_interface_1_status : " << cx_serial_interface_1_status.cmd_number << std::endl;
-    std::cout << "cx_serial_interface_2_status : " << cx_serial_interface_2_status.cmd_number << std::endl;
-    std::cout << "cx_serial_interface_3_status : " << cx_serial_interface_3_status.cmd_number << std::endl;
-    std::cout << "cx_serial_sensor_status : " << cx_serial_sensor_status.cmd_number << std::endl;
-    std::cout << "cx_thread_status : " << cx_thread_status.cmd_number << std::endl;
-    std::cout << "cy_arp_status : " << cy_arp_status.cmd_number << std::endl;
-    std::cout << "cy_auxiliary_board_status : " << cy_auxiliary_board_status.cmd_number << std::endl;
-    std::cout << "cy_environmental_processor_status : " << cy_environmental_processor_status.cmd_number << std::endl;
-    std::cout << "cy_gps_satellites : " << cy_gps_satellites.cmd_number << std::endl;
-    std::cout << "cy_serial_sensor_status : " << cy_serial_sensor_status.cmd_number << std::endl;
-    std::cout << "cy_thread_status : " << cy_thread_status.cmd_number << std::endl;
-    std::cout << "cz_humidity_and_external_temperature : " << cz_humidity_and_external_temperature.cmd_number << std::endl;
-    std::cout << "cz_internal_temperature_measurement : " << cz_internal_temperature_measurement.cmd_number << std::endl;
-    std::cout << "qdp_crc : " << qdp_crc.cmd_number << std::endl;
-    std::cout << "qdp_header : " << qdp_header.cmd_number << std::endl;
-    std::cout << std::hex << std::endl;*/
+    std::stringstream ss;
+    ss << "c1_cack : " << c1_cack << std::endl;
+    ss << "c1_cerr : " << c1_cerr << std::endl;
+    ss << "c1_ctrl : " << c1_ctrl << std::endl;
+    ss << "c1_dev : " << c1_dev << std::endl;
+    ss << "c1_dsrv : " << c1_dsrv << std::endl;
+    ss << "c1_mysn : " << c1_mysn << std::endl;
+    ss << "c1_ping_2 : " << c1_ping_2 << std::endl;
+    ss << "c1_ping_3 : " << c1_ping_3 << std::endl;
+    ss << "c1_ping_4 : " << c1_ping_4 << std::endl;
+    ss << "c1_ping_5 : " << c1_ping_5 << std::endl;
+    ss << "c1_pollsn : " << c1_pollsn << std::endl;
+    ss << "c1_qcal : " << c1_qcal << std::endl;
+    ss << "c1_rqdev : " << c1_rqdev << std::endl;
+    ss << "c1_rqsc : " << c1_rqsc << std::endl;
+    ss << "c1_rqsrv : " << c1_rqsrv << std::endl;
+    ss << "c1_rqstat : " << c1_rqstat << std::endl;
+    ss << "c1_sc : " << c1_sc << std::endl;
+    ss << "c1_srvch : " << c1_srvch << std::endl;
+    ss << "c1_srvrsp : " << c1_srvrsp << std::endl;
+    ss << "c1_stat : " << c1_stat << std::endl;
+    ss << "c1_stop : " << c1_stop << std::endl;
+    ss << "c2_qv : " << c2_qv << std::endl;
+    ss << "c2_rqqv : " << c2_rqqv << std::endl;
+    ss << "cx_arp_status : " << cx_arp_status << std::endl;
+    ss << "cx_auxiliary_board_status : " << cx_auxiliary_board_status << std::endl;
+    ss << "cx_baler_status : " << cx_baler_status << std::endl;
+    ss << "cx_boom_positions : " << cx_boom_positions << std::endl;
+    ss << "cx_data_port_1_status : " << cx_data_port_1_status << std::endl;
+    ss << "cx_data_port_2_status : " << cx_data_port_2_status << std::endl;
+    ss << "cx_data_port_3_status : " << cx_data_port_3_status << std::endl;
+    ss << "cx_data_port_4_status : " << cx_data_port_4_status << std::endl;
+    ss << "cx_dev : " << cx_dev << std::endl;
+    ss << "cx_dynamic_ip : " << cx_dynamic_ip << std::endl;
+    ss << "cx_environmental_processor_status : " << cx_environmental_processor_status << std::endl;
+    ss << "cx_ethernet_status : " << cx_ethernet_status << std::endl;
+    ss << "cx_global_status : " << cx_global_status << std::endl;
+    ss << "cx_gps_satellites : " << cx_gps_satellites << std::endl;
+    ss << "cx_gps_status : " << cx_gps_status << std::endl;
+    ss << "cx_pll_status : " << cx_pll_status << std::endl;
+    ss << "cx_power_supply_status : " << cx_power_supply_status << std::endl;
+    ss << "cx_qv : " << cx_qv << std::endl;
+    ss << "cx_serial_interface_1_status : " << cx_serial_interface_1_status << std::endl;
+    ss << "cx_serial_interface_2_status : " << cx_serial_interface_2_status << std::endl;
+    ss << "cx_serial_interface_3_status : " << cx_serial_interface_3_status << std::endl;
+    ss << "cx_serial_sensor_status : " << cx_serial_sensor_status << std::endl;
+    ss << "cx_thread_status : " << cx_thread_status << std::endl;
+    ss << "cy_arp_status : " << cy_arp_status << std::endl;
+    ss << "cy_auxiliary_board_status : " << cy_auxiliary_board_status << std::endl;
+    ss << "cy_environmental_processor_status : " << cy_environmental_processor_status << std::endl;
+    ss << "cy_gps_satellites : " << cy_gps_satellites << std::endl;
+    ss << "cy_serial_sensor_status : " << cy_serial_sensor_status << std::endl;
+    ss << "cy_thread_status : " << cy_thread_status << std::endl;
+    ss << "cz_humidity_and_external_temperature : " << cz_humidity_and_external_temperature << std::endl;
+    ss << "cz_internal_temperature_measurement : " << cz_internal_temperature_measurement << std::endl;
+    ss << "qdp_crc : " << qdp_crc << std::endl;
+    ss << "qdp_header : " << qdp_header << std::endl;
 }
 
-
-
-//TODO: c2_samass, c2_rqamass, c2_amass
-
+// -------------------------------------------------------------------------- //
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

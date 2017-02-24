@@ -1370,8 +1370,124 @@
   "cmd_number": "0x0",
   "crc_and_header": false,
   "originator": "both"
-}
+},
 
+"t1_version_number":{
+  "cmd_fields":
+  [
+    {"cf_name": "version_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"}
+  ],
+  "cmd_number": "1",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_network_station":{
+  "cmd_fields":
+  [
+    {"cf_name": "network", "cf_size": 2, "cf_type": "CmdFieldArrayChar<2>"},
+    {"cf_name": "station", "cf_size": 3, "cf_type": "CmdFieldArrayChar<3>"}
+  ],
+  "cmd_number": "2",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_dp_netserver":{
+  "cmd_fields":
+  [
+    {"cf_name": "port_number", "cf_size": 2, "cf_type": "CmdField<uint16_t>"}
+  ],
+  "cmd_number": "3",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_data_subscription_server_parameter":{
+  "cmd_fields":
+  [
+    {"cf_name": "highest_priority_password", "cf_size": 8, "cf_type": "CmdFieldPstring<8>"},
+    {"cf_name": "middle_priority_password", "cf_size": 8, "cf_type": "CmdFieldPstring<8>"},
+    {"cf_name": "lowest_priority_password", "cf_size": 8, "cf_type": "CmdFieldPstring<8>"},
+    {"cf_name": "timeout", "cf_size": 4, "cf_type": "CmdFieldDuration<int32_t>"},
+    {"cf_name": "max_bytes_per_second", "cf_size": 4, "cf_type": "CmdField<int32_t>"},
+    {"cf_name": "verbosity", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "max_cpu_percentage", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "udp_port_number", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+    {"cf_name": "max_memory_to_use", "cf_size": 2, "cf_type": "CmdField<uint16_t>", "cf_units": "kb"},
+    {"cf_name": "ignored_0", "cf_size": 2, "cf_type": "CmdFieldIgnore<uint16_t>"}
+  ],
+  "cmd_number": "4",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_dp_webserver":{
+  "cmd_fields":
+  [
+    {"cf_name": "port_number", "cf_size": 2, "cf_type": "CmdField<uint16_t>"}
+  ],
+  "cmd_number": "5",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_clock_processing_parameters":{
+  "cmd_fields":
+  [
+    {"cf_name": "timezone_offset", "cf_size": 4, "cf_type": "CmdFieldDuration<int32_t>"},
+    {"cf_name": "loss_before_downgrading_1_percent_quality", "cf_size": 2,
+        "cf_type": "CmdFieldDuration<uint16_t, std::ratio<60>  >"},
+    {"cf_name": "pll_locked_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "pll_tracking_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "pll_hold_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "pll_off_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "ignore_0", "cf_size": 1, "cf_type": "CmdFieldIgnore<int8_t>"},
+    {"cf_name": "highest_has_been_locked_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "lowest_has_been_locked_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "never_been_locked_quality", "cf_size": 1, "cf_type": "CmdField<int8_t>"},
+    {"cf_name": "clock_quality_filter", "cf_size": 2, "cf_type": "CmdFieldDuration<uint16_t>"}
+  ],
+  "cmd_number": "6",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_log_and_timing":{
+  "cmd_fields":
+  [
+    {"cf_name": "message_log_seed_location", "cf_size": 2, "cf_type": "CmdFieldArrayChar<2>"},
+    {"cf_name": "message_log_seed_name", "cf_size": 3, "cf_type": "CmdFieldArrayChar<3>"},
+    {"cf_name": "timing_log_seed_location", "cf_size": 2, "cf_type": "CmdFieldArrayChar<2>"},
+    {"cf_name": "timing_log_seed_name", "cf_size": 3, "cf_type": "CmdFieldArrayChar<3>"}
+  ],
+  "cmd_number": "7",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_configuration_identification":{
+  "cmd_fields":
+  [
+    {"cf_name": "configuration_stream_seed_location", "cf_size": 2, "cf_type": "CmdFieldArrayChar<2>"},
+    {"cf_name": "configuration_stream_seed_name", "cf_size": 3, "cf_type": "CmdFieldArrayChar<3>"},
+    {"cf_name": "flags", "cf_size": 1, "cf_type": "BmConfigurationIdentificationFlags"},
+    {"cf_name": "interval", "cf_size": 2, "cf_type": "CmdFieldDuration<uint16_t, std::ratio<60> >"}
+  ],
+  "cmd_number": "8",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_data_server":{
+  "cmd_fields":
+  [
+    {"cf_name": "port_number", "cf_size": 2, "cf_type": "CmdField<uint16_t>"}
+  ],
+  "cmd_number": "9",
+  "crc_and_header": false,
+  "originator": "both"
+}
 }
 
 

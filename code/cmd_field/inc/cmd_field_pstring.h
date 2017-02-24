@@ -38,8 +38,17 @@ inline
 std::ostream & operator<<(std::ostream & cf_os,
                           CmdFieldPstring<osN> const & cf) {
 
-    //TODO: all of this
-    for ( auto const & b : cf.data() ) cf_os << b;
+    if (cf.data_.size() < 2) return cf_os;
+
+    if ( (cf.data_[0] + 1) > cf.data_.size() ) {
+        std::stringstream ss;
+        for (auto const & b : cf.data_) ss << b << ",";
+        ss << "@CmdFieldPstring pstring wrong  format";
+        throw std::logic_error( ss.str() );
+    }
+
+    // pascal string have its size on the first byte
+    for (int i = 1; i <= cf.data_[0]; i++ ) cf_os << cf.data_[i];
 
     return cf_os;
 }

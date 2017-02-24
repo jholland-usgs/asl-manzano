@@ -804,6 +804,16 @@
     "mf_size": 1, "bm_originator": "both"
   },
 
+  "bm_configuration_identification_flags":{
+    "bm_fields":[
+
+      {"bmf_name": "write_configuration_at_beginning_of_acquisition", "bmf_bit": 0},
+      {"bmf_name": "write_configuration_at_end_of_acquisition", "bmf_bit": 1},
+      {"bmf_name": "write_configuration_at_the_specified_interval", "bmf_bit": 2}
+    ],
+    "mf_size": 1, "bm_originator": "both"
+  },
+
   "bm_seed_header_io_and_clock_flags":{
     "bm_fields":[
 

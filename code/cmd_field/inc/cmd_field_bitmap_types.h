@@ -721,6 +721,35 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmChargingPhase const & b
 }
 
 // -------------------------------------------------------------------------- //
+class BmConfigurationIdentificationFlags : public CmdFieldBitmap<1> {
+
+friend std::ostream & operator<<(std::ostream & bm_os, BmConfigurationIdentificationFlags const & bm);
+
+public:
+    explicit BmConfigurationIdentificationFlags() : CmdFieldBitmap<1>{} {};
+    bool const write_configuration_at_beginning_of_acquisition() const {return this -> data_.test(0);}
+    bool const write_configuration_at_end_of_acquisition() const {return this -> data_.test(1);}
+    bool const write_configuration_at_the_specified_interval() const {return this -> data_.test(2);}
+    void write_configuration_at_beginning_of_acquisition(const bool b) {this -> data_.set(0, b);}
+    void write_configuration_at_end_of_acquisition(const bool b) {this -> data_.set(1, b);}
+    void write_configuration_at_the_specified_interval(const bool b) {this -> data_.set(2, b);}
+};
+
+inline std::ostream & operator<<(std::ostream & bm_os, BmConfigurationIdentificationFlags const & bm) {
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.write_configuration_at_beginning_of_acquisition() ) << "] " << 
+        "write_configuration_at_beginning_of_acquisition";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.write_configuration_at_end_of_acquisition() ) << "] " << 
+        "write_configuration_at_end_of_acquisition";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.write_configuration_at_the_specified_interval() ) << "] " << 
+        "write_configuration_at_the_specified_interval";
+    bm_os << "\n";
+    return bm_os;
+}
+
+// -------------------------------------------------------------------------- //
 class BmCtrlFlags : public CmdFieldBitmap<2> {
 
 friend std::ostream & operator<<(std::ostream & bm_os, BmCtrlFlags const & bm);
