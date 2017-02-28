@@ -34,7 +34,7 @@ public:
     void operator()(data_type const & in_data);
 };
 
-// constructor
+//! constructor
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
 inline
@@ -59,6 +59,7 @@ std::ostream & operator<<(std::ostream & cf_os,
 // currently all the strings are really small
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
+inline
 std::size_t CmdFieldString<N>::msg_to_data(M const & msg,
                                            std::size_t const mf_pos) {
 
@@ -76,6 +77,7 @@ std::size_t CmdFieldString<N>::msg_to_data(M const & msg,
 
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
+inline
 std::size_t CmdFieldString<N>::data_to_msg(M & msg,
                                            std::size_t const mf_pos) const {
     auto data_index = 0;
@@ -89,18 +91,22 @@ std::size_t CmdFieldString<N>::data_to_msg(M & msg,
 
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
+inline
 std::string CmdFieldString<N>::operator()() const {
     return this->data_;
 }
 
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
+inline
 void CmdFieldString<N>::operator()(std::string const & in_data) {
 
-    if ( in_data.size() != this->data_.size() )
+    if (in_data.size() != N) {
         throw WarningException("CmdFieldString",
                                "operator()",
                                "string assignment should have same size");
+    }
+
     this->data_ = in_data;
 }
 
@@ -108,12 +114,13 @@ void CmdFieldString<N>::operator()(std::string const & in_data) {
 // template specialization for size known at run time
 // -------------------------------------------------------------------------- //
 template <>
+inline
 std::size_t CmdFieldString<0>::msg_to_data(M const & msg,
                                            std::size_t const mf_pos) {
     auto const N = this->data_.size();
 
     // needs to be checked here since it is not known at compile time
-    if ( msg.size()  < N + mf_pos) {
+    if (msg.size()  < N + mf_pos) {
         throw WarningException(
             "CmdFieldString",
             "msg_to_data",
@@ -137,12 +144,13 @@ std::size_t CmdFieldString<0>::msg_to_data(M const & msg,
 
 // -------------------------------------------------------------------------- //
 template <>
+inline
 std::size_t CmdFieldString<0>::data_to_msg(M & msg,
                                            std::size_t const mf_pos) const {
     auto const N = this->data_.size();
 
     // needs to be checked here since it is not known at compile time
-    if ( msg.size()  < N + mf_pos) {
+    if (msg.size()  < N + mf_pos) {
         throw WarningException(
             "CmdFieldString",
             "data_to_msg",
@@ -163,12 +171,14 @@ std::size_t CmdFieldString<0>::data_to_msg(M & msg,
 
 // -------------------------------------------------------------------------- //
 template <>
+inline
 std::string CmdFieldString<0>::operator()() const {
     return this->data_;
 }
 
 // -------------------------------------------------------------------------- //
 template <>
+inline
 void CmdFieldString<0>::operator()(std::string const & in_data) {
     this->data_ = in_data;
 }

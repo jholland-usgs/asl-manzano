@@ -24,7 +24,6 @@
 #include "cmd_field_cal_amplitude.h"
 #include "cmd_field_time.h"
 
-
 #include "testing_bitmaps.h"
 
 // -------------------------------------------------------------------------- //
@@ -73,6 +72,7 @@ public:
     mzn::CmdFieldString<6> string6;
     mzn::CmdFieldString<0> string0;
 
+    mzn::CmdFieldPstring<0> pstring0;
     mzn::CmdFieldPstring<6> pstring6;
     mzn::CmdFieldPstring<10> pstring10;
     mzn::CmdFieldPstring<12> pstring12;
@@ -185,6 +185,25 @@ TEST_F(FixtureCmdField, cmd_field_accessor_mutator) {
     string0("hi");          EXPECT_EQ( std::string("hi"),          string0() );
     string0("hello");       EXPECT_EQ( std::string("hello"),       string0() );
     string0("hello world"); EXPECT_EQ( std::string("hello world"), string0() );
+
+    // different sizes ok
+    std::string const pstring_test_1 = '\0' + std::string("");
+    std::string const pstring_test_2 = '\1' + std::string("h");
+    std::string const pstring_test_3 = '\2' + std::string("hi");
+    std::string const pstring_test_4 = '\6' + std::string("hi ps!");
+
+    assert(pstring_test_1.size() == 1);
+    assert(pstring_test_2.size() == 2);
+    assert(pstring_test_3.size() == 3);
+    assert(pstring_test_4.size() == 7);
+
+    pstring0(pstring_test_1); EXPECT_EQ( pstring_test_1, pstring0() );
+    pstring0(pstring_test_2); EXPECT_EQ( pstring_test_2, pstring0() );
+    pstring0(pstring_test_3); EXPECT_EQ( pstring_test_3, pstring0() );
+    pstring0(pstring_test_4); EXPECT_EQ( pstring_test_4, pstring0() );
+
+    pstring0( '\2' + std::string("hi") );
+    EXPECT_EQ( '\2' + std::string("hi"), pstring0() );
 
     //! Custom types
     ui8hex(0xFF);                       EXPECT_EQ( 0xFF, ui8hex() );
@@ -319,10 +338,12 @@ TEST_F(FixtureCmdField, time_and_duration) {
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCmdField, stream_output) {
 
-    auto test_stream_output = [&](std::string intended, auto cf) {
+    auto test_stream_output = [&](std::string const & intended,
+                                  auto const & cf) {
+        std::cout << std::endl << "########_" << cf << "_########\n";
         std::stringstream ss;
         ss << cf;
-        EXPECT_STREQ( intended.c_str(), ss.str().c_str() );
+        EXPECT_EQ( intended, ss.str() );
     };
 
     f(3090.090315);             test_stream_output("3090.09", f);
@@ -354,9 +375,15 @@ TEST_F(FixtureCmdField, stream_output) {
     test_stream_output("6chars", string6);
 
     // different sizes ok
+    string0("");            test_stream_output("", string0);
     string0("hello");       test_stream_output("hello", string0);
     string0("hello world"); test_stream_output("hello world", string0);
-    string0("");            test_stream_output("", string0);
+
+    pstring0( '\0' + std::string("") );     test_stream_output("", pstring0);
+    pstring0( '\2' + std::string("h!") );   test_stream_output("h!", pstring0);
+    pstring0( '\4' + std::string("hips") ); test_stream_output("hips", pstring0);
+
+    std::cout << std::endl << "----------------" << pstring0;
 
     test_stream_output("0XFF", ui8hex);
     test_stream_output("0XFFFF", ui16hex);
@@ -706,6 +733,7 @@ TEST_F(FixtureCmdField, msg_and_data_runtime_strings) {
     EXPECT_THROW(string0.data_to_msg(after_msg, mf_pos), mzn::WarningException);
     EXPECT_THROW(string0.msg_to_data(after_msg, mf_pos), mzn::WarningException);
 }
+
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCmdField, msg_and_data_strings) {
 
@@ -728,6 +756,73 @@ TEST_F(FixtureCmdField, msg_and_data_strings) {
     EXPECT_EQ(copy_string6, string6);
 
     std::vector<uint8_t> msg {'6', 'c', 'h', 'a', 'r', 's'};
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(msg[i], after_msg[i]);
+    }
+}
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCmdField, msg_and_data_runtime_pstrings) {
+
+    pstring0( '\2' + std::string("hi") );
+    auto copy_pstring0 = pstring0;
+
+    std::vector<uint8_t> before_msg(3, 1);
+    std::vector<uint8_t> after_msg(3, 2);
+
+    std::size_t mf_pos;
+
+    mf_pos = 0; mf_pos = pstring0.data_to_msg(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = pstring0.msg_to_data(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = pstring0.data_to_msg(after_msg, mf_pos);
+
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(before_msg[i], after_msg[i]);
+    }
+
+    EXPECT_EQ(copy_pstring0, pstring0);
+
+    std::vector<uint8_t> msg {'\2', 'h', 'i'};
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(msg[i], after_msg[i]);
+    }
+
+    // additional check, since the size changes at run time, the relationship
+    // with the msg size needs to be checked at the CmdFieldString level
+    std::vector<uint8_t> bad_msg(2, 1);
+    mf_pos = 0;
+    EXPECT_THROW(pstring0.data_to_msg(bad_msg, mf_pos), mzn::WarningException);
+    EXPECT_THROW(pstring0.msg_to_data(bad_msg, mf_pos), mzn::WarningException);
+    // good msg, bad mf_pos
+    mf_pos = 1;
+    EXPECT_THROW(pstring0.data_to_msg(after_msg, mf_pos), mzn::WarningException);
+    EXPECT_THROW(pstring0.msg_to_data(after_msg, mf_pos), mzn::WarningException);
+}
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCmdField, msg_and_data_pstrings) {
+
+    // for pascal strings, N is not the number of total chars
+    // N is 1 byte for the pascal size, N - 1 of actual string chars
+    pstring6( '\5' + std::string("chars") );
+    auto copy_pstring6 = pstring6;
+
+    std::vector<uint8_t> before_msg(6, 1);
+    std::vector<uint8_t> after_msg(6, 2);
+
+    std::size_t mf_pos;
+
+    mf_pos = 0; mf_pos = pstring6.data_to_msg(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = pstring6.msg_to_data(before_msg, mf_pos);
+    mf_pos = 0; mf_pos = pstring6.data_to_msg(after_msg, mf_pos);
+
+    for (int i = 0; i < after_msg.size(); i++) {
+        EXPECT_EQ(before_msg[i], after_msg[i]);
+    }
+
+    EXPECT_EQ(copy_pstring6, pstring6);
+
+    std::vector<uint8_t> msg {'\5', 'c', 'h', 'a', 'r', 's'};
     for (int i = 0; i < after_msg.size(); i++) {
         EXPECT_EQ(msg[i], after_msg[i]);
     }
