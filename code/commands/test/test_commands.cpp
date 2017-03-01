@@ -85,6 +85,17 @@ public:
     mzn::QdpCrc qdp_crc{};
     mzn::QdpHeader qdp_header{};
 
+    mzn::T1ClockProcessingParameters t1_clock_processing_parameters{};
+    mzn::T1ConfigurationIdentification t1_configuration_identification{};
+    mzn::T1DataServer t1_data_server{};
+    mzn::T1DataSubscriptionServerParameter t1_data_subscription_server_parameter{};
+    mzn::T1DpNetserver t1_dp_netserver{};
+    mzn::T1DpWebserver t1_dp_webserver{};
+    mzn::T1LogAndTiming t1_log_and_timing{};
+    mzn::T1NetworkStation t1_network_station{};
+    mzn::T1VersionNumber t1_version_number{};
+    mzn::TxCommEventName tx_comm_event_name{};
+
     virtual void SetUp() {
 
         // assign test values and run a
@@ -471,7 +482,7 @@ TEST_F(FixtureCommand, c1_pollsn_test) {
                                 0X14, 0X2, 0, 0X4,
                                 0, 0X1, 0, 0,
                                 0, 0, 0, 0};
-    cmd.msg_to_data(msg, 20);
+    cmd.msg_to_data(msg, 12);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
     for (int i = 0; i < 12; i++) {
@@ -497,6 +508,22 @@ TEST_F(FixtureCommand, c1_rqdev_test) {
     }
 
     cmd.data_to_msg(processed_msg, 12);
+    print_vector(msg, processed_msg);
+    EXPECT_EQ(msg, processed_msg);
+}
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCommand, tx_comm_event_name) {
+    // the other test can be templated, start from the start of data
+    // this is single token, no qdp header
+    mzn::TxCommEventName cmd{};
+    std::vector<uint8_t> msg = {0x66, 0x06, 0x41, 0x4c,
+                                0x4c, 0x43, 0x4f, 0x4d};
+    cmd.msg_to_data(msg, 0);
+
+    std::vector<uint8_t> processed_msg ( msg.size(), 0);
+    cmd.data_to_msg(processed_msg, 0);
+
     print_vector(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }

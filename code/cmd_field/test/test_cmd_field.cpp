@@ -340,7 +340,6 @@ TEST_F(FixtureCmdField, stream_output) {
 
     auto test_stream_output = [&](std::string const & intended,
                                   auto const & cf) {
-        std::cout << std::endl << "########_" << cf << "_########\n";
         std::stringstream ss;
         ss << cf;
         EXPECT_EQ( intended, ss.str() );
@@ -762,39 +761,68 @@ TEST_F(FixtureCmdField, msg_and_data_strings) {
 }
 
 // -------------------------------------------------------------------------- //
+template<typename T>
+void print_vector(T v) {
+    std::cout << "[";
+    for (auto const & b : v) {
+        std::cout << static_cast<int>(b) << ", ";
+    }
+    std::cout << "]";
+}
+
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCmdField, msg_and_data_runtime_pstrings) {
 
-    pstring0( '\2' + std::string("hi") );
+    std::string pstring0_data;
+
+    pstring0('\2' + std::string("hi") );
+    pstring0_data = pstring0.data();
+    EXPECT_EQ(2, (int)pstring0_data[0] );
+    EXPECT_EQ(3, pstring0_data.size() );
+
     auto copy_pstring0 = pstring0;
 
-    std::vector<uint8_t> before_msg(3, 1);
-    std::vector<uint8_t> after_msg(3, 2);
+    std::vector<uint8_t> before_msg(4, 1);
+    std::vector<uint8_t> after_msg(4, 7);
 
     std::size_t mf_pos;
 
-    mf_pos = 0; mf_pos = pstring0.data_to_msg(before_msg, mf_pos);
-    mf_pos = 0; mf_pos = pstring0.msg_to_data(before_msg, mf_pos);
-    mf_pos = 0; mf_pos = pstring0.data_to_msg(after_msg, mf_pos);
+    mf_pos = 1; pstring0.data_to_msg(before_msg, mf_pos);
+    print_vector(before_msg);
+    std::cout << std::endl << "pstring0: -" << pstring0 << "-\n";
 
-    for (int i = 0; i < after_msg.size(); i++) {
+    pstring0( '\0' + std::string("") ); // empty pascal string
+    pstring0_data = pstring0.data();
+    EXPECT_EQ(0, (int)pstring0_data[0] );
+    EXPECT_EQ(1, pstring0_data.size() );
+
+    mf_pos = 1; pstring0.msg_to_data(before_msg, mf_pos);
+    pstring0_data = pstring0.data();
+    EXPECT_EQ(2, (int)pstring0_data[0] );
+    EXPECT_EQ(3, pstring0_data.size() );
+
+    std::cout << std::endl << "pstring0: -" << pstring0 << "-\n";
+    mf_pos = 1; pstring0.data_to_msg(after_msg, mf_pos);
+
+    for (int i = mf_pos; i < after_msg.size(); i++) {
         EXPECT_EQ(before_msg[i], after_msg[i]);
     }
 
     EXPECT_EQ(copy_pstring0, pstring0);
 
     std::vector<uint8_t> msg {'\2', 'h', 'i'};
-    for (int i = 0; i < after_msg.size(); i++) {
-        EXPECT_EQ(msg[i], after_msg[i]);
+    for (int i = 0; i < msg.size(); i++) {
+        EXPECT_EQ(msg[i], after_msg[i+1]);
     }
 
     // additional check, since the size changes at run time, the relationship
     // with the msg size needs to be checked at the CmdFieldString level
     std::vector<uint8_t> bad_msg(2, 1);
-    mf_pos = 0;
+    mf_pos = 1;
     EXPECT_THROW(pstring0.data_to_msg(bad_msg, mf_pos), mzn::WarningException);
     EXPECT_THROW(pstring0.msg_to_data(bad_msg, mf_pos), mzn::WarningException);
     // good msg, bad mf_pos
-    mf_pos = 1;
+    mf_pos = 2;
     EXPECT_THROW(pstring0.data_to_msg(after_msg, mf_pos), mzn::WarningException);
     EXPECT_THROW(pstring0.msg_to_data(after_msg, mf_pos), mzn::WarningException);
 }
@@ -828,15 +856,6 @@ TEST_F(FixtureCmdField, msg_and_data_pstrings) {
     }
 }
 
-// -------------------------------------------------------------------------- //
-template<typename T>
-void print_vector(T v) {
-    std::cout << "[";
-    for (auto const & b : v) {
-        std::cout << static_cast<int>(b) << ", ";
-    }
-    std::cout << "]";
-}
 
 // fails only if SetUp() of CmdFieldBitmaps fails
 // auto generated basic test for all bitmaps, checks for operator() consistency

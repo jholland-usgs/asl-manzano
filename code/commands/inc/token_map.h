@@ -11,6 +11,7 @@
 #include <unordered_map>
 
 #include "token.h"
+#include "command.h"
 #include "mzn_except.h"
 
 namespace mzn {
@@ -40,6 +41,10 @@ public:
     // --------------------------------------------------------------------- //
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin = 0) noexcept(false);
+
+    // --------------------------------------------------------------------- //
+    template <typename Tk>
+    uint16_t token_size(Tk const & tk) const;
 };
 
 // -------------------------------------------------------------------------- //
@@ -48,6 +53,14 @@ std::ostream & operator<<(std::ostream & token_os,
                           TokenMap const & token) {
 
     return token_os;
+}
+
+// -------------------------------------------------------------------------- //
+template <typename Tk>
+inline
+uint16_t TokenMap::token_size(Tk const & tk) const {
+
+    return tk.cmd_data_size();
 }
 
 } // << mzn

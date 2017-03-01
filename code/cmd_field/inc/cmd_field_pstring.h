@@ -144,14 +144,45 @@ void CmdFieldPstring<N>::operator()(std::string const & in_data) {
 // -------------------------------------------------------------------------- //
 // template specialization for size known at run time
 // -------------------------------------------------------------------------- //
+
+//! constructor
+// -------------------------------------------------------------------------- //
+template <>
+inline
+CmdFieldPstring<0>::CmdFieldPstring() :
+        CmdField<data_type, 0>{} {
+    // only one value, the current pascal size of 0
+    this->data_.append('\0' + std::string(""));
+};
+
+// -------------------------------------------------------------------------- //
 template <>
 inline
 std::size_t CmdFieldPstring<0>::msg_to_data(M const & msg,
                                             std::size_t const mf_pos) {
-    auto const N = this->data_.size();
+
+    // when doing auto generation this command field should be indicated as
+    // cf_size == 1 (TODO: add test)
+    // since the pascal string assumption is that an empty string is "0", not ""
+    // so cf_size minimum size of 1 is the right way, msg[mf_pos] will be ok.
+    // just in case, it is not done with auto generation
+    if (msg.size() < 1 + mf_pos) {
+        throw WarningException(
+            "CmdFieldPstring",
+            "msg_to_data",
+            "msg size " + std::to_string( msg.size() )
+            + ", mf_pos " + std::to_string(mf_pos)
+        );
+    }
+
+    // N is the new size to take, not the current one
+    // the new size is the first byte of the pascal string + the first byte (1)
+    uint8_t const N = msg[mf_pos] + 1;
+
+    std::cout << std::endl << "CmdFieldPstring0::N:" << (int)N << "\n";
 
     // needs to be checked here since it is not known at compile time
-    if (msg.size()  < N + mf_pos) {
+    if (msg.size() < N + mf_pos) {
         throw WarningException(
             "CmdFieldPstring",
             "msg_to_data",
@@ -164,6 +195,9 @@ std::size_t CmdFieldPstring<0>::msg_to_data(M const & msg,
     // no temporary objects, only cast
     auto data_index = 0;
     using DataType = typename data_type::value_type;
+
+    // all good, resize data_ to fit msg
+    this->data_.resize(N);
 
     for (auto i = mf_pos; i < mf_pos + N; i++) {
         this->data_[data_index] = static_cast<DataType>(msg[i]);

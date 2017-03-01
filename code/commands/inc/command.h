@@ -83,9 +83,9 @@ public:
             multi_cmd_(rhs.multi_cmd_) {}
 
     // --------------------------------------------------------------------- //
-    uint8_t const cmd_number() const {return cmd_number_;}
-    uint8_t const cmd_data_size() const {return cmd_data_size_;}
-    uint8_t const multi_cmd() const {return multi_cmd_;}
+    uint16_t const cmd_number() const {return cmd_number_;}
+    uint16_t const cmd_data_size() const {return cmd_data_size_;}
+    bool const multi_cmd() const {return multi_cmd_;}
 
 protected:
     //! Corresponds to the command number in the qdp header.
