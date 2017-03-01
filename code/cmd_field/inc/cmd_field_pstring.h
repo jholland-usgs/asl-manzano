@@ -179,8 +179,6 @@ std::size_t CmdFieldPstring<0>::msg_to_data(M const & msg,
     // the new size is the first byte of the pascal string + the first byte (1)
     uint8_t const N = msg[mf_pos] + 1;
 
-    std::cout << std::endl << "CmdFieldPstring0::N:" << (int)N << "\n";
-
     // needs to be checked here since it is not known at compile time
     if (msg.size() < N + mf_pos) {
         throw WarningException(

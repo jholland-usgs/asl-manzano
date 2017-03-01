@@ -382,8 +382,6 @@ TEST_F(FixtureCmdField, stream_output) {
     pstring0( '\2' + std::string("h!") );   test_stream_output("h!", pstring0);
     pstring0( '\4' + std::string("hips") ); test_stream_output("hips", pstring0);
 
-    std::cout << std::endl << "----------------" << pstring0;
-
     test_stream_output("0XFF", ui8hex);
     test_stream_output("0XFFFF", ui16hex);
     test_stream_output("0X10000215", ui32hex);
@@ -789,7 +787,6 @@ TEST_F(FixtureCmdField, msg_and_data_runtime_pstrings) {
 
     mf_pos = 1; pstring0.data_to_msg(before_msg, mf_pos);
     print_vector(before_msg);
-    std::cout << std::endl << "pstring0: -" << pstring0 << "-\n";
 
     pstring0( '\0' + std::string("") ); // empty pascal string
     pstring0_data = pstring0.data();
@@ -801,7 +798,6 @@ TEST_F(FixtureCmdField, msg_and_data_runtime_pstrings) {
     EXPECT_EQ(2, (int)pstring0_data[0] );
     EXPECT_EQ(3, pstring0_data.size() );
 
-    std::cout << std::endl << "pstring0: -" << pstring0 << "-\n";
     mf_pos = 1; pstring0.data_to_msg(after_msg, mf_pos);
 
     for (int i = mf_pos; i < after_msg.size(); i++) {

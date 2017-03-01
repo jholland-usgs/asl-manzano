@@ -2,7 +2,7 @@
 
 namespace mzn {
 TxCommEventName::TxCommEventName():
-    Command(0, 1),
+    Command(0, 2),
     event_number(),
     event_name() { }
 
@@ -19,17 +19,9 @@ uint16_t TxCommEventName::msg_to_data(std::vector<uint8_t> const & msg,
         );
     }
 
-    std::cout << std::endl << "###" << mf_begin << "###\n";
     mf_begin = event_number.msg_to_data(msg, mf_begin);
-
-    std::cout << std::endl << "___" << event_number << "___\n";
-    std::cout << std::endl << "###" << mf_begin << "###\n";
-    std::cout << std::endl << "before ___" << event_name << "___\n";
-
     mf_begin = event_name.msg_to_data(msg, mf_begin);
 
-    std::cout << std::endl << "###" << mf_begin << "###\n";
-    std::cout << std::endl << "after ___" << event_name << "___\n";
     return mf_begin;
 }
 

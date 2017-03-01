@@ -106,7 +106,9 @@ set(SOURCES_MCS ${DIR_COMMANDS}/src/mc_cx_thread_status.cpp
                 ${DIR_COMMANDS}/src/mc_cx_environmental_processor_status.cpp
                 ${DIR_COMMANDS}/src/mc_c2_qv.cpp
                 ${DIR_COMMANDS}/src/mc_c1_dev.cpp
-                ${DIR_COMMANDS}/src/mc_c1_stat.cpp)
+                ${DIR_COMMANDS}/src/mc_c1_stat.cpp
+                ${DIR_COMMANDS}/src/mc_t1_comm_event_name.cpp
+                )
 
 set(SOURCES_commands ${SOURCES_CMD_FIELD}
                      ${SOURCES_exceptions}
