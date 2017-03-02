@@ -231,14 +231,18 @@ int main() {
             if (fixed_map) {
                 c_fs << "\n    bool command_active(uint8_t const cmd_key) const override;";
                 c_fs << "\n    // max keys known at compile time for fixed maps mc";
-                c_fs << "\n    int number_of_ic(std::size_t const msg_size) const override {";
+                c_fs << "\n    uint16_t number_of_ic(std::vector<uint8_t> const & msg,";
+                c_fs << "\n                          uint16_t mf_begin) const override";
+                c_fs << " {";
                 c_fs << "\n        return " << mc_cmd_map_size << ";";
                 c_fs << "\n    }";
                 c_fs << "\n";
             } else {
                 c_fs << "\n    // max keys implementation in a separate function/file";
                 c_fs << "\n    // not part of auto generation";
-                c_fs << "\n    int number_of_ic(std::size_t const msg_size) const override;";
+                c_fs << "\n    uint16_t number_of_ic(std::vector<uint8_t> const & msg,";
+                c_fs << "\n                          uint16_t mf_begin) const override";
+                c_fs << ";";
             }
 
             c_fs << "\n    void create_new_ic(uint8_t const  cmd_key) override;";

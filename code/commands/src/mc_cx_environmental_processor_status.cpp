@@ -1,7 +1,8 @@
 #include "cx_environmental_processor_status.h"
 
 namespace mzn {
-int CxEnvironmentalProcessorStatus::number_of_ic(std::size_t const msg_size) const {
+uint16_t CxEnvironmentalProcessorStatus::number_of_ic(std::vector<uint8_t> const & msg,
+                                                      uint16_t mf_begin) const {
     // the header data is available
    return 2;
 

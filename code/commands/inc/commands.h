@@ -82,6 +82,7 @@
 #include "t1_log_and_timing.h"
 #include "t1_network_station.h"
 #include "t1_version_number.h"
+#include "t1_comm_event_name.h"
 #include "tx_comm_event_name.h"
 
 #endif // _MZN_CMD_COMMANDS_H

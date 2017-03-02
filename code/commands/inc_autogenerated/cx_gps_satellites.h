@@ -39,7 +39,8 @@ public:
                          uint16_t mf_begin) const override;
     // max keys implementation in a separate function/file
     // not part of auto generation
-    int number_of_ic(std::size_t const msg_size) const override;
+    uint16_t number_of_ic(std::vector<uint8_t> const & msg,
+                          uint16_t mf_begin) const override;
     void create_new_ic(uint8_t const  cmd_key) override;
 
 private:

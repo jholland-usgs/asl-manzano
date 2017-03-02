@@ -64,7 +64,9 @@ uint16_t MultiCommandMap::msg_to_data(std::vector<uint8_t> const & msg,
     // in case this function gets called more than once
     inner_commands.clear();
 
-    for (auto ck = 0; ck < number_of_ic( msg.size() ); ck++) {
+    auto const nic = number_of_ic(msg, mf_begin);
+
+    for (auto ck = 0; ck < nic; ck++) {
 
         if ( command_active(ck) ) {
 

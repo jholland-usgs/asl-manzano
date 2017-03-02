@@ -61,7 +61,8 @@ protected:
     /*! NOT auto generated in derived classes
      */
     virtual
-    int number_of_ic(std::size_t const msg_size) const = 0;
+    uint16_t number_of_ic(std::vector<uint8_t> const & msg,
+                          uint16_t mf_begin) const = 0;
 
     //! streams all commands in inner_commands
     std::ostream & os_print(std::ostream & cmd_os) const override;
