@@ -111,7 +111,6 @@ int main() {
             cmd_data_size += cf_size;
         }
 
-
         // initializing variables to default, non mc values
         bool multi_command = false;
         int mc_header_size = 0;
@@ -141,36 +140,49 @@ int main() {
             mc_cmd_map_size = cmds_json[cmd_name.c_str()]["cmd_map"].size();
 
             if ( (not fixed_map) and (mc_cmd_map_size != 1) ){
-                // mc that are Not fixed maps should have only one
+                // mc that are Not fixed maps should have one or none
                 // defined inner command
-                std::cerr << "ERROR: Multi commands should have one inner command" << std::endl;
-                std::cerr << "except for fixed maps";
+                std::cerr << "ERROR: Multi commands should have one inner command"
+                          << std::endl << "except for fixed maps";
+
                 std::exit(EXIT_FAILURE);
             }
 
             // #include files for inner commands,
-            // #define the key names
+            // class enum the key names
             // ***** key names for map ******
             c_fs << "\n";
-            mc_key_names(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
+            mc_key_includes(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
             c_fs << "\n";
         }
+
 
         // class #include depencies and inheritance parents are different
         // from fixed_map and not fixed_map commands.
         // also different for mc and normal commands
         if (multi_command) {
 
+            // key enums for map
+            c_fs << "\nnamespace mzn {"
+                 << "\n\n// -------------------------------------------"
+                 << "------------------------------- //"
+                 << "\n";
+            mc_key_enums(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
+            c_fs << "\n} // <- mzn";
+
+            // class declaration
             if (fixed_map) {
                 c_fs << "\n#include \"multi_command_map.h\""
                      << "\nnamespace mzn {"
-                     << "\n\n// -------------------------------------------------------------------------- //"
+                     << "\n\n// -------------------------------------------"
+                     << "------------------------------- //"
                      << "\nclass " << cmd_class_name
                      << " : public MultiCommandMap {\n";
             } else {
                 c_fs << "\n#include \"multi_command.h\""
                      << "\nnamespace mzn {"
-                     << "\n\n// -------------------------------------------------------------------------- //"
+                     << "\n\n// --------------------------------------------"
+                     << "------------------------------ //"
                      << "\nclass " << cmd_class_name
                      << " : public MultiCommand {\n";
             }
@@ -178,9 +190,11 @@ int main() {
         } else {
 
             c_fs << "\nnamespace mzn {"
-                 << "\n\n// -------------------------------------------------------------------------- //"
+                 << "\n\n// ------------------------------------------------"
+                 << "-------------------------- //"
                  << "\nclass " << cmd_class_name << " : public Command {\n";
         }
+
 
         // add operator<< as a friend to access protected member function os_print
         c_fs << "\nfriend std::ostream & operator<<(std::ostream & cmd_os, "
@@ -418,10 +432,23 @@ int main() {
 
             if (fixed_map) {
 
-                c_fs << "\n    switch(cmd_key) {";
+                c_fs << "\n    using CKE = " << cmd_class_name << "Key;";
+
+                c_fs << "\n    auto const cmd_key_enum = static_cast<CKE>(cmd_key);\n";
+
+                c_fs << "\n    switch(cmd_key_enum) {";
                 // ***** key names for map ******
                 cmd_custom_new_ic_map(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
                 c_fs << "\n    }";
+
+                c_fs << "\n";
+
+                c_fs << "\n    if (inner_commands.back() == nullptr) {"
+                     << "\n        throw WarningException(\"" << cmd_class_name << "\","
+                     << "\n                               \"create_new_ic\","
+                     << "\n                               \"nullptr inner command: \" + std::to_string(cmd_key) );"
+                     << "\n     }"
+                     << "\n";
 
             } else {
 

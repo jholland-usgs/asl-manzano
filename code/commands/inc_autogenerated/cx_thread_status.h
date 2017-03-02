@@ -10,8 +10,15 @@
 
 #include "cy_thread_status.h"
 
-#define k_cy_thread_status 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class CxThreadStatusKey {
+    cy_thread_status = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

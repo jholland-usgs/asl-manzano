@@ -18,6 +18,8 @@
 #include "cmd_field_cal_amplitude.h"
 #include "cmd_field_hex.h"
 #include "cmd_field_pstring.h"
+#include "cmd_field_string.h"
+#include "cmd_field_vector.h"
 #include "cmd_field_ignore.h"
 #include "cmd_field_ip.h"
 #include "cmd_field_time.h"
@@ -108,14 +110,14 @@ protected:
     bool const multi_cmd_;
 
 public:
-    //! pure virtual, calls data_to_msg on cmd fields in order
+    //! pure virtual, calls data_to_msg on cmd fields in order, auto generated
     //! @throws logic msg too short
     // --------------------------------------------------------------------- //
     virtual
     uint16_t data_to_msg(std::vector<uint8_t> & msg,
                          uint16_t mf_begin) const noexcept(false) = 0;
 
-    //! pure virtual, calls msg_to_data on cmd fields in order
+    //! pure virtual, calls msg_to_data on cmd fields in order, auto generated
     //! @throws logic msg too short
     // --------------------------------------------------------------------- //
     virtual

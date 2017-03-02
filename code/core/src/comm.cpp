@@ -107,7 +107,7 @@ void Comm::run<Action::get, Kind::dev>(TA const & ta, OI const & oi) {
 
 // -------------------------------------------------------------------------- //
 template<>
-void Comm::run<Action::get, Kind::tokens>(TA const & ta,  OI const & oi) {
+void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
 
     C1Rqmem cmd_rqmem;
     cmd_rqmem.starting_address(0);
@@ -116,20 +116,8 @@ void Comm::run<Action::get, Kind::tokens>(TA const & ta,  OI const & oi) {
     cmd_rqmem.memory_type.memory_type(MT::data_port_1);
 
     auto & q = sn.q_ref(ta);
-
-    /*
-    std::stringstream ss;
-    ss << std::hex      << std::setfill('0')
-       << std::setw(16) << q.port_config.auth_code;
-    std::string const pw_string = ss.str();
-    std::array<uint8_t, 16> pw;
-    std::copy( pw_string.begin(), pw_string.end(), pw.begin() );
-    */
-
-    std::array<uint8_t, 16> pw {0, 0, 0, 0,
-                                0, 0, 0, 0,
-                                0, 0, 0, 0,
-                                0, 0, 0, 0};
+    std::array<uint8_t, 16> pw {0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0};
     cmd_rqmem.pw(pw);
 
     C1Mem cmd_mem;

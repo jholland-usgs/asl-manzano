@@ -7,7 +7,9 @@
 #include <cstdlib>
 #include <limits>
 #include <type_traits>
+
 #include "mzn_cmake_config.h"
+
 #include "mzn_except.h"
 #include "json.h"
 #include "string_utilities.h"

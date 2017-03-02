@@ -28,17 +28,18 @@ MultiCommandMap & MultiCommandMap::operator=(MultiCommandMap && rhs) noexcept {
 }
 */
 // -------------------------------------------------------------------------- //
-void MultiCommandMap::set_command_index(uint8_t const cmd_key,
+void MultiCommandMap::set_command_index(uint8_t const map_key,
                                         int const cmd_index) {
-    command_index_map_.emplace(cmd_key, cmd_index);
+    command_index_map_.emplace(map_key, cmd_index);
 }
 
 // -------------------------------------------------------------------------- //
-int MultiCommandMap::command_index(uint8_t const cmd_key) const {
+int MultiCommandMap::command_index(uint8_t const map_key) const {
 
     // map does not allow for duplicates
-    if (command_index_map_.count(cmd_key) == 1) {
-        return command_index_map_.at(cmd_key);
+    if (command_index_map_.count(map_key) == 1) {
+        // using .at() due that operator[] is not const
+        return command_index_map_.at(map_key);
     } else {
         throw FatalException("MultiCommandMap",
                              "command_index",
@@ -51,10 +52,8 @@ int MultiCommandMap::command_index(uint8_t const cmd_key) const {
 uint16_t MultiCommandMap::msg_to_data(std::vector<uint8_t> const & msg,
                                       uint16_t mf_begin) {
 
-    // -------------------------------------------------------- //
-    // now all the other possible commands depending on status map
-    // from the header
-    // -------------------------------------------------------- //
+
+    // called typically after msg_to_data on header cmd_field(s)
 
     // the first step is to find out which parts of the msg belong
     // to which command. This is particularly important because
@@ -64,23 +63,24 @@ uint16_t MultiCommandMap::msg_to_data(std::vector<uint8_t> const & msg,
     // in case this function gets called more than once
     inner_commands.clear();
 
+    // unique for each command, not auto generated
+    // nic : number of inner commands
     auto const nic = number_of_ic(msg, mf_begin);
 
-    for (auto ck = 0; ck < nic; ck++) {
+    // loop over inner commands
+    for (auto map_key = 0; map_key < nic; map_key++) {
 
-        if ( command_active(ck) ) {
+        if ( command_active(map_key) ) {
 
-            // creates new ic and ads to inner_commands
-            // pure virtual in multi_command
-            create_new_ic(ck);
+            // create new ic unique_ptr and insert to inner_commands
+            // pure virtual in multi_command, @throw if nullptr
+            create_new_ic(map_key);
 
-            set_command_index(ck, inner_commands.size() - 1);
+            mf_begin = inner_commands.back() -> msg_to_data(msg, mf_begin);
 
-            if (inner_commands.back() != nullptr) {
-                mf_begin = inner_commands.back() -> msg_to_data(msg, mf_begin);
-            } else {
-                throw std::logic_error("MultiCommandMap::msg_to_data");
-            }
+            auto const cmd_index = inner_commands.size();
+
+            set_command_index(map_key, cmd_index );
         }
     }
     return mf_begin;

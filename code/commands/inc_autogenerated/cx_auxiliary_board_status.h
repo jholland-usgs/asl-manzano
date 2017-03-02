@@ -10,8 +10,15 @@
 
 #include "cy_auxiliary_board_status.h"
 
-#define k_cy_auxiliary_board_status 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class CxAuxiliaryBoardStatusKey {
+    cy_auxiliary_board_status = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

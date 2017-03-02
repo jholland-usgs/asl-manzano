@@ -69,7 +69,7 @@ enum class Kind {
     cal,
     plan,
     link,
-    tokens,
+    token,
 };
 
 // operator<<
@@ -124,7 +124,7 @@ std::ostream & operator<<(std::ostream & os, Kind const & kind) {
 
         case Kind::plan           : os << "plan"; break;
         case Kind::link           : os << "link"; break;
-        case Kind::tokens         : os << "tokens"; break;
+        case Kind::token          : os << "token"; break;
 
         default : throw std::logic_error{"@UserInstruction::operator<< kind"};
     }

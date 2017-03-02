@@ -10,8 +10,15 @@
 
 #include "cy_gps_satellites.h"
 
-#define k_cy_gps_satellites 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class CxGpsSatellitesKey {
+    cy_gps_satellites = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

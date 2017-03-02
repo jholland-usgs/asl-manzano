@@ -29,18 +29,17 @@ public:
 
 protected:
 
-    //! pure
-    /*! reads the command header to see if this command should
-       be consider
-     */
+    //! pure, not auto generated, typically checks cmd header
+    //! @return true when a particular map_key is expected on the msg
+    //! @see mc_c1_stat.cpp
     virtual
-    bool command_active(uint8_t const cmd_key) const = 0;
+    bool command_active(uint8_t const map_key) const = 0;
 
-    //! returns the cmd index in the map
-    int command_index(uint8_t const cmd_key) const;
+    //! @return the cmd_index in the map
+    int command_index(uint8_t const map_key) const;
 
-    //! set inside create_new_ic
-    void set_command_index(uint8_t const cmd_key,
+    //! @called inside create_new_ic
+    void set_command_index(uint8_t const map_key,
                            int const cmd_index);
 
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
@@ -51,7 +50,7 @@ protected:
 
 private:
 
-    //! map of command_index for cmd_key
+    //! map <map_key, cmd_index>
     std::map <uint8_t, int> command_index_map_;
 };
 

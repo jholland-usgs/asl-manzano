@@ -30,28 +30,35 @@
 #include "cx_serial_sensor_status.h"
 #include "cx_environmental_processor_status.h"
 
-#define k_cx_global_status 0
-#define k_cx_gps_status 1
-#define k_cx_power_supply_status 2
-#define k_cx_boom_positions 3
-#define k_cx_thread_status 4
-#define k_cx_pll_status 5
-#define k_cx_gps_satellites 6
-#define k_cx_arp_status 7
-#define k_cx_data_port_1_status 8
-#define k_cx_data_port_2_status 9
-#define k_cx_data_port_3_status 10
-#define k_cx_data_port_4_status 11
-#define k_cx_serial_interface_1_status 12
-#define k_cx_serial_interface_2_status 13
-#define k_cx_serial_interface_3_status 14
-#define k_cx_ethernet_status 15
-#define k_cx_baler_status 16
-#define k_cx_dynamic_ip 17
-#define k_cx_auxiliary_board_status 18
-#define k_cx_serial_sensor_status 19
-#define k_cx_environmental_processor_status 20
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class C1StatKey {
+    cx_global_status = 0,
+    cx_gps_status = 1,
+    cx_power_supply_status = 2,
+    cx_boom_positions = 3,
+    cx_thread_status = 4,
+    cx_pll_status = 5,
+    cx_gps_satellites = 6,
+    cx_arp_status = 7,
+    cx_data_port_1_status = 8,
+    cx_data_port_2_status = 9,
+    cx_data_port_3_status = 10,
+    cx_data_port_4_status = 11,
+    cx_serial_interface_1_status = 12,
+    cx_serial_interface_2_status = 13,
+    cx_serial_interface_3_status = 14,
+    cx_ethernet_status = 15,
+    cx_baler_status = 16,
+    cx_dynamic_ip = 17,
+    cx_auxiliary_board_status = 18,
+    cx_serial_sensor_status = 19,
+    cx_environmental_processor_status = 20,
+};
+} // <- mzn
 #include "multi_command_map.h"
 namespace mzn {
 

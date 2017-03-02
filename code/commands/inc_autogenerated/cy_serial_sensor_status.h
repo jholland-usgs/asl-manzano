@@ -11,9 +11,16 @@
 #include "cz_internal_temperature_measurement.h"
 #include "cz_humidity_and_external_temperature.h"
 
-#define k_cz_internal_temperature_measurement 0
-#define k_cz_humidity_and_external_temperature 1
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class CySerialSensorStatusKey {
+    cz_internal_temperature_measurement = 0,
+    cz_humidity_and_external_temperature = 1,
+};
+} // <- mzn
 #include "multi_command_map.h"
 namespace mzn {
 

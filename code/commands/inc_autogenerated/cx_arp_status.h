@@ -10,8 +10,15 @@
 
 #include "cy_arp_status.h"
 
-#define k_cy_arp_status 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class CxArpStatusKey {
+    cy_arp_status = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

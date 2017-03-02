@@ -10,8 +10,15 @@
 
 #include "cx_dev.h"
 
-#define k_cx_dev 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class C1DevKey {
+    cx_dev = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "gtest/gtest.h"
+
 #include "cmd_field.h"
 #include "cmd_field_bitmap.h"
 #include "cmd_field_bitmap_types.h"
@@ -18,12 +19,14 @@
 #include "cmd_field_duration.h"
 #include "cmd_field_pstring.h"
 #include "cmd_field_string.h"
+#include "cmd_field_vector.h"
 #include "cmd_field_hex.h"
 #include "cmd_field_ignore.h"
 #include "cmd_field_ip.h"
 #include "cmd_field_cal_amplitude.h"
 #include "cmd_field_time.h"
 
+#include "string_utilities.h"
 #include "testing_bitmaps.h"
 
 // -------------------------------------------------------------------------- //
@@ -37,9 +40,14 @@ TEST(test_mzn, invariants) {
     ASSERT_EQ(8, sizeof(double) ) << "*** double is not 8 byte size";
 }
 
+using namespace mzn;
+using namespace Utility;
+
 // -------------------------------------------------------------------------- //
 class FixtureCmdField : public ::testing::Test {
 public:
+
+
     mzn::CmdField<bool, 1> bl;
     mzn::CmdField<uint8_t, 1> uc;
     mzn::CmdField<int8_t, 1> c;
@@ -71,6 +79,9 @@ public:
 
     mzn::CmdFieldString<6> string6;
     mzn::CmdFieldString<0> string0;
+
+    mzn::CmdFieldVector<6> vector6;
+    mzn::CmdFieldVector<0> vector0;
 
     mzn::CmdFieldPstring<0> pstring0;
     mzn::CmdFieldPstring<6> pstring6;
@@ -722,13 +733,14 @@ TEST_F(FixtureCmdField, msg_and_data_runtime_strings) {
     // additional check, since the size changes at run time, the relationship
     // with the msg size needs to be checked at the CmdFieldString level
     std::vector<uint8_t> bad_msg(1, 1);
-    mf_pos = 0;
-    EXPECT_THROW(string0.data_to_msg(bad_msg, mf_pos), mzn::WarningException);
-    EXPECT_THROW(string0.msg_to_data(bad_msg, mf_pos), mzn::WarningException);
-    // good msg, bad mf_pos
-    mf_pos = 1;
-    EXPECT_THROW(string0.data_to_msg(after_msg, mf_pos), mzn::WarningException);
-    EXPECT_THROW(string0.msg_to_data(after_msg, mf_pos), mzn::WarningException);
+    // bad msg, good mf_pos, bad_msg size < current data_ size
+    EXPECT_THROW(string0.data_to_msg(bad_msg, 0), mzn::WarningException);
+    // good msg, bad mf_pos, current data_ size > availble bad_msg space
+    EXPECT_THROW(string0.data_to_msg(after_msg, 1), mzn::WarningException);
+    // N = 0 is ok, data_ resizes to requested bytes in msg
+    string0.msg_to_data(after_msg, 2);
+    // N < 0 is an exception
+    EXPECT_THROW(string0.msg_to_data(after_msg, 3), mzn::WarningException);
 }
 
 // -------------------------------------------------------------------------- //
@@ -758,15 +770,6 @@ TEST_F(FixtureCmdField, msg_and_data_strings) {
     }
 }
 
-// -------------------------------------------------------------------------- //
-template<typename T>
-void print_vector(T v) {
-    std::cout << "[";
-    for (auto const & b : v) {
-        std::cout << static_cast<int>(b) << ", ";
-    }
-    std::cout << "]";
-}
 
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCmdField, msg_and_data_runtime_pstrings) {

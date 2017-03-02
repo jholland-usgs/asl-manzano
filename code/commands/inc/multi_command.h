@@ -39,6 +39,7 @@ public:
 protected:
 
     //! Calls msg_to_data on all inner commands
+    //! called from msg_to_data from multi_command auto generated derived classes
     /*! @throws logic msg is too short inside inner_commands
         auto generated in derived classes
      */

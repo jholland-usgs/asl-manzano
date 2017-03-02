@@ -1,30 +1,33 @@
 // ** CmdField Class ** //
 // Manzano software
 
-#ifndef _MZN_CMD_FIELD_STRING_H
-#define _MZN_CMD_FIELD_STRING_H
+#ifndef _MZN_CMD_FIELD_VECTOR_H
+#define _MZN_CMD_FIELD_VECTOR_H
 
 #include "cmd_field.h"
+#include "string_utilities.h"
 
 namespace mzn {
 
 //! TODO: all of this, need runtime checks or a constexpr string implementation
 //! TODO: string_view might work, the strings are mostly view only
+//! could actually apply to vector too, the only difference seems to be
+//! operator<<
 /*! @author rfigueroa@usgs.gov */
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
-class CmdFieldString : public CmdField<std::string, N> {
+class CmdFieldVector : public CmdField<std::vector<uint8_t>, N> {
 
 public:
 
-    using data_type = typename std::string;
+    using data_type = typename std::vector<uint8_t>;
     using M = typename CmdField<data_type>::M;
 
     //! initializes base
     explicit
-    CmdFieldString();
+    CmdFieldVector();
 
-    ~CmdFieldString() = default;
+    ~CmdFieldVector() = default;
 
     //! same signature as CmdField
     std::size_t msg_to_data(M const & msg, std::size_t const mf_pos);
@@ -38,7 +41,7 @@ public:
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
 inline
-CmdFieldString<N>::CmdFieldString() :
+CmdFieldVector<N>::CmdFieldVector() :
         CmdField<data_type, N>{} {
 
     this->data_.resize(N);
@@ -48,19 +51,20 @@ CmdFieldString<N>::CmdFieldString() :
 template <std::size_t osN>
 inline
 std::ostream & operator<<(std::ostream & cf_os,
-                          CmdFieldString<osN> const & cf) {
-    cf_os << cf.data();
+                          CmdFieldVector<osN> const & cf) {
+    auto const & v = cf.data();
+    Utility::print_vector(v, cf_os);
     return cf_os;
 }
 
-// once std::string is satisfies ContiguousContainer in C++17
+// once std::vector<uint8_t> is satisfies ContiguousContainer in C++17
 // then reinterpret_cast can be used safely
 // or use std::copy_n with parallel execution policy?
 // currently all the strings are really small
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
 inline
-std::size_t CmdFieldString<N>::msg_to_data(M const & msg,
+std::size_t CmdFieldVector<N>::msg_to_data(M const & msg,
                                            std::size_t const mf_pos) {
 
     // no temporary objects, only cast
@@ -78,7 +82,7 @@ std::size_t CmdFieldString<N>::msg_to_data(M const & msg,
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
 inline
-std::size_t CmdFieldString<N>::data_to_msg(M & msg,
+std::size_t CmdFieldVector<N>::data_to_msg(M & msg,
                                            std::size_t const mf_pos) const {
     auto data_index = 0;
     for (auto i = mf_pos; i < mf_pos + N; i++) {
@@ -92,17 +96,17 @@ std::size_t CmdFieldString<N>::data_to_msg(M & msg,
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
 inline
-std::string CmdFieldString<N>::operator()() const {
+std::vector<uint8_t> CmdFieldVector<N>::operator()() const {
     return this->data_;
 }
 
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
 inline
-void CmdFieldString<N>::operator()(data_type const & in_data) {
+void CmdFieldVector<N>::operator()(data_type const & in_data) {
 
     if (in_data.size() != N) {
-        throw WarningException("CmdFieldString",
+        throw WarningException("CmdFieldVector",
                                "operator()",
                                "string assignment should have same size");
     }
@@ -115,7 +119,7 @@ void CmdFieldString<N>::operator()(data_type const & in_data) {
 // -------------------------------------------------------------------------- //
 template <>
 inline
-std::size_t CmdFieldString<0>::msg_to_data(M const & msg,
+std::size_t CmdFieldVector<0>::msg_to_data(M const & msg,
                                            std::size_t const mf_pos) {
 
     // TODO add a third argument for count? hard to generalize
@@ -130,6 +134,7 @@ std::size_t CmdFieldString<0>::msg_to_data(M const & msg,
                                        "msg size " + std::to_string( msg.size() )
                                        + ", mf_pos " + std::to_string(mf_pos)
                                        + ", N " + std::to_string(N) );
+
     data_.resize(N);
 
     // no temporary objects, only cast
@@ -147,14 +152,14 @@ std::size_t CmdFieldString<0>::msg_to_data(M const & msg,
 // -------------------------------------------------------------------------- //
 template <>
 inline
-std::size_t CmdFieldString<0>::data_to_msg(M & msg,
+std::size_t CmdFieldVector<0>::data_to_msg(M & msg,
                                            std::size_t const mf_pos) const {
     auto const N = this->data_.size();
 
     // needs to be checked here since it is not known at compile time
     if (msg.size()  < N + mf_pos) {
         throw WarningException(
-            "CmdFieldString",
+            "CmdFieldVector",
             "data_to_msg",
             "msg size " + std::to_string( msg.size() )
             + ", mf_pos " + std::to_string(mf_pos)
@@ -174,14 +179,14 @@ std::size_t CmdFieldString<0>::data_to_msg(M & msg,
 // -------------------------------------------------------------------------- //
 template <>
 inline
-std::string CmdFieldString<0>::operator()() const {
+std::vector<uint8_t> CmdFieldVector<0>::operator()() const {
     return this->data_;
 }
 
 // -------------------------------------------------------------------------- //
 template <>
 inline
-void CmdFieldString<0>::operator()(data_type const & in_data) {
+void CmdFieldVector<0>::operator()(data_type const & in_data) {
     this->data_ = in_data;
 }
 } // << mzn

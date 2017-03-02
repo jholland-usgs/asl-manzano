@@ -23,12 +23,10 @@ uint16_t T1CommEventName::number_of_ic(std::vector<uint8_t> const & msg,
     for (auto i = mf_begin; i < mf_begin + N; ) {
         i++; // event number
         uint8_t const N_pstring = msg[i] + 1;
-        std::cout << "\n Nps: " << (int)N_pstring;
         i += N_pstring; // event name
         nic++;
     }
 
-    std::cout << std::endl << "_____nic: " << (int)nic << "\n" ;
     return nic;
 }
 

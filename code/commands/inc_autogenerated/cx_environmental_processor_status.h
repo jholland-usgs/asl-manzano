@@ -10,8 +10,15 @@
 
 #include "cy_environmental_processor_status.h"
 
-#define k_cy_environmental_processor_status 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class CxEnvironmentalProcessorStatusKey {
+    cy_environmental_processor_status = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

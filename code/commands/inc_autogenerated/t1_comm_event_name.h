@@ -10,8 +10,15 @@
 
 #include "tx_comm_event_name.h"
 
-#define k_tx_comm_event_name 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class T1CommEventNameKey {
+    tx_comm_event_name = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

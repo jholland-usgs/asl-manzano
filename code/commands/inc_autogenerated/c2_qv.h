@@ -10,8 +10,15 @@
 
 #include "cx_qv.h"
 
-#define k_cx_qv 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class C2QvKey {
+    cx_qv = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

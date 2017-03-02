@@ -159,6 +159,17 @@ std::chrono::seconds match_duration(std::string const & token) {
     return d;
 }
 
+// -------------------------------------------------------------------------- //
+template<typename T>
+inline
+void print_vector(T const & v, std::ostream & os = std::cout) {
+    os << "[";
+    for (auto const & b : v) {
+        os << static_cast<int>(b) << ", ";
+    }
+    os << "]";
+}
+
 } // <- Utility
 } // <- mzn
 

@@ -95,19 +95,29 @@ std::ostream & CySerialSensorStatus::os_print(std::ostream & cmd_os) const {
 
 void CySerialSensorStatus::create_new_ic(uint8_t const cmd_key) {
 
-    switch(cmd_key) {
-        case k_cz_internal_temperature_measurement : {
+    using CKE = CySerialSensorStatusKey;
+    auto const cmd_key_enum = static_cast<CKE>(cmd_key);
+
+    switch(cmd_key_enum) {
+        case CKE::cz_internal_temperature_measurement : {
 
             inner_commands.push_back(
                 std::unique_ptr<Command>{ std::make_unique<CzInternalTemperatureMeasurement>() } );
             break;
         }
-        case k_cz_humidity_and_external_temperature : {
+        case CKE::cz_humidity_and_external_temperature : {
 
             inner_commands.push_back(
                 std::unique_ptr<Command>{ std::make_unique<CzHumidityAndExternalTemperature>() } );
             break;
         }
     }
+
+    if (inner_commands.back() == nullptr) {
+        throw WarningException("CySerialSensorStatus",
+                               "create_new_ic",
+                               "nullptr inner command: " + std::to_string(cmd_key) );
+     }
+
 }
 } // end namespace

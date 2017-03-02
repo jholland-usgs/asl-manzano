@@ -34,31 +34,47 @@ std::string to_camel_case(std::string cn) {
     return cn;
 }
 
+
 // -------------------------------------------------------------------------- //
-void mc_key_names(Json const & cmds_json,
+void mc_key_enums(Json const & cmds_json,
                   std::ofstream & c_fs,
                   std::string const & cmd_name,
                   int const knn) {
 
+    if (knn > 0) {
+
+        c_fs << "\n";
+
+        c_fs << "\nenum class " << to_camel_case(cmd_name) << "Key {";
+
+        for (int kni = 0; kni < knn; kni++) {
+
+            std::string const key_name =
+                cmds_json[cmd_name.c_str()]["cmd_map"][kni]["key_name"];
+
+            c_fs << "\n    ";
+            c_fs << key_name << " = " << kni << ",";
+        }
+
+        c_fs << "\n};";
+    }
+}
+
+// -------------------------------------------------------------------------- //
+void mc_key_includes(Json const & cmds_json,
+                     std::ofstream & c_fs,
+                     std::string const & cmd_name,
+                     int const knn) {
+
     // Since the mc
     for (int kni = 0; kni < knn; kni++) {
 
-        std::string key_name =
+        std::string const key_name =
             cmds_json[cmd_name.c_str()]["cmd_map"][kni]["key_name"];
+
         c_fs << "\n";
         c_fs << "#include \"" << key_name << ".h\"";
     }
-
-    c_fs << "\n";
-
-    for (int kni = 0; kni < knn; kni++) {
-
-        std::string key_name =
-            cmds_json[cmd_name.c_str()]["cmd_map"][kni]["key_name"];
-        c_fs << "\n";
-        c_fs << "#define k_" << key_name << " " << kni;
-    }
-
 }
 
 // -------------------------------------------------------------------------- //
@@ -75,13 +91,15 @@ void cmd_custom_new_ic_map(Json const & cmds_json,
         std::string key_class_name = to_camel_case(key_name); // copy
 
         c_fs << "\n        ";
-        c_fs << "case k_" << key_name << " : {";
+        c_fs << "case CKE::" << key_name << " : {";
         c_fs << "\n";
         c_fs << "\n            ";
         c_fs << "inner_commands.push_back(";
         c_fs << "\n            ";
         c_fs << "    std::unique_ptr<Command>{ std::make_unique<";
         c_fs << key_class_name << ">() } );";
+
+        // nullptr check done after all select case
         c_fs << "\n            ";
         c_fs << "break;";
         c_fs << "\n        ";
@@ -95,6 +113,7 @@ void cmd_custom_new_ic(Json const & cmds_json,
                        std::string const & cmd_name,
                        int const knn) {
 
+    if (knn == 0) throw std::logic_error("@cmd_custom_new_ic empty cmd map");
 
     std::string key_name =
         cmds_json[cmd_name.c_str()]["cmd_map"][0]["key_name"];
@@ -106,7 +125,15 @@ void cmd_custom_new_ic(Json const & cmds_json,
     c_fs << "\n    ";
     c_fs << "    std::unique_ptr<Command>{ std::make_unique<";
     c_fs << key_class_name << ">() } );";
+
     c_fs << "\n";
+
+    c_fs << "\n    if (inner_commands.back() == nullptr) {"
+         << "\n        throw WarningException(\"" << key_class_name << "\","
+         << "\n                               \"create_new_ic\","
+         << "\n                               \"nullptr inner command\");"
+         << "\n     }"
+         << "\n";
 }
 
 // -------------------------------------------------------------------------- //

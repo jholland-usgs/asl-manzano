@@ -10,8 +10,15 @@
 
 #include "cy_serial_sensor_status.h"
 
-#define k_cy_serial_sensor_status 0
+namespace mzn {
 
+// -------------------------------------------------------------------------- //
+
+
+enum class CxSerialSensorStatusKey {
+    cy_serial_sensor_status = 0,
+};
+} // <- mzn
 #include "multi_command.h"
 namespace mzn {
 

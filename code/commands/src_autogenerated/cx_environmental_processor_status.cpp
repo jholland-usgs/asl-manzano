@@ -33,5 +33,11 @@ void CxEnvironmentalProcessorStatus::create_new_ic(uint8_t const cmd_key) {
     inner_commands.push_back(
         std::unique_ptr<Command>{ std::make_unique<CyEnvironmentalProcessorStatus>() } );
 
+    if (inner_commands.back() == nullptr) {
+        throw WarningException("CyEnvironmentalProcessorStatus",
+                               "create_new_ic",
+                               "nullptr inner command");
+     }
+
 }
 } // end namespace

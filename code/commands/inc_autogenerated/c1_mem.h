@@ -25,7 +25,11 @@ public:
     C1Mem & operator=(C1Mem const & rhs) = default;
     std::string const cmd_name = "c1_mem";
 
-    CmdFieldArrayUByte<536> mem;
+    CmdFieldHex<uint32_t> starting_address;
+    CmdField<uint16_t> byte_count;
+    BmMemoryType memory_type;
+    CmdFieldArrayUByte<16> pw;
+    CmdFieldVector<0> memory_contents;
 
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) override;
