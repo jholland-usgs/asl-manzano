@@ -7,6 +7,7 @@
 
 #include "gtest/gtest.h"
 #include "command.h"
+#include "token.h"
 #include "token_map.h"
 #include "multi_command.h"
 #include "multi_command_map.h"
@@ -95,6 +96,7 @@ public:
     mzn::T1NetworkStation t1_network_station{};
     mzn::T1VersionNumber t1_version_number{};
     mzn::TxCommEventName tx_comm_event_name{};
+
 
     virtual void SetUp() {
 

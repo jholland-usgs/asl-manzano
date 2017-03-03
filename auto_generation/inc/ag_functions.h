@@ -96,8 +96,9 @@ void cmd_custom_new_ic_map(Json const & cmds_json,
         c_fs << "\n            ";
         c_fs << "inner_commands.push_back(";
         c_fs << "\n            ";
-        c_fs << "    std::unique_ptr<Command>{ std::make_unique<";
-        c_fs << key_class_name << ">() } );";
+        c_fs << "    std::unique_ptr<Command>{";
+        c_fs << "\n            ";
+        c_fs << "         std::make_unique<" << key_class_name << ">() } );";
 
         // nullptr check done after all select case
         c_fs << "\n            ";

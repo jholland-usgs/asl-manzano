@@ -102,13 +102,15 @@ void CySerialSensorStatus::create_new_ic(uint8_t const cmd_key) {
         case CKE::cz_internal_temperature_measurement : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CzInternalTemperatureMeasurement>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CzInternalTemperatureMeasurement>() } );
             break;
         }
         case CKE::cz_humidity_and_external_temperature : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CzHumidityAndExternalTemperature>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CzHumidityAndExternalTemperature>() } );
             break;
         }
     }

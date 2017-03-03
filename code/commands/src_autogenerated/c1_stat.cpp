@@ -62,127 +62,148 @@ void C1Stat::create_new_ic(uint8_t const cmd_key) {
         case CKE::cx_global_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxGlobalStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxGlobalStatus>() } );
             break;
         }
         case CKE::cx_gps_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxGpsStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxGpsStatus>() } );
             break;
         }
         case CKE::cx_power_supply_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxPowerSupplyStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxPowerSupplyStatus>() } );
             break;
         }
         case CKE::cx_boom_positions : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxBoomPositions>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxBoomPositions>() } );
             break;
         }
         case CKE::cx_thread_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxThreadStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxThreadStatus>() } );
             break;
         }
         case CKE::cx_pll_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxPllStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxPllStatus>() } );
             break;
         }
         case CKE::cx_gps_satellites : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxGpsSatellites>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxGpsSatellites>() } );
             break;
         }
         case CKE::cx_arp_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxArpStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxArpStatus>() } );
             break;
         }
         case CKE::cx_data_port_1_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxDataPort1Status>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxDataPort1Status>() } );
             break;
         }
         case CKE::cx_data_port_2_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxDataPort2Status>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxDataPort2Status>() } );
             break;
         }
         case CKE::cx_data_port_3_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxDataPort3Status>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxDataPort3Status>() } );
             break;
         }
         case CKE::cx_data_port_4_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxDataPort4Status>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxDataPort4Status>() } );
             break;
         }
         case CKE::cx_serial_interface_1_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxSerialInterface1Status>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxSerialInterface1Status>() } );
             break;
         }
         case CKE::cx_serial_interface_2_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxSerialInterface2Status>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxSerialInterface2Status>() } );
             break;
         }
         case CKE::cx_serial_interface_3_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxSerialInterface3Status>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxSerialInterface3Status>() } );
             break;
         }
         case CKE::cx_ethernet_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxEthernetStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxEthernetStatus>() } );
             break;
         }
         case CKE::cx_baler_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxBalerStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxBalerStatus>() } );
             break;
         }
         case CKE::cx_dynamic_ip : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxDynamicIp>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxDynamicIp>() } );
             break;
         }
         case CKE::cx_auxiliary_board_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxAuxiliaryBoardStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxAuxiliaryBoardStatus>() } );
             break;
         }
         case CKE::cx_serial_sensor_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxSerialSensorStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxSerialSensorStatus>() } );
             break;
         }
         case CKE::cx_environmental_processor_status : {
 
             inner_commands.push_back(
-                std::unique_ptr<Command>{ std::make_unique<CxEnvironmentalProcessorStatus>() } );
+                std::unique_ptr<Command>{
+                     std::make_unique<CxEnvironmentalProcessorStatus>() } );
             break;
         }
     }

@@ -114,6 +114,7 @@ set(SOURCES_MCS ${DIR_COMMANDS}/src/mc_cx_thread_status.cpp
 set(SOURCES_commands ${SOURCES_CMD_FIELD}
                      ${SOURCES_exceptions}
                      ${DIR_COMMANDS}/src/command.cpp
+                     ${DIR_COMMANDS}/src/token.cpp
                      ${DIR_COMMANDS}/src/token_map.cpp
                      ${DIR_COMMANDS}/src/multi_command.cpp
                      ${DIR_COMMANDS}/src/multi_command_map.cpp

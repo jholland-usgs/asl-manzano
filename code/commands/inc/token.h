@@ -1,43 +1,48 @@
-// ** TokenMap Class ** //
 // Manzano software
+#ifndef _MZN_TOKEN_H
+#define _MZN_TOKEN_H
 
-#ifndef _MZN_TOKEN_MAP_H
-#define _MZN_TOKEN_MAP_H
+#include "multi_command.h"
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <bitset>
-#include <unordered_map>
-
-#include "cmd_field.h"
-#include "cmd_field_array_byte.h"
-#include "cmd_field_array_char.h"
-#include "cmd_field_array_ubyte.h"
-#include "cmd_field_bitmap.h"
-#include "cmd_field_bitmap_types.h"
-#include "cmd_field_cal_amplitude.h"
-#include "cmd_field_hex.h"
-#include "cmd_field_pstring.h"
-#include "cmd_field_ignore.h"
-#include "cmd_field_ip.h"
-#include "cmd_field_time.h"
-#include "cmd_field_duration.h"
-
-#include "mzn_except.h"
 
 namespace mzn {
 
+class Token : public MultiCommand {
 
-//! Base for all tokens to/from digitizer
+//! Base for all commands that contains other inner commands
 /*!
     @throws logic in msg_to_data, data_to_msg
     @author rfigueroa@usgs.gov
  */
 // -------------------------------------------------------------------------- //
-enum class Token {
-    
+public:
+
+    Token(uint16_t const cmd_number,
+          uint16_t const cmd_data_size);
+
+    ~Token() = default;
+    Token(Token && rhs) noexcept;
+    Token & operator=(Token && rhs) noexcept;
+
+protected:
+
+    uint16_t msg_to_data(std::vector<uint8_t> const & msg,
+                         uint16_t mf_begin) override;
+
+    uint16_t data_to_msg(std::vector<uint8_t> & msg,
+                         uint16_t mf_begin) const override;
+
+    //! does not apply
+    uint16_t number_of_ic(std::vector<uint8_t> const & msg,
+                          uint16_t mf_begin) const override {
+
+        throw WarningException("Token",
+                               "number_of_ic",
+                               "Token does not calculate nic");
+    }
+
 };
 
+
 } // << mzn
-#endif // _MZN_TOKEN_MAP_H_
+#endif // _MZN_TOKEN_H_

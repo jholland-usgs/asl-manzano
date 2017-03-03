@@ -4,7 +4,7 @@
 #include "multi_command.h"
 namespace mzn {
 
-// normal constructor
+// normal constructor, multi_cmd_ = true
 // -------------------------------------------------------------------------- //
 MultiCommand::MultiCommand(uint16_t const cmd_number,
                            uint16_t const cmd_data_size) :

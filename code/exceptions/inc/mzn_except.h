@@ -11,6 +11,10 @@
 
 namespace mzn {
 
+//! template type for compile time function call errors
+// -------------------------------------------------------------------------- //
+template <typename T> struct fail : std::false_type {};
+
 // -------------------------------------------------------------------------- //
 class Exception : public std::exception {
 
