@@ -2,7 +2,7 @@
 
 namespace mzn {
 CySerialSensorStatus::CySerialSensorStatus():
-    MultiCommandMap(0, 18),
+    CommandMapNi(0, 18),
     size_of_this_sub_block(),
     sensor_type(),
     serial_interface(),
@@ -35,7 +35,7 @@ uint16_t CySerialSensorStatus::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = fractional_digits.msg_to_data(msg, mf_begin);
     mf_begin = valid_fields.msg_to_data(msg, mf_begin);
     mf_begin = pressure_measurements.msg_to_data(msg, mf_begin);
-    mf_begin = MultiCommandMap::msg_to_data(msg, mf_begin);
+    mf_begin = CommandMapNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -62,7 +62,7 @@ uint16_t CySerialSensorStatus::data_to_msg(std::vector<uint8_t> & msg,
     mf_begin = fractional_digits.data_to_msg(msg, mf_begin);
     mf_begin = valid_fields.data_to_msg(msg, mf_begin);
     mf_begin = pressure_measurements.data_to_msg(msg, mf_begin);
-    mf_begin = MultiCommandMap::data_to_msg(msg, mf_begin);
+    mf_begin = CommandMapNi::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }

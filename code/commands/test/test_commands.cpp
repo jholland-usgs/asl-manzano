@@ -10,7 +10,7 @@
 #include "token.h"
 #include "token_map.h"
 #include "multi_command.h"
-#include "multi_command_map.h"
+#include "command_map_ni.h"
 #include "commands.h"
 // -------------------------------------------------------------------------- //
 class FixtureTokenMap : public ::testing::Test {

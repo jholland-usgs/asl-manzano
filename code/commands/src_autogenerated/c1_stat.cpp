@@ -2,7 +2,7 @@
 
 namespace mzn {
 C1Stat::C1Stat():
-    MultiCommandMap(0xA9, 4),
+    CommandMapNi(0xA9, 4),
     status_bitmap() { }
 
 uint16_t C1Stat::msg_to_data(std::vector<uint8_t> const & msg,
@@ -19,7 +19,7 @@ uint16_t C1Stat::msg_to_data(std::vector<uint8_t> const & msg,
     }
 
     mf_begin = status_bitmap.msg_to_data(msg, mf_begin);
-    mf_begin = MultiCommandMap::msg_to_data(msg, mf_begin);
+    mf_begin = CommandMapNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -38,7 +38,7 @@ uint16_t C1Stat::data_to_msg(std::vector<uint8_t> & msg,
     }
 
     mf_begin = status_bitmap.data_to_msg(msg, mf_begin);
-    mf_begin = MultiCommandMap::data_to_msg(msg, mf_begin);
+    mf_begin = CommandMapNi::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }

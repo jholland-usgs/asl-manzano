@@ -1,8 +1,8 @@
-// ** MultiCommandMap Class ** //
+// ** CommandMapNi Class ** //
 // Manzano software
 
-#ifndef _MZN_MULTI_COMMAND_MAP_H
-#define _MZN_MULTI_COMMAND_MAP_H
+#ifndef _MZN_COMMAND_MAP_NI_H
+#define _MZN_COMMAND_MAP_NI_H
 
 #include "multi_command.h"
 #include <map>
@@ -21,24 +21,24 @@ namespace mzn {
     of command stored to the vector element index (command_index);
 
     The type of the command is stored as a number here (map_key), and is casted to
-    an enum class inside the MultiCommandMap derived class (auto generated)
+    an enum class inside the CommandMapNi derived class (auto generated)
 
     @throws logic in msg_to_data, data_to_msg
     @author rfigueroa@usgs.gov
  */
 // -------------------------------------------------------------------------- //
-class MultiCommandMap : public MultiCommand {
+class CommandMapNi : public MultiCommand {
 
 public:
 
-    MultiCommandMap(uint16_t const cmd_number,
+    CommandMapNi(uint16_t const cmd_number,
                     uint16_t const cmd_data_size);
 
-    ~MultiCommandMap() = default;
-    MultiCommandMap(MultiCommandMap && rhs) noexcept;
-    MultiCommandMap & operator=(MultiCommandMap && rhs) noexcept;
-    //MultiCommandMap & operator=(MultiCommandMap const && rhs) const noexcept {};
-    //MultiCommandMap(MultiCommandMap const &) = default;
+    ~CommandMapNi() = default;
+    CommandMapNi(CommandMapNi && rhs) noexcept;
+    CommandMapNi & operator=(CommandMapNi && rhs) noexcept;
+    //CommandMapNi & operator=(CommandMapNi const && rhs) const noexcept {};
+    //CommandMapNi(CommandMapNi const &) = default;
 
 protected:
 
@@ -69,4 +69,4 @@ private:
 };
 
 } // << mzn
-#endif // _MZN_MULTI_COMMAND_MAP_
+#endif // _MZN_COMMAND_MAP_NI_

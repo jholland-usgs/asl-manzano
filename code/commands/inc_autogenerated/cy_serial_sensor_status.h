@@ -21,11 +21,11 @@ enum class CySerialSensorStatusKey {
     cz_humidity_and_external_temperature = 1,
 };
 } // <- mzn
-#include "multi_command_map.h"
+#include "command_map_ni.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class CySerialSensorStatus : public MultiCommandMap {
+class CySerialSensorStatus : public CommandMapNi {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, CySerialSensorStatus const & cmd);
 

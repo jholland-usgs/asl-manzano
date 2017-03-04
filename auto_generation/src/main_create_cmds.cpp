@@ -172,12 +172,12 @@ int main() {
 
             // class declaration
             if (fixed_map) {
-                c_fs << "\n#include \"multi_command_map.h\""
+                c_fs << "\n#include \"command_map_ni.h\""
                      << "\nnamespace mzn {"
                      << "\n\n// -------------------------------------------"
                      << "------------------------------- //"
                      << "\nclass " << cmd_class_name
-                     << " : public MultiCommandMap {\n";
+                     << " : public CommandMapNi {\n";
             } else {
                 c_fs << "\n#include \"multi_command.h\""
                      << "\nnamespace mzn {"
@@ -311,7 +311,7 @@ int main() {
 
         if (multi_command) {
             if (fixed_map) {
-                c_fs << "    MultiCommandMap(";
+                c_fs << "    CommandMapNi(";
             } else {
                 c_fs << "    MultiCommand(";
             }
@@ -356,7 +356,7 @@ int main() {
 
         if (multi_command) {
             if (fixed_map) {
-                c_fs << "\n    mf_begin = MultiCommandMap::msg_to_data(msg, mf_begin);";
+                c_fs << "\n    mf_begin = CommandMapNi::msg_to_data(msg, mf_begin);";
             } else {
                 c_fs << "\n    mf_begin = MultiCommand::msg_to_data(msg, mf_begin);";
             }
@@ -389,7 +389,7 @@ int main() {
 
         if (multi_command) {
             if (fixed_map) {
-                c_fs << "\n    mf_begin = MultiCommandMap::data_to_msg(msg, mf_begin);";
+                c_fs << "\n    mf_begin = CommandMapNi::data_to_msg(msg, mf_begin);";
             } else {
                 c_fs << "\n    mf_begin = MultiCommand::data_to_msg(msg, mf_begin);";
             }

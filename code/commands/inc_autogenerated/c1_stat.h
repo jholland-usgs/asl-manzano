@@ -59,11 +59,11 @@ enum class C1StatKey {
     cx_environmental_processor_status = 20,
 };
 } // <- mzn
-#include "multi_command_map.h"
+#include "command_map_ni.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class C1Stat : public MultiCommandMap {
+class C1Stat : public CommandMapNi {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, C1Stat const & cmd);
 

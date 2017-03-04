@@ -1,24 +1,24 @@
-// ** MultiCommandMap Class ** //
+// ** CommandMapNi Class ** //
 // Manzano software
 
-#include "multi_command_map.h"
+#include "command_map_ni.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-MultiCommandMap::MultiCommandMap(uint16_t const cmd_number,
+CommandMapNi::CommandMapNi(uint16_t const cmd_number,
                                  uint16_t const cmd_data_size) :
         MultiCommand(cmd_number, cmd_data_size) {}
 
 // move constructor
 // -------------------------------------------------------------------------- //
-MultiCommandMap::MultiCommandMap(MultiCommandMap && rhs) noexcept :
+CommandMapNi::CommandMapNi(CommandMapNi && rhs) noexcept :
         MultiCommand( std::move(rhs) ),
         command_index_map_( std::move(rhs.command_index_map_) ) {}
 
 /*
 // move assignment operator
 // -------------------------------------------------------------------------- //
-MultiCommandMap & MultiCommandMap::operator=(MultiCommandMap && rhs) noexcept {
+CommandMapNi & CommandMapNi::operator=(CommandMapNi && rhs) noexcept {
     // avoid self-assignment
     if (this != &rhs) {
         MultiCommand::operator=( std::move(rhs) );
@@ -28,20 +28,20 @@ MultiCommandMap & MultiCommandMap::operator=(MultiCommandMap && rhs) noexcept {
 }
 */
 // -------------------------------------------------------------------------- //
-void MultiCommandMap::set_command_index(uint8_t const map_key,
+void CommandMapNi::set_command_index(uint8_t const map_key,
                                         int const cmd_index) {
     command_index_map_.emplace(map_key, cmd_index);
 }
 
 // -------------------------------------------------------------------------- //
-int MultiCommandMap::command_index(uint8_t const map_key) const {
+int CommandMapNi::command_index(uint8_t const map_key) const {
 
     // map does not allow for duplicates
     if (command_index_map_.count(map_key) == 1) {
         // using .at() due that operator[] is not const
         return command_index_map_.at(map_key);
     } else {
-        throw FatalException("MultiCommandMap",
+        throw FatalException("CommandMapNi",
                              "command_index",
                              "bad multi command format, \
                              \nmulti command maps dont allow for duplicates");
@@ -49,7 +49,7 @@ int MultiCommandMap::command_index(uint8_t const map_key) const {
 }
 
 // -------------------------------------------------------------------------- //
-uint16_t MultiCommandMap::msg_to_data(std::vector<uint8_t> const & msg,
+uint16_t CommandMapNi::msg_to_data(std::vector<uint8_t> const & msg,
                                       uint16_t mf_begin) {
 
 
@@ -87,7 +87,7 @@ uint16_t MultiCommandMap::msg_to_data(std::vector<uint8_t> const & msg,
 }
 
 // -------------------------------------------------------------------------- //
-uint16_t MultiCommandMap::data_to_msg(std::vector<uint8_t> & msg,
+uint16_t CommandMapNi::data_to_msg(std::vector<uint8_t> & msg,
                                       uint16_t mf_begin) const {
 
     for (auto const & ic : inner_commands) {
