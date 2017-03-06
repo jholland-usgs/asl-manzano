@@ -2,7 +2,7 @@
 
 namespace mzn {
 CxSerialSensorStatus::CxSerialSensorStatus():
-    CommandContainer(0, 4),
+    CommandVectorNi(0, 4),
     total_size_of_this_block(),
     number_of_sub_blocks() { }
 
@@ -21,7 +21,7 @@ uint16_t CxSerialSensorStatus::msg_to_data(std::vector<uint8_t> const & msg,
 
     mf_begin = total_size_of_this_block.msg_to_data(msg, mf_begin);
     mf_begin = number_of_sub_blocks.msg_to_data(msg, mf_begin);
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }

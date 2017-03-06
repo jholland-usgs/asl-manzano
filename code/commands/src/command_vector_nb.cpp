@@ -1,24 +1,22 @@
-// ** CommandMapNi Class ** //
+// ** CommandVectorNb Class ** //
 // Manzano software
 
-#include "command_map_ni.h"
+#include "command_vector_nb.h"
 namespace mzn {
 
-// TODO: && ?
 // -------------------------------------------------------------------------- //
-CommandMapNi::CommandMapNi(uint16_t const cmd_number,
-                           uint16_t const cmd_data_size) :
-        CommandMap(cmd_number, cmd_data_size) {}
+CommandVectorNb::CommandVectorNb(uint16_t const cmd_number,
+                             uint16_t const cmd_data_size) :
+        CommandContainer(cmd_number, cmd_data_size) {}
 
 // move constructor
 // -------------------------------------------------------------------------- //
-CommandMapNi::CommandMapNi(CommandMapNi && rhs) noexcept :
-        CommandMap( std::move(rhs) ) {}
+CommandVectorNb::CommandVectorNb(CommandVectorNb && rhs) noexcept :
+        CommandContainer( std::move(rhs) ) {}
 
 // -------------------------------------------------------------------------- //
-uint16_t CommandMapNi::msg_to_data(std::vector<uint8_t> const & msg,
-                                   uint16_t mf_begin) {
-
+uint16_t CommandVectorNb::msg_to_data(std::vector<uint8_t> const & msg,
+                                    uint16_t mf_begin) {
     // called typically after msg_to_data on header cmd_field(s)
 
     // the first step is to find out which parts of the msg belong
@@ -29,9 +27,10 @@ uint16_t CommandMapNi::msg_to_data(std::vector<uint8_t> const & msg,
     // in case this function gets called more than once
     inner_commands.clear();
 
+    /*
     // unique for each command, not auto generated
     // nic : number of inner commands
-    auto const nic = ni(msg, mf_begin);
+    auto const nic = number_of_ic(msg, mf_begin);
 
     // loop over inner commands
     for (auto map_key = 0; map_key < nic; map_key++) {
@@ -49,6 +48,7 @@ uint16_t CommandMapNi::msg_to_data(std::vector<uint8_t> const & msg,
             set_command_index(map_key, cmd_index );
         }
     }
+    */
     return mf_begin;
 }
 

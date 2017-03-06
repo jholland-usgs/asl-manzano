@@ -117,7 +117,10 @@ set(SOURCES_commands ${SOURCES_CMD_FIELD}
                      ${DIR_COMMANDS}/src/token.cpp
                      ${DIR_COMMANDS}/src/token_map.cpp
                      ${DIR_COMMANDS}/src/command_container.cpp
+                     ${DIR_COMMANDS}/src/command_map.cpp
                      ${DIR_COMMANDS}/src/command_map_ni.cpp
+                     ${DIR_COMMANDS}/src/command_vector_ni.cpp
+                     ${DIR_COMMANDS}/src/command_vector_nb.cpp
                      ${SOURCES_MCS}
                      ${SOURCES_AG_COMMANDS})
 

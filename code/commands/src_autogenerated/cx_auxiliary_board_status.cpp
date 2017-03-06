@@ -2,7 +2,7 @@
 
 namespace mzn {
 CxAuxiliaryBoardStatus::CxAuxiliaryBoardStatus():
-    CommandContainer(0, 8),
+    CommandVectorNi(0, 8),
     size_of_this_block(),
     packet_version(),
     aux_type(),
@@ -25,7 +25,7 @@ uint16_t CxAuxiliaryBoardStatus::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = packet_version.msg_to_data(msg, mf_begin);
     mf_begin = aux_type.msg_to_data(msg, mf_begin);
     mf_begin = aux_version.msg_to_data(msg, mf_begin);
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }

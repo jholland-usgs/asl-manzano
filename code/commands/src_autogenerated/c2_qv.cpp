@@ -2,7 +2,7 @@
 
 namespace mzn {
 C2Qv::C2Qv():
-    CommandContainer(0xCA, 12),
+    CommandVectorNi(0xCA, 12),
     starting_sequence_number(),
     seconds_count(),
     number_of_entries(),
@@ -27,7 +27,7 @@ uint16_t C2Qv::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = number_of_entries.msg_to_data(msg, mf_begin);
     mf_begin = actual_channel_mask.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }

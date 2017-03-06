@@ -2,12 +2,12 @@
 
 namespace mzn {
 C1Dev::C1Dev():
-    CommandContainer(0xB3, 0) { }
+    CommandVectorNi(0xB3, 0) { }
 
 uint16_t C1Dev::msg_to_data(std::vector<uint8_t> const & msg,
                             uint16_t mf_begin) {
 
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }

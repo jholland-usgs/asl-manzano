@@ -2,7 +2,7 @@
 
 namespace mzn {
 T1CommEventName::T1CommEventName():
-    CommandContainer(0, 2),
+    CommandVectorNb(0, 2),
     number_of_bytes() { }
 
 uint16_t T1CommEventName::msg_to_data(std::vector<uint8_t> const & msg,
@@ -19,7 +19,7 @@ uint16_t T1CommEventName::msg_to_data(std::vector<uint8_t> const & msg,
     }
 
     mf_begin = number_of_bytes.msg_to_data(msg, mf_begin);
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNb::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }

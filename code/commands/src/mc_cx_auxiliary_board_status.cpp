@@ -1,8 +1,10 @@
 #include "cx_auxiliary_board_status.h"
 
 namespace mzn {
-uint16_t CxAuxiliaryBoardStatus::number_of_ic(std::vector<uint8_t> const & msg,
-                                              uint16_t mf_begin) const {
+
+// -------------------------------------------------------------------------- //
+uint16_t CxAuxiliaryBoardStatus::ni(std::vector<uint8_t> const & msg,
+                                    uint16_t mf_begin) const {
     // this is called after base_set_data
     // the header data is available
 

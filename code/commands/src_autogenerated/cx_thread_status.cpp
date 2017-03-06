@@ -2,7 +2,7 @@
 
 namespace mzn {
 CxThreadStatus::CxThreadStatus():
-    CommandContainer(0, 12),
+    CommandVectorNi(0, 12),
     number_of_entries(),
     size_of_this_block(),
     total_system_time("ms"),
@@ -25,7 +25,7 @@ uint16_t CxThreadStatus::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = size_of_this_block.msg_to_data(msg, mf_begin);
     mf_begin = total_system_time.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }

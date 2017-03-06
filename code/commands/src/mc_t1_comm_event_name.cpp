@@ -1,8 +1,10 @@
 #include "t1_comm_event_name.h"
 namespace mzn {
 
-uint16_t T1CommEventName::number_of_ic(std::vector<uint8_t> const & msg,
-                                       uint16_t mf_begin) const {
+// -------------------------------------------------------------------------- //
+uint16_t T1CommEventName::nb(std::vector<uint8_t> const & msg,
+                             uint16_t mf_begin) const {
+
     // this is called after base_set_data
     // the header data is available
 
@@ -18,6 +20,7 @@ uint16_t T1CommEventName::number_of_ic(std::vector<uint8_t> const & msg,
     // command_container handling is the default case, this will be a special
     // case for tokens. In this case, it would be to read the msg and count
     // the number of inner commands (nic).
+    /*
     int nic = 0;
 
     for (auto i = mf_begin; i < mf_begin + N; ) {
@@ -28,6 +31,8 @@ uint16_t T1CommEventName::number_of_ic(std::vector<uint8_t> const & msg,
     }
 
     return nic;
+    */
+    return N;
 }
 
 }

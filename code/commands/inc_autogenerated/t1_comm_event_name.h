@@ -19,11 +19,11 @@ enum class T1CommEventNameKey {
     tx_comm_event_name = 0,
 };
 } // <- mzn
-#include "command_container.h"
+#include "command_vector_nb.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class T1CommEventName : public CommandContainer {
+class T1CommEventName : public CommandVectorNb {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, T1CommEventName const & cmd);
 
@@ -45,8 +45,8 @@ public:
                          uint16_t mf_begin) const override;
     // max keys implementation in a separate function/file
     // not part of auto generation
-    uint16_t number_of_ic(std::vector<uint8_t> const & msg,
-                          uint16_t mf_begin) const override;
+    uint16_t nb(std::vector<uint8_t> const & msg,
+                uint16_t mf_begin) const override;
     void create_new_ic(uint8_t const  cmd_key) override;
 
 private:

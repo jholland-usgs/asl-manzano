@@ -62,7 +62,7 @@ uint16_t CySerialSensorStatus::data_to_msg(std::vector<uint8_t> & msg,
     mf_begin = fractional_digits.data_to_msg(msg, mf_begin);
     mf_begin = valid_fields.data_to_msg(msg, mf_begin);
     mf_begin = pressure_measurements.data_to_msg(msg, mf_begin);
-    mf_begin = CommandMapNi::data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }

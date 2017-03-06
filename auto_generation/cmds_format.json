@@ -256,8 +256,9 @@
     "cmd_number": "0xB3",
     "crc_and_header": true,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cx_dev"}
     ]
 
@@ -434,8 +435,9 @@
     "cmd_number": "0",
     "crc_and_header": false,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cy_thread_status"}
     ]
 
@@ -484,8 +486,9 @@
     "cmd_number": "0",
     "crc_and_header": false,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cy_gps_satellites"}
     ]
 
@@ -515,8 +518,9 @@
     "cmd_number": "0",
     "crc_and_header": false,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cy_arp_status"}
     ]
 
@@ -772,8 +776,9 @@
     "cmd_number": "0",
     "crc_and_header": false,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cy_auxiliary_board_status"}
     ]
 
@@ -820,8 +825,9 @@
     "cmd_number": "0",
     "crc_and_header": false,
     "originator": "q",
-    "fixed_map": true,
-    "cmd_map":[
+    "container_type": "map",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cz_internal_temperature_measurement"},
         {"key_name": "cz_humidity_and_external_temperature"}
     ]
@@ -836,8 +842,9 @@
     "cmd_number": "0",
     "crc_and_header": false,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cy_serial_sensor_status"}
     ]
 
@@ -938,8 +945,9 @@
     "cmd_number": "0",
     "crc_and_header": false,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cy_environmental_processor_status"}
     ]
 
@@ -956,8 +964,9 @@
     "cmd_number": "0xA9",
     "crc_and_header": true,
     "originator": "dp",
-    "fixed_map": true,
-    "cmd_map":[
+    "container_type": "map",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cx_global_status"},
         {"key_name": "cx_gps_status"},
         {"key_name": "cx_power_supply_status"},
@@ -1127,8 +1136,9 @@
     "cmd_number": "0xCA",
     "crc_and_header": true,
     "originator": "q",
-    "fixed_map": false,
-    "cmd_map":[
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
         {"key_name": "cx_qv"}
     ]
  },
@@ -1511,8 +1521,9 @@
    "cmd_number": "0",
    "crc_and_header": false,
    "originator": "q",
-   "fixed_map": false,
-   "cmd_map":
+   "container_type": "vector",
+   "container_info": "nb",
+   "inner_commands":
    [
      {"key_name": "tx_comm_event_name"}
    ]

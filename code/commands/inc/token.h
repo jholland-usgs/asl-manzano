@@ -32,17 +32,7 @@ protected:
     uint16_t data_to_msg(std::vector<uint8_t> & msg,
                          uint16_t mf_begin) const override;
 
-    //! does not apply
-    uint16_t number_of_ic(std::vector<uint8_t> const & msg,
-                          uint16_t mf_begin) const override {
-
-        throw WarningException("Token",
-                               "number_of_ic",
-                               "Token does not calculate nic");
-    }
-
 };
-
 
 } // << mzn
 #endif // _MZN_TOKEN_H_

@@ -38,15 +38,6 @@ public:
 
 protected:
 
-    //! Calls msg_to_data on all inner commands
-    //! called from msg_to_data from command_container auto generated derived classes
-    /*! @throws logic msg is too short inside inner_commands
-        auto generated in derived classes
-     */
-    // TODO make virtual, = 0
-    uint16_t msg_to_data(std::vector<uint8_t> const & msg,
-                         uint16_t mf_begin) override;
-
     //! Calls data_to_msg on all inner commands
     /*! @throws logic msg is too short inside inner_commands
         auto generated in derived classes
@@ -59,13 +50,6 @@ protected:
     virtual
     void create_new_ic(uint8_t const cmd_key) = 0;
 
-    //! Pure virtual,
-    /*! NOT auto generated in derived classes
-      TODO remove
-     */
-    virtual
-    uint16_t number_of_ic(std::vector<uint8_t> const & msg,
-                          uint16_t mf_begin) const = 0;
 
     //! streams all commands in inner_commands
     std::ostream & os_print(std::ostream & cmd_os) const override;

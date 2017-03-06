@@ -50,7 +50,7 @@ void mc_key_enums(Json const & cmds_json,
         for (int kni = 0; kni < knn; kni++) {
 
             std::string const key_name =
-                cmds_json[cmd_name.c_str()]["cmd_map"][kni]["key_name"];
+                cmds_json[cmd_name.c_str()]["inner_commands"][kni]["key_name"];
 
             c_fs << "\n    ";
             c_fs << key_name << " = " << kni << ",";
@@ -70,7 +70,7 @@ void mc_key_includes(Json const & cmds_json,
     for (int kni = 0; kni < knn; kni++) {
 
         std::string const key_name =
-            cmds_json[cmd_name.c_str()]["cmd_map"][kni]["key_name"];
+            cmds_json[cmd_name.c_str()]["inner_commands"][kni]["key_name"];
 
         c_fs << "\n";
         c_fs << "#include \"" << key_name << ".h\"";
@@ -86,7 +86,7 @@ void cmd_custom_new_ic_map(Json const & cmds_json,
     for (int kni = 0; kni < knn; kni++) {
 
         std::string key_name =
-            cmds_json[cmd_name.c_str()]["cmd_map"][kni]["key_name"];
+            cmds_json[cmd_name.c_str()]["inner_commands"][kni]["key_name"];
 
         std::string key_class_name = to_camel_case(key_name); // copy
 
@@ -117,7 +117,7 @@ void cmd_custom_new_ic(Json const & cmds_json,
     if (knn == 0) throw std::logic_error("@cmd_custom_new_ic empty cmd map");
 
     std::string key_name =
-        cmds_json[cmd_name.c_str()]["cmd_map"][0]["key_name"];
+        cmds_json[cmd_name.c_str()]["inner_commands"][0]["key_name"];
 
     std::string key_class_name = to_camel_case(key_name); // copy
 

@@ -19,11 +19,11 @@ enum class C1DevKey {
     cx_dev = 0,
 };
 } // <- mzn
-#include "command_container.h"
+#include "command_vector_ni.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class C1Dev : public CommandContainer {
+class C1Dev : public CommandVectorNi {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, C1Dev const & cmd);
 
@@ -44,8 +44,8 @@ public:
                          uint16_t mf_begin) const override;
     // max keys implementation in a separate function/file
     // not part of auto generation
-    uint16_t number_of_ic(std::vector<uint8_t> const & msg,
-                          uint16_t mf_begin) const override;
+    uint16_t ni(std::vector<uint8_t> const & msg,
+                uint16_t mf_begin) const override;
     void create_new_ic(uint8_t const  cmd_key) override;
 
 private:

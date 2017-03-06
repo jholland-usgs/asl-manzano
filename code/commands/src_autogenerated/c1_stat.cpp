@@ -38,7 +38,7 @@ uint16_t C1Stat::data_to_msg(std::vector<uint8_t> & msg,
     }
 
     mf_begin = status_bitmap.data_to_msg(msg, mf_begin);
-    mf_begin = CommandMapNi::data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }

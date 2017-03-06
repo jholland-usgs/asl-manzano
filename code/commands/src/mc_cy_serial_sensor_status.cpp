@@ -1,6 +1,7 @@
 #include "cy_serial_sensor_status.h"
 namespace mzn {
 
+// -------------------------------------------------------------------------- //
 bool CySerialSensorStatus::command_active(uint8_t const cmd_key) const {
    //{"key_name": "cz_internal_temperature_measurement"}= 0
    //{"key_name": "cz_humidity_and_external_temperature"}= 1

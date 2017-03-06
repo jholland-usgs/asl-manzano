@@ -2,12 +2,12 @@
 
 namespace mzn {
 CxEnvironmentalProcessorStatus::CxEnvironmentalProcessorStatus():
-    CommandContainer(0, 0) { }
+    CommandVectorNi(0, 0) { }
 
 uint16_t CxEnvironmentalProcessorStatus::msg_to_data(std::vector<uint8_t> const & msg,
                                                      uint16_t mf_begin) {
 
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }

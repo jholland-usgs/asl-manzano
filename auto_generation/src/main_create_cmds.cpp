@@ -115,11 +115,12 @@ int main() {
         bool command_container = false;
         int mc_header_size = 0;
         bool fixed_map;
+        bool info_ni;
         int mc_cmd_map_size = 0;
 
         // if mc, setup the mc values for the values in the json
         // also, add necessary #define, #include in the files
-        if ( json_has_key(cmds_json[cmd_name.c_str()], "cmd_map") ) {
+        if ( json_has_key(cmds_json[cmd_name.c_str()], "inner_commands") ) {
 
             command_container = true;
 
@@ -134,10 +135,20 @@ int main() {
                 command. In practice the number is limited with the mtu
                 (maximum transferable unit) in the q330 udp connection
               */
-            fixed_map = cmds_json[cmd_name.c_str()]["fixed_map"];
+
+            std::string const container_type =
+                cmds_json[cmd_name.c_str()]["container_type"];
+
+            std::string const container_info =
+                cmds_json[cmd_name.c_str()]["container_info"];
+
+            // TODO: generalize
+            fixed_map = (container_type == "map");
+            // ni = number_of_items / nb = number_of_bytes
+            info_ni = (container_info == "ni");
 
             // get number of defined inner commands:
-            mc_cmd_map_size = cmds_json[cmd_name.c_str()]["cmd_map"].size();
+            mc_cmd_map_size = cmds_json[cmd_name.c_str()]["inner_commands"].size();
 
             if ( (not fixed_map) and (mc_cmd_map_size != 1) ){
                 // mc that are Not fixed maps should have one or none
@@ -156,6 +167,9 @@ int main() {
             c_fs << "\n";
         }
 
+        std::string base_file;
+        std::string base_class;
+        std::string base_func;
 
         // class #include depencies and inheritance parents are different
         // from fixed_map and not fixed_map commands.
@@ -170,23 +184,33 @@ int main() {
             mc_key_enums(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
             c_fs << "\n} // <- mzn";
 
+
             // class declaration
             if (fixed_map) {
-                c_fs << "\n#include \"command_map_ni.h\""
-                     << "\nnamespace mzn {"
-                     << "\n\n// -------------------------------------------"
-                     << "------------------------------- //"
-                     << "\nclass " << cmd_class_name
-                     << " : public CommandMapNi {\n";
+                base_file = "command_map";
+                base_class = "CommandMap";
             } else {
-                c_fs << "\n#include \"command_container.h\""
-                     << "\nnamespace mzn {"
-                     << "\n\n// --------------------------------------------"
-                     << "------------------------------ //"
-                     << "\nclass " << cmd_class_name
-                     << " : public CommandContainer {\n";
+                base_file = "command_vector";
+                base_class = "CommandVector";
             }
 
+            // class declaration
+            if (info_ni) {
+                base_file += "_ni";
+                base_class += "Ni";
+                base_func = "ni";
+            } else {
+                base_file += "_nb";
+                base_class += "Nb";
+                base_func = "nb";
+            }
+
+            c_fs << "\n#include \"" << base_file  << ".h\""
+                 << "\nnamespace mzn {"
+                 << "\n\n// -------------------------------------------"
+                 << "------------------------------- //"
+                 << "\nclass " << cmd_class_name
+                 << " : public " << base_class << " {\n";
         } else {
 
             c_fs << "\nnamespace mzn {"
@@ -245,8 +269,8 @@ int main() {
             if (fixed_map) {
                 c_fs << "\n    bool command_active(uint8_t const cmd_key) const override;";
                 c_fs << "\n    // max keys known at compile time for fixed maps mc";
-                c_fs << "\n    uint16_t number_of_ic(std::vector<uint8_t> const & msg,";
-                c_fs << "\n                          uint16_t mf_begin) const override";
+                c_fs << "\n    uint16_t " << base_func << "(std::vector<uint8_t> const & msg,";
+                c_fs << "\n                uint16_t mf_begin) const override";
                 c_fs << " {";
                 c_fs << "\n        return " << mc_cmd_map_size << ";";
                 c_fs << "\n    }";
@@ -254,8 +278,8 @@ int main() {
             } else {
                 c_fs << "\n    // max keys implementation in a separate function/file";
                 c_fs << "\n    // not part of auto generation";
-                c_fs << "\n    uint16_t number_of_ic(std::vector<uint8_t> const & msg,";
-                c_fs << "\n                          uint16_t mf_begin) const override";
+                c_fs << "\n    uint16_t " << base_func << "(std::vector<uint8_t> const & msg,";
+                c_fs << "\n                uint16_t mf_begin) const override";
                 c_fs << ";";
             }
 
@@ -310,11 +334,7 @@ int main() {
         c_fs << "\n" << cmd_class_name << "::" << cmd_class_name << "():\n";
 
         if (command_container) {
-            if (fixed_map) {
-                c_fs << "    CommandMapNi(";
-            } else {
-                c_fs << "    CommandContainer(";
-            }
+            c_fs << "    " << base_class << "(";
         } else {
             c_fs << "    Command(";
         }
@@ -355,11 +375,7 @@ int main() {
         custom_msg_to_data(cmds_json, c_fs, cmd_name, cfn);
 
         if (command_container) {
-            if (fixed_map) {
-                c_fs << "\n    mf_begin = CommandMapNi::msg_to_data(msg, mf_begin);";
-            } else {
-                c_fs << "\n    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);";
-            }
+            c_fs << "\n    mf_begin = " << base_class << "::msg_to_data(msg, mf_begin);";
         }
 
         c_fs << "\n\n    return mf_begin;";
@@ -388,11 +404,7 @@ int main() {
         custom_data_to_msg(cmds_json, c_fs, cmd_name, cfn);
 
         if (command_container) {
-            if (fixed_map) {
-                c_fs << "\n    mf_begin = CommandMapNi::data_to_msg(msg, mf_begin);";
-            } else {
-                c_fs << "\n    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);";
-            }
+            c_fs << "\n    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);";
         }
 
         c_fs << "\n\n    return mf_begin;";

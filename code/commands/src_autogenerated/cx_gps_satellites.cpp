@@ -2,7 +2,7 @@
 
 namespace mzn {
 CxGpsSatellites::CxGpsSatellites():
-    CommandContainer(0, 4),
+    CommandVectorNi(0, 4),
     number_of_entries(),
     size_of_this_block() { }
 
@@ -21,7 +21,7 @@ uint16_t CxGpsSatellites::msg_to_data(std::vector<uint8_t> const & msg,
 
     mf_begin = number_of_entries.msg_to_data(msg, mf_begin);
     mf_begin = size_of_this_block.msg_to_data(msg, mf_begin);
-    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNi::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
