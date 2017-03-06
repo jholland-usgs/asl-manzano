@@ -19,11 +19,11 @@ enum class CxGpsSatellitesKey {
     cy_gps_satellites = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class CxGpsSatellites : public MultiCommand {
+class CxGpsSatellites : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, CxGpsSatellites const & cmd);
 

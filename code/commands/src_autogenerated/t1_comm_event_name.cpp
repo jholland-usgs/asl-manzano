@@ -2,7 +2,7 @@
 
 namespace mzn {
 T1CommEventName::T1CommEventName():
-    MultiCommand(0, 2),
+    CommandContainer(0, 2),
     number_of_bytes() { }
 
 uint16_t T1CommEventName::msg_to_data(std::vector<uint8_t> const & msg,
@@ -19,7 +19,7 @@ uint16_t T1CommEventName::msg_to_data(std::vector<uint8_t> const & msg,
     }
 
     mf_begin = number_of_bytes.msg_to_data(msg, mf_begin);
-    mf_begin = MultiCommand::msg_to_data(msg, mf_begin);
+    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -38,7 +38,7 @@ uint16_t T1CommEventName::data_to_msg(std::vector<uint8_t> & msg,
     }
 
     mf_begin = number_of_bytes.data_to_msg(msg, mf_begin);
-    mf_begin = MultiCommand::data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }
@@ -49,7 +49,7 @@ std::ostream & T1CommEventName::os_print(std::ostream & cmd_os) const {
     cmd_os << "\nnumber_of_bytes: "; cmd_os << number_of_bytes;
     cmd_os << std::endl;
 
-    return MultiCommand::os_print(cmd_os);
+    return CommandContainer::os_print(cmd_os);
 }
 
 

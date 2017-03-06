@@ -12,10 +12,10 @@ uint16_t T1CommEventName::number_of_ic(std::vector<uint8_t> const & msg,
     // nob is a 2 byte field for this token
     auto const N = this->number_of_bytes() - 2;
 
-    // multi_command is based on number of entries
+    // command_container is based on number of entries
     // .. as the rest of the digitizer.. but the tokens are based on
     // number of bytes to tell about the bytes to come.
-    // multi_command handling is the default case, this will be a special
+    // command_container handling is the default case, this will be a special
     // case for tokens. In this case, it would be to read the msg and count
     // the number of inner commands (nic).
     int nic = 0;

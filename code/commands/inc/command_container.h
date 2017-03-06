@@ -1,8 +1,8 @@
-// ** MultiCommand Class ** //
+// ** CommandContainer Class ** //
 // Manzano software
 
-#ifndef _MZN_MULTI_COMMAND_H
-#define _MZN_MULTI_COMMAND_H
+#ifndef _MZN_COMMAND_CONTAINER_H
+#define _MZN_COMMAND_CONTAINER_H
 
 #include "command.h"
 
@@ -12,7 +12,7 @@
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class MultiCommand : public Command {
+class CommandContainer : public Command {
 
 //! Base for all commands that contains other inner commands
 /*!
@@ -22,27 +22,28 @@ class MultiCommand : public Command {
 public:
 
     //! Command::multi_cmd is set to true here only.
-    MultiCommand(uint16_t const cmd_number,
+    CommandContainer(uint16_t const cmd_number,
                  uint16_t const cmd_data_size);
 
-    ~MultiCommand() = default;
-    MultiCommand(MultiCommand && rhs) noexcept;
-    //MultiCommand & operator=(MultiCommand && rhs) noexcept;
-    //MultiCommand(MultiCommand const &) = default;
+    ~CommandContainer() = default;
+    CommandContainer(CommandContainer && rhs) noexcept;
+    //CommandContainer & operator=(CommandContainer && rhs) noexcept;
+    //CommandContainer(CommandContainer const &) = default;
     //! Stores pointers to the inner commands, starts empty.
     /*! create_new_ic managed in create_new_ic.
         ic : inner_commands
-        mc : multi_command
+        mc : command_container
      */
     std::vector< std::unique_ptr<Command> > inner_commands;
 
 protected:
 
     //! Calls msg_to_data on all inner commands
-    //! called from msg_to_data from multi_command auto generated derived classes
+    //! called from msg_to_data from command_container auto generated derived classes
     /*! @throws logic msg is too short inside inner_commands
         auto generated in derived classes
      */
+    // TODO make virtual, = 0
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) override;
 
@@ -60,6 +61,7 @@ protected:
 
     //! Pure virtual,
     /*! NOT auto generated in derived classes
+      TODO remove
      */
     virtual
     uint16_t number_of_ic(std::vector<uint8_t> const & msg,
@@ -70,4 +72,4 @@ protected:
 };
 
 } // << mzn
-#endif // _MZN_MULTI_COMMAND_
+#endif // _MZN_COMMAND_CONTAINER_

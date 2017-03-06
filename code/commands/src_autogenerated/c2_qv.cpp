@@ -2,7 +2,7 @@
 
 namespace mzn {
 C2Qv::C2Qv():
-    MultiCommand(0xCA, 12),
+    CommandContainer(0xCA, 12),
     starting_sequence_number(),
     seconds_count(),
     number_of_entries(),
@@ -27,7 +27,7 @@ uint16_t C2Qv::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = number_of_entries.msg_to_data(msg, mf_begin);
     mf_begin = actual_channel_mask.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = MultiCommand::msg_to_data(msg, mf_begin);
+    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -50,7 +50,7 @@ uint16_t C2Qv::data_to_msg(std::vector<uint8_t> & msg,
     mf_begin = number_of_entries.data_to_msg(msg, mf_begin);
     mf_begin = actual_channel_mask.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = MultiCommand::data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }
@@ -67,7 +67,7 @@ std::ostream & C2Qv::os_print(std::ostream & cmd_os) const {
     cmd_os << "\nactual_channel_mask: "; cmd_os << actual_channel_mask;
     cmd_os << std::endl;
 
-    return MultiCommand::os_print(cmd_os);
+    return CommandContainer::os_print(cmd_os);
 }
 
 

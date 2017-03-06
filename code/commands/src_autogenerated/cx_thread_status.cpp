@@ -2,7 +2,7 @@
 
 namespace mzn {
 CxThreadStatus::CxThreadStatus():
-    MultiCommand(0, 12),
+    CommandContainer(0, 12),
     number_of_entries(),
     size_of_this_block(),
     total_system_time("ms"),
@@ -25,7 +25,7 @@ uint16_t CxThreadStatus::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = size_of_this_block.msg_to_data(msg, mf_begin);
     mf_begin = total_system_time.msg_to_data(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = MultiCommand::msg_to_data(msg, mf_begin);
+    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -47,7 +47,7 @@ uint16_t CxThreadStatus::data_to_msg(std::vector<uint8_t> & msg,
     mf_begin = size_of_this_block.data_to_msg(msg, mf_begin);
     mf_begin = total_system_time.data_to_msg(msg, mf_begin);
     mf_begin = mf_begin + 2; // ignore type
-    mf_begin = MultiCommand::data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }
@@ -62,7 +62,7 @@ std::ostream & CxThreadStatus::os_print(std::ostream & cmd_os) const {
     cmd_os << "\ntotal_system_time: "; cmd_os << total_system_time;
     cmd_os << std::endl;
 
-    return MultiCommand::os_print(cmd_os);
+    return CommandContainer::os_print(cmd_os);
 }
 
 

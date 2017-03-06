@@ -19,11 +19,11 @@ enum class T1CommEventNameKey {
     tx_comm_event_name = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class T1CommEventName : public MultiCommand {
+class T1CommEventName : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, T1CommEventName const & cmd);
 

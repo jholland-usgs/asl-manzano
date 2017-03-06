@@ -8,12 +8,12 @@ namespace mzn {
 // -------------------------------------------------------------------------- //
 Token::Token(uint16_t const cmd_number,
              uint16_t const cmd_data_size) :
-        MultiCommand(cmd_number, cmd_data_size) {}
+        CommandContainer(cmd_number, cmd_data_size) {}
 
 // move constructor
 // -------------------------------------------------------------------------- //
 Token::Token(Token && rhs) noexcept :
-        MultiCommand( std::move(rhs) ) {}
+        CommandContainer( std::move(rhs) ) {}
 
 // -------------------------------------------------------------------------- //
 uint16_t Token::msg_to_data(std::vector<uint8_t> const & msg,
@@ -39,7 +39,7 @@ uint16_t Token::msg_to_data(std::vector<uint8_t> const & msg,
         if ( command_active(map_key) ) {
 
             // create new ic unique_ptr and insert to inner_commands
-            // pure virtual in multi_command, @throw if nullptr
+            // pure virtual in command_container, @throw if nullptr
             create_new_ic(map_key);
 
             mf_begin = inner_commands.back() -> msg_to_data(msg, mf_begin);

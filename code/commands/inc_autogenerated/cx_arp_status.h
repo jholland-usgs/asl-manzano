@@ -19,11 +19,11 @@ enum class CxArpStatusKey {
     cy_arp_status = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class CxArpStatus : public MultiCommand {
+class CxArpStatus : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, CxArpStatus const & cmd);
 

@@ -19,11 +19,11 @@ enum class CxThreadStatusKey {
     cy_thread_status = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class CxThreadStatus : public MultiCommand {
+class CxThreadStatus : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, CxThreadStatus const & cmd);
 

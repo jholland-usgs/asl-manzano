@@ -19,11 +19,11 @@ enum class CxEnvironmentalProcessorStatusKey {
     cy_environmental_processor_status = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class CxEnvironmentalProcessorStatus : public MultiCommand {
+class CxEnvironmentalProcessorStatus : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, CxEnvironmentalProcessorStatus const & cmd);
 

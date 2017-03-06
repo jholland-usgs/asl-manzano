@@ -7,12 +7,12 @@ namespace mzn {
 // -------------------------------------------------------------------------- //
 CommandMapNi::CommandMapNi(uint16_t const cmd_number,
                                  uint16_t const cmd_data_size) :
-        MultiCommand(cmd_number, cmd_data_size) {}
+        CommandContainer(cmd_number, cmd_data_size) {}
 
 // move constructor
 // -------------------------------------------------------------------------- //
 CommandMapNi::CommandMapNi(CommandMapNi && rhs) noexcept :
-        MultiCommand( std::move(rhs) ),
+        CommandContainer( std::move(rhs) ),
         command_index_map_( std::move(rhs.command_index_map_) ) {}
 
 /*
@@ -21,7 +21,7 @@ CommandMapNi::CommandMapNi(CommandMapNi && rhs) noexcept :
 CommandMapNi & CommandMapNi::operator=(CommandMapNi && rhs) noexcept {
     // avoid self-assignment
     if (this != &rhs) {
-        MultiCommand::operator=( std::move(rhs) );
+        CommandContainer::operator=( std::move(rhs) );
         command_index_map_ = std::move(rhs.command_index_map_);
     }
     return *this;
@@ -73,7 +73,7 @@ uint16_t CommandMapNi::msg_to_data(std::vector<uint8_t> const & msg,
         if ( command_active(map_key) ) {
 
             // create new ic unique_ptr and insert to inner_commands
-            // pure virtual in multi_command, @throw if nullptr
+            // pure virtual in command_container, @throw if nullptr
             create_new_ic(map_key);
 
             mf_begin = inner_commands.back() -> msg_to_data(msg, mf_begin);

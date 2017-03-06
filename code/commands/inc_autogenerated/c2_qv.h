@@ -19,11 +19,11 @@ enum class C2QvKey {
     cx_qv = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class C2Qv : public MultiCommand {
+class C2Qv : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, C2Qv const & cmd);
 

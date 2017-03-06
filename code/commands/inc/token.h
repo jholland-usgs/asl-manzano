@@ -2,12 +2,12 @@
 #ifndef _MZN_TOKEN_H
 #define _MZN_TOKEN_H
 
-#include "multi_command.h"
+#include "command_container.h"
 
 
 namespace mzn {
 
-class Token : public MultiCommand {
+class Token : public CommandContainer {
 
 //! Base for all commands that contains other inner commands
 /*!

@@ -2,7 +2,7 @@
 
 namespace mzn {
 CxAuxiliaryBoardStatus::CxAuxiliaryBoardStatus():
-    MultiCommand(0, 8),
+    CommandContainer(0, 8),
     size_of_this_block(),
     packet_version(),
     aux_type(),
@@ -25,7 +25,7 @@ uint16_t CxAuxiliaryBoardStatus::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = packet_version.msg_to_data(msg, mf_begin);
     mf_begin = aux_type.msg_to_data(msg, mf_begin);
     mf_begin = aux_version.msg_to_data(msg, mf_begin);
-    mf_begin = MultiCommand::msg_to_data(msg, mf_begin);
+    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -47,7 +47,7 @@ uint16_t CxAuxiliaryBoardStatus::data_to_msg(std::vector<uint8_t> & msg,
     mf_begin = packet_version.data_to_msg(msg, mf_begin);
     mf_begin = aux_type.data_to_msg(msg, mf_begin);
     mf_begin = aux_version.data_to_msg(msg, mf_begin);
-    mf_begin = MultiCommand::data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }
@@ -64,7 +64,7 @@ std::ostream & CxAuxiliaryBoardStatus::os_print(std::ostream & cmd_os) const {
     cmd_os << "\naux_version: "; cmd_os << aux_version;
     cmd_os << std::endl;
 
-    return MultiCommand::os_print(cmd_os);
+    return CommandContainer::os_print(cmd_os);
 }
 
 

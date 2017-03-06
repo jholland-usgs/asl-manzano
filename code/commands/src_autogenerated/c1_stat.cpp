@@ -49,7 +49,7 @@ std::ostream & C1Stat::os_print(std::ostream & cmd_os) const {
     cmd_os << "\nstatus_bitmap: "; cmd_os << status_bitmap;
     cmd_os << std::endl;
 
-    return MultiCommand::os_print(cmd_os);
+    return CommandContainer::os_print(cmd_os);
 }
 
 

@@ -5,8 +5,12 @@
 # .cpp and .h files have names with class_name format
 # inside the files, classes have ClassName format
 
-this="Multi_Command_Map"
-that="Command_Map_Ni"
+# example of format for this program:
+# this="Class_Name"
+# that="Class_Name"
+
+this="Multi_Command"
+that="Command_Container"
 
 header_this="$(echo $this | tr /a-z/ /A-Z/)"
 header_that="$(echo $that | tr /a-z/ /A-Z/)"

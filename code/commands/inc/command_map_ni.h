@@ -4,17 +4,17 @@
 #ifndef _MZN_COMMAND_MAP_NI_H
 #define _MZN_COMMAND_MAP_NI_H
 
-#include "multi_command.h"
+#include "command_container.h"
 #include <map>
 
 namespace mzn {
-//! MultiCommand when the inner commands are setup as a map
+//! CommandContainer when the inner commands are setup as a map
 /*!
     This class works for a fixed number of inner_command(s) possible
     So that each inner_command is expected and is just checked at runtime
     with command_active.
 
-    The storage of the commands is still store on MultiCommand's
+    The storage of the commands is still store on CommandContainer's
     inner_commands vector, however since potentially the commands stored will be
     of different types (or more accuratly unique_ptr of different types to
     use polymorphism), a map is provided here to map the original type
@@ -27,7 +27,7 @@ namespace mzn {
     @author rfigueroa@usgs.gov
  */
 // -------------------------------------------------------------------------- //
-class CommandMapNi : public MultiCommand {
+class CommandMapNi : public CommandContainer {
 
 public:
 

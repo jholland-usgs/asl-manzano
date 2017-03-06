@@ -2,7 +2,7 @@
 
 namespace mzn {
 CxGpsSatellites::CxGpsSatellites():
-    MultiCommand(0, 4),
+    CommandContainer(0, 4),
     number_of_entries(),
     size_of_this_block() { }
 
@@ -21,7 +21,7 @@ uint16_t CxGpsSatellites::msg_to_data(std::vector<uint8_t> const & msg,
 
     mf_begin = number_of_entries.msg_to_data(msg, mf_begin);
     mf_begin = size_of_this_block.msg_to_data(msg, mf_begin);
-    mf_begin = MultiCommand::msg_to_data(msg, mf_begin);
+    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -41,7 +41,7 @@ uint16_t CxGpsSatellites::data_to_msg(std::vector<uint8_t> & msg,
 
     mf_begin = number_of_entries.data_to_msg(msg, mf_begin);
     mf_begin = size_of_this_block.data_to_msg(msg, mf_begin);
-    mf_begin = MultiCommand::data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }
@@ -54,7 +54,7 @@ std::ostream & CxGpsSatellites::os_print(std::ostream & cmd_os) const {
     cmd_os << "\nsize_of_this_block: "; cmd_os << size_of_this_block;
     cmd_os << std::endl;
 
-    return MultiCommand::os_print(cmd_os);
+    return CommandContainer::os_print(cmd_os);
 }
 
 

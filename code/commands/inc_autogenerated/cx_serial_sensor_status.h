@@ -19,11 +19,11 @@ enum class CxSerialSensorStatusKey {
     cy_serial_sensor_status = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class CxSerialSensorStatus : public MultiCommand {
+class CxSerialSensorStatus : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, CxSerialSensorStatus const & cmd);
 

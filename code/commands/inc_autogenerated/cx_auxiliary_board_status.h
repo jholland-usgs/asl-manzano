@@ -19,11 +19,11 @@ enum class CxAuxiliaryBoardStatusKey {
     cy_auxiliary_board_status = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class CxAuxiliaryBoardStatus : public MultiCommand {
+class CxAuxiliaryBoardStatus : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, CxAuxiliaryBoardStatus const & cmd);
 

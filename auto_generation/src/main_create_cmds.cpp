@@ -23,20 +23,20 @@
    Most commands have a fixed format and size, where the relationship between
    the message received in bytes and the command data structure in cmd_fields
    is known at compile time. Commands that have variable size are called
-   multi_command (mc) due that the variability comes from having inner
-   commands (ic) embedded into the multi_command message. For these commands,
+   command_container (mc) due that the variability comes from having inner
+   commands (ic) embedded into the command_container message. For these commands,
    the relationship needs to be worked out at run time.
 
    The command data size refers to the number of bytes that a
-   serialized message with all its cmd_field will need. For multi_command this
-   only includes the cmd_field in the multi_command itself, not the ones in the
+   serialized message with all its cmd_field will need. For command_container this
+   only includes the cmd_field in the command_container itself, not the ones in the
    inner commands.
 
    The digitizer also shows some weird cases. For example a 48 bit (6 bytes)
    integer. The underlaying data of the cmd_field would actually be 8 bytes
    since architectures do not feature 6 bytes ints.
 
-   For multi_command, the cmd_data_size_ is not known at compile time, many times
+   For command_container, the cmd_data_size_ is not known at compile time, many times
    is not known until the message for that command is received and the message
    body is analyzed. Due to this, the cmd_data_size_ is set to the mtu
    (maximum transferable unit) of the digitizers UPD connection.
@@ -112,7 +112,7 @@ int main() {
         }
 
         // initializing variables to default, non mc values
-        bool multi_command = false;
+        bool command_container = false;
         int mc_header_size = 0;
         bool fixed_map;
         int mc_cmd_map_size = 0;
@@ -121,7 +121,7 @@ int main() {
         // also, add necessary #define, #include in the files
         if ( json_has_key(cmds_json[cmd_name.c_str()], "cmd_map") ) {
 
-            multi_command = true;
+            command_container = true;
 
             // The command fields in this mc serve as the header of the inner commands
             mc_header_size = cmd_data_size;
@@ -160,7 +160,7 @@ int main() {
         // class #include depencies and inheritance parents are different
         // from fixed_map and not fixed_map commands.
         // also different for mc and normal commands
-        if (multi_command) {
+        if (command_container) {
 
             // key enums for map
             c_fs << "\nnamespace mzn {"
@@ -179,12 +179,12 @@ int main() {
                      << "\nclass " << cmd_class_name
                      << " : public CommandMapNi {\n";
             } else {
-                c_fs << "\n#include \"multi_command.h\""
+                c_fs << "\n#include \"command_container.h\""
                      << "\nnamespace mzn {"
                      << "\n\n// --------------------------------------------"
                      << "------------------------------ //"
                      << "\nclass " << cmd_class_name
-                     << " : public MultiCommand {\n";
+                     << " : public CommandContainer {\n";
             }
 
         } else {
@@ -211,7 +211,7 @@ int main() {
         c_fs << "\n    " << cmd_class_name << " & operator=(" << cmd_class_name
              << " && rhs) = default;";
 
-        if (not multi_command) {
+        if (not command_container) {
 
             c_fs << "\n    " << cmd_class_name << "("
                  << cmd_class_name << " const & rhs) = default;";
@@ -240,7 +240,7 @@ int main() {
 
 
         // function declarations for multi command
-        if (multi_command) {
+        if (command_container) {
 
             if (fixed_map) {
                 c_fs << "\n    bool command_active(uint8_t const cmd_key) const override;";
@@ -309,11 +309,11 @@ int main() {
         // **************************************
         c_fs << "\n" << cmd_class_name << "::" << cmd_class_name << "():\n";
 
-        if (multi_command) {
+        if (command_container) {
             if (fixed_map) {
                 c_fs << "    CommandMapNi(";
             } else {
-                c_fs << "    MultiCommand(";
+                c_fs << "    CommandContainer(";
             }
         } else {
             c_fs << "    Command(";
@@ -354,11 +354,11 @@ int main() {
 
         custom_msg_to_data(cmds_json, c_fs, cmd_name, cfn);
 
-        if (multi_command) {
+        if (command_container) {
             if (fixed_map) {
                 c_fs << "\n    mf_begin = CommandMapNi::msg_to_data(msg, mf_begin);";
             } else {
-                c_fs << "\n    mf_begin = MultiCommand::msg_to_data(msg, mf_begin);";
+                c_fs << "\n    mf_begin = CommandContainer::msg_to_data(msg, mf_begin);";
             }
         }
 
@@ -387,11 +387,11 @@ int main() {
 
         custom_data_to_msg(cmds_json, c_fs, cmd_name, cfn);
 
-        if (multi_command) {
+        if (command_container) {
             if (fixed_map) {
                 c_fs << "\n    mf_begin = CommandMapNi::data_to_msg(msg, mf_begin);";
             } else {
-                c_fs << "\n    mf_begin = MultiCommand::data_to_msg(msg, mf_begin);";
+                c_fs << "\n    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);";
             }
         }
 
@@ -411,8 +411,8 @@ int main() {
 
         // multi command custom print
         c_fs << "\n";
-        if (multi_command) {
-            c_fs << "\n    return MultiCommand::os_print(cmd_os);";
+        if (command_container) {
+            c_fs << "\n    return CommandContainer::os_print(cmd_os);";
         } else {
             c_fs << "\n    return cmd_os;";
         }
@@ -423,7 +423,7 @@ int main() {
         // multi command functions implementation
         // **************************************
 
-        if (multi_command) {
+        if (command_container) {
             c_fs << "\n";
             c_fs << "\nvoid "
                  << cmd_class_name << "::create_new_ic(uint8_t const cmd_key) {";

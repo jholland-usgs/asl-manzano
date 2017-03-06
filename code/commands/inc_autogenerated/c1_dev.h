@@ -19,11 +19,11 @@ enum class C1DevKey {
     cx_dev = 0,
 };
 } // <- mzn
-#include "multi_command.h"
+#include "command_container.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class C1Dev : public MultiCommand {
+class C1Dev : public CommandContainer {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, C1Dev const & cmd);
 
