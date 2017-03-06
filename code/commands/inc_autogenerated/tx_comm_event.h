@@ -25,8 +25,8 @@ public:
     TxCommEvent & operator=(TxCommEvent const & rhs) = default;
     std::string const cmd_name = "tx_comm_event";
 
-    CmdField<uint8_t> number;
-    CmdFieldPstring<0> name;
+    CmdField<uint8_t> event_number;
+    CmdFieldPstring<0> event_name;
 
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) override;

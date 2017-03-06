@@ -31,6 +31,8 @@ uint16_t CommandVectorNb::msg_to_data(std::vector<uint8_t> const & msg,
     // nb : number of bytes of inner commands
     auto const N = this->nb(msg, mf_begin);
 
+    std::cout << std::endl << "____  N:" << N;
+
     // loop over inner commands
     int8_t map_key = 0;
 

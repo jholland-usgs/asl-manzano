@@ -515,14 +515,13 @@ TEST_F(FixtureCommand, c1_rqdev_test) {
 }
 
 // -------------------------------------------------------------------------- //
-TEST_F(FixtureCommand, tx_comm_event) {
-    // the other test can be templated, start from the start of data
-    // this is single token, no qdp header
-    mzn::TxCommEvent cmd{};
-    std::vector<uint8_t> msg = {0x66, 0x06, 0x41, 0x4c,
-                                0x4c, 0x43, 0x4f, 0x4d};
-    cmd.msg_to_data(msg, 0);
+template <typename T>
+void token_test (std::vector<uint8_t> const & msg) {
 
+    T cmd{};
+
+    cmd.msg_to_data(msg, 0);
+    std::cout << std::endl << cmd;
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
     cmd.data_to_msg(processed_msg, 0);
 
@@ -531,10 +530,17 @@ TEST_F(FixtureCommand, tx_comm_event) {
 }
 
 // -------------------------------------------------------------------------- //
+TEST_F(FixtureCommand, tx_comm_event) {
+
+    std::vector<uint8_t> msg = {0x66, 0x06, 0x41, 0x4c,
+                                0x4c, 0x43, 0x4f, 0x4d};
+
+    token_test<mzn::TxCommEvent>(msg);
+}
+
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, t1_comm_event) {
-    // the other test can be templated, start from the start of data
-    // this is single token, no qdp header
-    mzn::T1CommEvent cmd{};
+
     // there are 13 TxCommEventName commands on this message,
     // event numbers from 00 to 0c
     // there are 0x5e (94) bytes of data including the 2 bytes of nb
@@ -552,14 +558,37 @@ TEST_F(FixtureCommand, t1_comm_event) {
          0x4c, 0x2e, 0x42, 0x4f, 0x46, 0x46, 0x0c, 0x06,
          0x4c, 0x2e, 0x41, 0x4f, 0x46, 0x46};
 
-    cmd.msg_to_data(msg, 0);
+    token_test<mzn::T1CommEvent>(msg);
+}
 
-    std::vector<uint8_t> processed_msg ( msg.size(), 0);
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCommand, tx_irr_filter) {
 
-    cmd.data_to_msg(processed_msg, 0);
+    std::vector<uint8_t> msg = {0x3d, 0x43, 0x0c, 0x24, 0x82};
+    std::vector<uint8_t> msg2 = {0x3d, 0x88, 0x88, 0x8d, 0x02};
 
-    print_diff(msg, processed_msg);
-    EXPECT_EQ(msg, processed_msg);
+    token_test<mzn::TxIrrFilter>(msg);
+    token_test<mzn::TxIrrFilter>(msg2);
+}
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCommand, t1_irr_filter) {
+
+    std::vector<uint8_t> msg = {
+        0x1b, 0x01, 0x05, 0x56, 0x53, 0x50, 0x42, 0x50, 0x02,
+        0x41, 0x20, 0x00, 0x00, 0x42, 0xa0, 0x00, 0x00,
+        0x3d, 0x43, 0x0c, 0x24, 0x82,
+        0x3d, 0x88, 0x88, 0x8d, 0x02,
+    };
+    std::vector<uint8_t> msg2 = {
+        0x1e, 0x02, 0x08, 0x56, 0x53, 0x50, 0x48, 0x31, 0x4c, 0x31, 0x30, 0x02,
+        0x3f, 0x80, 0x00, 0x00, 0x42, 0xa0, 0x00, 0x00,
+        0x3c, 0x4c, 0xcc, 0xcd, 0x82,
+        0x3e, 0x00, 0x00, 0x00, 0x02,
+    };
+
+    token_test<mzn::T1IrrFilter>(msg);
+    token_test<mzn::T1IrrFilter>(msg2);
 }
 
 // -------------------------------------------------------------------------- //

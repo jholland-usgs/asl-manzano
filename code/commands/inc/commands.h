@@ -84,5 +84,7 @@
 #include "t1_version_number.h"
 #include "t1_comm_event.h"
 #include "tx_comm_event.h"
+#include "t1_irr_filter.h"
+#include "tx_irr_filter.h"
 
 #endif // _MZN_CMD_COMMANDS_H

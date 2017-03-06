@@ -1504,8 +1504,8 @@
 "tx_comm_event":{
   "cmd_fields":
   [
-    {"cf_name": "number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
-    {"cf_name": "name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
+    {"cf_name": "event_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "event_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
   ],
   "cmd_number": "0",
   "crc_and_header": false,
@@ -1520,12 +1520,45 @@
 
    "cmd_number": "192",
    "crc_and_header": false,
-   "originator": "q",
+   "originator": "both",
    "container_type": "vector",
    "container_info": "nb",
    "inner_commands":
    [
      {"key_name": "tx_comm_event"}
+   ]
+},
+
+"tx_irr_filter":{
+  "cmd_fields":
+  [
+    {"cf_name": "cutoff_frequency_ratio", "cf_size": 4, "cf_type": "CmdField<float>"},
+    {"cf_name": "number_of_poles", "cf_size": 1, "cf_type": "CmdField<uint8_t>"}
+  ],
+  "cmd_number": "0",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_irr_filter":{
+   "cmd_fields":
+   [
+      {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+      {"cf_name": "filter_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+      {"cf_name": "filter_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"},
+      {"cf_name": "number_of_sections", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+      {"cf_name": "gain", "cf_size": 4, "cf_type": "CmdField<float>"},
+      {"cf_name": "reference_frequency", "cf_size": 4, "cf_type": "CmdField<float>"}
+   ],
+
+   "cmd_number": "129",
+   "crc_and_header": false,
+   "originator": "both",
+   "container_type": "vector",
+   "container_info": "ni",
+   "inner_commands":
+   [
+     {"key_name": "tx_irr_filter"}
    ]
 }
 
