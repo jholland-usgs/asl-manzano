@@ -1501,31 +1501,31 @@
   "originator": "both"
 },
 
-"tx_comm_event_name":{
+"tx_comm_event":{
   "cmd_fields":
   [
-    {"cf_name": "event_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
-    {"cf_name": "event_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
+    {"cf_name": "number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
   ],
   "cmd_number": "0",
   "crc_and_header": false,
   "originator": "both"
 },
 
-"t1_comm_event_name":{
+"t1_comm_event":{
    "cmd_fields":
    [
       {"cf_name": "number_of_bytes", "cf_size": 2, "cf_type": "CmdField<uint16_t>"}
    ],
 
-   "cmd_number": "0",
+   "cmd_number": "192",
    "crc_and_header": false,
    "originator": "q",
    "container_type": "vector",
    "container_info": "nb",
    "inner_commands":
    [
-     {"key_name": "tx_comm_event_name"}
+     {"key_name": "tx_comm_event"}
    ]
 }
 

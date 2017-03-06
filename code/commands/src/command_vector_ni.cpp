@@ -33,5 +33,4 @@ uint16_t CommandVectorNi::msg_to_data(std::vector<uint8_t> const & msg,
 
     return mf_begin ;
 }
-
 } // << mzn

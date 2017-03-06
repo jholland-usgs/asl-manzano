@@ -7,8 +7,6 @@
 
 #include "gtest/gtest.h"
 #include "command.h"
-#include "token.h"
-#include "token_map.h"
 #include "command_container.h"
 #include "command_map_ni.h"
 #include "commands.h"
@@ -16,11 +14,11 @@
 class FixtureTokenMap : public ::testing::Test {
 public:
 
-    mzn::TokenMap tokens{};
+    // mzn::TokenMap tokens{};
 };
 
 // -------------------------------------------------------------------------- //
-TEST_F(FixtureTokenMap, tokens_setup) {}
+// TEST_F(FixtureTokenMap, tokens_setup) {}
 
 // -------------------------------------------------------------------------- //
 class FixtureCommand : public ::testing::Test {
@@ -95,7 +93,7 @@ public:
     mzn::T1LogAndTiming t1_log_and_timing{};
     mzn::T1NetworkStation t1_network_station{};
     mzn::T1VersionNumber t1_version_number{};
-    mzn::TxCommEventName tx_comm_event_name{};
+    mzn::TxCommEvent tx_comm_event{};
 
 
     virtual void SetUp() {
@@ -110,7 +108,7 @@ public:
 // fails only if SetUp() fails
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, commands_setup) {}
-void print_vector(std::vector<uint8_t> const & msg) {
+void print_diff(std::vector<uint8_t> const & msg) {
 
     std::cout << std::hex << std::showbase << std::uppercase;
     std::cout << "[";
@@ -122,24 +120,26 @@ void print_vector(std::vector<uint8_t> const & msg) {
 }
 
 // -------------------------------------------------------------------------- //
-void print_vector(std::vector<uint8_t> const & msg1,
-                  std::vector<uint8_t> const & msg2) {
+void print_diff(std::vector<uint8_t> const & msg1,
+                std::vector<uint8_t> const & msg2) {
 
     if (msg1 != msg2) {
-        std::cout << std::hex << std::showbase << std::uppercase;
-        std::cout << "[";
+        std::cout << std::endl << "differences:\n";
+        std::cout << "[\n";
 
         for (int i = 0; i < msg1.size(); i++) {
 
             if (static_cast<unsigned int>(msg1[i])
                 != static_cast<unsigned int>(msg2[i])) {
 
-                std::cout << static_cast<unsigned int>(msg1[i]) << ", "
+                std::cout << "(i:" << i << ") ";
+                std::cout << std::hex << std::showbase << std::uppercase
+                          << static_cast<unsigned int>(msg1[i]) << ", "
                           << static_cast<unsigned int>(msg2[i]) << std::endl;
+                std::cout << std::dec << std::noshowbase << std::nouppercase;
             }
         }
         std::cout << "]" << std::endl;
-        std::cout << std::dec << std::noshowbase << std::nouppercase;
     }
 }
 
@@ -428,7 +428,7 @@ TEST_F(FixtureCommand, c1_sc_test) {
     }
 
     cmd.data_to_msg(processed_msg, 12);
-    print_vector(msg, processed_msg);
+    print_diff(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }
 
@@ -455,7 +455,7 @@ TEST_F(FixtureCommand, c1_qcal_test) {
     }
 
     cmd.data_to_msg(processed_msg, 12);
-    print_vector(msg, processed_msg);
+    print_diff(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }
 
@@ -473,7 +473,7 @@ TEST_F(FixtureCommand, c1_cack_test) {
     }
 
     cmd.data_to_msg(processed_msg, 12);
-    print_vector(msg, processed_msg);
+    print_diff(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }
 
@@ -492,7 +492,7 @@ TEST_F(FixtureCommand, c1_pollsn_test) {
     }
 
     cmd.data_to_msg(processed_msg, 12);
-    print_vector(msg, processed_msg);
+    print_diff(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }
 
@@ -510,15 +510,15 @@ TEST_F(FixtureCommand, c1_rqdev_test) {
     }
 
     cmd.data_to_msg(processed_msg, 12);
-    print_vector(msg, processed_msg);
+    print_diff(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }
 
 // -------------------------------------------------------------------------- //
-TEST_F(FixtureCommand, tx_comm_event_name) {
+TEST_F(FixtureCommand, tx_comm_event) {
     // the other test can be templated, start from the start of data
     // this is single token, no qdp header
-    mzn::TxCommEventName cmd{};
+    mzn::TxCommEvent cmd{};
     std::vector<uint8_t> msg = {0x66, 0x06, 0x41, 0x4c,
                                 0x4c, 0x43, 0x4f, 0x4d};
     cmd.msg_to_data(msg, 0);
@@ -526,17 +526,18 @@ TEST_F(FixtureCommand, tx_comm_event_name) {
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
     cmd.data_to_msg(processed_msg, 0);
 
-    print_vector(msg, processed_msg);
+    print_diff(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }
 
 // -------------------------------------------------------------------------- //
-TEST_F(FixtureCommand, t1_comm_event_name) {
+TEST_F(FixtureCommand, t1_comm_event) {
     // the other test can be templated, start from the start of data
     // this is single token, no qdp header
-    mzn::T1CommEventName cmd{};
+    mzn::T1CommEvent cmd{};
     // there are 13 TxCommEventName commands on this message,
     // event numbers from 00 to 0c
+    // there are 0x5e (94) bytes of data including the 2 bytes of nb
     std::vector<uint8_t> msg =
         {0x00, 0x5e, 0x00, 0x06, 0x41, 0x4c, 0x4c, 0x43,
          0x4f, 0x4d, 0x01, 0x03, 0x48, 0x4f, 0x4e, 0x02,
@@ -551,18 +552,15 @@ TEST_F(FixtureCommand, t1_comm_event_name) {
          0x4c, 0x2e, 0x42, 0x4f, 0x46, 0x46, 0x0c, 0x06,
          0x4c, 0x2e, 0x41, 0x4f, 0x46, 0x46};
 
-    std::cout << std::endl <<  "msg to data" << std::endl;
     cmd.msg_to_data(msg, 0);
 
     std::vector<uint8_t> processed_msg ( msg.size(), 0);
 
-    std::cout << std::endl <<  "data to msg" << std::endl;
     cmd.data_to_msg(processed_msg, 0);
 
-    print_vector(msg, processed_msg);
+    print_diff(msg, processed_msg);
     EXPECT_EQ(msg, processed_msg);
 }
-
 
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCommand, cmd_code) {

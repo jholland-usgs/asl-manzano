@@ -27,28 +27,24 @@ uint16_t CommandVectorNb::msg_to_data(std::vector<uint8_t> const & msg,
     // in case this function gets called more than once
     inner_commands.clear();
 
-    /*
     // unique for each command, not auto generated
-    // nic : number of inner commands
-    auto const nic = number_of_ic(msg, mf_begin);
+    // nb : number of bytes of inner commands
+    auto const N = this->nb(msg, mf_begin);
 
     // loop over inner commands
-    for (auto map_key = 0; map_key < nic; map_key++) {
+    int8_t map_key = 0;
 
-        if ( command_active(map_key) ) {
+    auto const vector_begin_index = mf_begin;
 
-            // create new ic unique_ptr and insert to inner_commands
-            // pure virtual in command_container, @throw if nullptr
-            create_new_ic(map_key);
+    while (mf_begin < vector_begin_index + N) {
 
-            mf_begin = inner_commands.back() -> msg_to_data(msg, mf_begin);
-
-            auto const cmd_index = inner_commands.size();
-
-            set_command_index(map_key, cmd_index );
-        }
+        // create new ic unique_ptr and insert to inner_commands
+        // pure virtual in command_container, @throw if nullptr
+        create_new_ic(map_key);
+        map_key++;
+        mf_begin = inner_commands.back()->msg_to_data(msg, mf_begin);
     }
-    */
+
     return mf_begin;
 }
 

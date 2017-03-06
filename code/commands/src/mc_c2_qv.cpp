@@ -8,4 +8,5 @@ uint16_t C2Qv::ni(std::vector<uint8_t> const & msg,
     // header size = 0
     return this->number_of_entries();
 }
+
 }
