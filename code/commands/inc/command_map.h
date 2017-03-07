@@ -40,8 +40,10 @@ public:
     //CommandMap & operator=(CommandMap const && rhs) const noexcept {};
     //CommandMap(CommandMap const &) = default;
 
-protected:
+    virtual
+    std::vector<uint8_t> const keys() const = 0;
 
+protected:
 
     //! @return the cmd_index in the map
     //! @throw if map_key is not found on the map

@@ -31,10 +31,11 @@ uint16_t CommandMapNi::msg_to_data(std::vector<uint8_t> const & msg,
 
     // unique for each command, not auto generated
     // nic : number of inner commands
-    auto const nic = ni(msg, mf_begin);
+//    auto const nic = ni(msg, mf_begin);
 
+    auto const map_keys = keys();
     // loop over inner commands
-    for (auto map_key = 0; map_key < nic; map_key++) {
+    for (auto const & map_key : map_keys) {
 
         if ( command_active(map_key) ) {
 

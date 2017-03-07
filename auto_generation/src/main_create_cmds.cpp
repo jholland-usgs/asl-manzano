@@ -219,14 +219,12 @@ int main() {
 
         // Add definition for keys
 
-        if (command_container) {
+        if (command_container and fixed_map) {
 
             // key enums for map
-            c_fs << "\n\n// -------------------------------------------"
-                 << "------------------------------- //"
-                 << "\n";
+            c_fs << "\n\n    // ---------------------------------------"
+                 << "------------------------------- //";
             mc_key_enums(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
-            c_fs << "\n";
         }
 
         //TODO: default constructor

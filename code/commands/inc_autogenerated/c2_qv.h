@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, C2Qv const & cmd);
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    cx_qv = 0,
-};
-
-
     explicit C2Qv();
     ~C2Qv() = default;
 

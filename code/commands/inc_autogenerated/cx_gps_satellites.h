@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, CxGpsSatellites const & 
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    cy_gps_satellites = 0,
-};
-
-
     explicit CxGpsSatellites();
     ~CxGpsSatellites() = default;
 

@@ -21,14 +21,18 @@ friend std::ostream & operator<<(std::ostream & cmd_os, CySerialSensorStatus con
 
 public:
 
-// -------------------------------------------------------------------------- //
+    // ---------------------------------------------------------------------- //
 
+    enum class Keys {
+        cz_internal_temperature_measurement = 0,
+        cz_humidity_and_external_temperature = 1,
+    };
 
-enum class Keys {
-    cz_internal_temperature_measurement = 0,
-    cz_humidity_and_external_temperature = 1,
-};
+    std::vector<uint8_t> const all_keys = {
+        0, 1,
+    };
 
+    std::vector<uint8_t> const keys() const override {return all_keys;}
 
     explicit CySerialSensorStatus();
     ~CySerialSensorStatus() = default;

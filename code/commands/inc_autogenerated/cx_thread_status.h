@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, CxThreadStatus const & c
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    cy_thread_status = 0,
-};
-
-
     explicit CxThreadStatus();
     ~CxThreadStatus() = default;
 

@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, CxAuxiliaryBoardStatus c
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    cy_auxiliary_board_status = 0,
-};
-
-
     explicit CxAuxiliaryBoardStatus();
     ~CxAuxiliaryBoardStatus() = default;
 

@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, C1Dev const & cmd);
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    cx_dev = 0,
-};
-
-
     explicit C1Dev();
     ~C1Dev() = default;
 

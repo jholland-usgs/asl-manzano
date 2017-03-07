@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, T1CommEvent const & cmd)
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    tx_comm_event = 0,
-};
-
-
     explicit T1CommEvent();
     ~T1CommEvent() = default;
 

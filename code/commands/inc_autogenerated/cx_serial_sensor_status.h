@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, CxSerialSensorStatus con
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    cy_serial_sensor_status = 0,
-};
-
-
     explicit CxSerialSensorStatus();
     ~CxSerialSensorStatus() = default;
 

@@ -45,15 +45,16 @@ void mc_key_enums(Json const & cmds_json,
                   std::string const & cmd_name,
                   int const knn) {
 
+    auto & ic_json = cmds_json[cmd_name.c_str()]["inner_commands"];
+
+    bool has_key_values;
+
     if (knn > 0) {
 
         c_fs << "\n";
+        c_fs << "\n    enum class Keys {";
 
-        c_fs << "\nenum class Keys {";
-
-        auto & ic_json = cmds_json[cmd_name.c_str()]["inner_commands"];
-
-        bool has_key_values = json_has_key(ic_json[0], "key_value");
+        has_key_values = json_has_key(ic_json[0], "key_value");
         bool also_has_key_values;
 
         for (int kni = 0; kni < knn; kni++) {
@@ -68,12 +69,12 @@ void mc_key_enums(Json const & cmds_json,
 
             std::string const key_name = ic_json[kni]["key_name"];
 
-            c_fs << "\n    ";
+            c_fs << "\n        ";
             c_fs << key_name << " = ";
 
             if (has_key_values) {
                 uint8_t const key_value = ic_json[kni]["key_value"];
-                c_fs << key_value;
+                c_fs << (int)key_value;
             } else {
                 c_fs << kni;
             }
@@ -81,7 +82,33 @@ void mc_key_enums(Json const & cmds_json,
             c_fs << ",";
         }
 
-        c_fs << "\n};";
+        c_fs << "\n    };";
+    }
+
+    // now all the keys in an vector, so that this enum can be iterated:
+    if (knn > 0) {
+
+        c_fs << "\n\n    std::vector<uint8_t> const all_keys = {"
+             << "\n       ";
+
+        for (int kni = 0; kni < knn; kni++) {
+
+            c_fs << " ";
+
+            if (has_key_values) {
+                uint8_t const key_value = ic_json[kni]["key_value"];
+                c_fs << (int)key_value;
+            } else {
+                c_fs << kni;
+            }
+
+            c_fs << ",";
+        }
+
+        c_fs << "\n    };";
+
+        c_fs << "\n\n    std::vector<uint8_t> const"
+             << " keys() const override {return all_keys;}";
     }
 }
 

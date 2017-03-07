@@ -20,14 +20,6 @@ friend std::ostream & operator<<(std::ostream & cmd_os, CxEnvironmentalProcessor
 
 public:
 
-// -------------------------------------------------------------------------- //
-
-
-enum class Keys {
-    cy_environmental_processor_status = 0,
-};
-
-
     explicit CxEnvironmentalProcessorStatus();
     ~CxEnvironmentalProcessorStatus() = default;
 

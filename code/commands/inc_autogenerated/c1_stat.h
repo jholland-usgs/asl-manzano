@@ -40,33 +40,37 @@ friend std::ostream & operator<<(std::ostream & cmd_os, C1Stat const & cmd);
 
 public:
 
-// -------------------------------------------------------------------------- //
+    // ---------------------------------------------------------------------- //
 
+    enum class Keys {
+        cx_global_status = 0,
+        cx_gps_status = 1,
+        cx_power_supply_status = 2,
+        cx_boom_positions = 3,
+        cx_thread_status = 4,
+        cx_pll_status = 5,
+        cx_gps_satellites = 6,
+        cx_arp_status = 7,
+        cx_data_port_1_status = 8,
+        cx_data_port_2_status = 9,
+        cx_data_port_3_status = 10,
+        cx_data_port_4_status = 11,
+        cx_serial_interface_1_status = 12,
+        cx_serial_interface_2_status = 13,
+        cx_serial_interface_3_status = 14,
+        cx_ethernet_status = 15,
+        cx_baler_status = 16,
+        cx_dynamic_ip = 17,
+        cx_auxiliary_board_status = 18,
+        cx_serial_sensor_status = 19,
+        cx_environmental_processor_status = 20,
+    };
 
-enum class Keys {
-    cx_global_status = 0,
-    cx_gps_status = 1,
-    cx_power_supply_status = 2,
-    cx_boom_positions = 3,
-    cx_thread_status = 4,
-    cx_pll_status = 5,
-    cx_gps_satellites = 6,
-    cx_arp_status = 7,
-    cx_data_port_1_status = 8,
-    cx_data_port_2_status = 9,
-    cx_data_port_3_status = 10,
-    cx_data_port_4_status = 11,
-    cx_serial_interface_1_status = 12,
-    cx_serial_interface_2_status = 13,
-    cx_serial_interface_3_status = 14,
-    cx_ethernet_status = 15,
-    cx_baler_status = 16,
-    cx_dynamic_ip = 17,
-    cx_auxiliary_board_status = 18,
-    cx_serial_sensor_status = 19,
-    cx_environmental_processor_status = 20,
-};
+    std::vector<uint8_t> const all_keys = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    };
 
+    std::vector<uint8_t> const keys() const override {return all_keys;}
 
     explicit C1Stat();
     ~C1Stat() = default;
