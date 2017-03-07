@@ -84,10 +84,10 @@ public:
     mzn::QdpCrc qdp_crc{};
     mzn::QdpHeader qdp_header{};
 
-    mzn::T1ClockProcessingParameters t1_clock_processing_parameters{};
+    mzn::T1ClockProcessing t1_clock_processing{};
     mzn::T1ConfigurationIdentification t1_configuration_identification{};
     mzn::T1DataServer t1_data_server{};
-    mzn::T1DataSubscriptionServerParameter t1_data_subscription_server_parameter{};
+    mzn::T1DataSubscriptionServer t1_data_subscription_server{};
     mzn::T1DpNetserver t1_dp_netserver{};
     mzn::T1DpWebserver t1_dp_webserver{};
     mzn::T1LogAndTiming t1_log_and_timing{};

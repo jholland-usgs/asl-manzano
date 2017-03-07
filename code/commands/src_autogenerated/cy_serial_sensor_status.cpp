@@ -95,7 +95,7 @@ std::ostream & CySerialSensorStatus::os_print(std::ostream & cmd_os) const {
 
 void CySerialSensorStatus::create_new_ic(uint8_t const cmd_key) {
 
-    using CKE = CySerialSensorStatusKey;
+    using CKE = CySerialSensorStatus::Keys;
     auto const cmd_key_enum = static_cast<CKE>(cmd_key);
 
     switch(cmd_key_enum) {

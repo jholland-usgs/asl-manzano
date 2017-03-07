@@ -10,15 +10,6 @@
 
 #include "tx_comm_event.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class T1CommEventKey {
-    tx_comm_event = 0,
-};
-} // <- mzn
 #include "command_vector_nb.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class T1CommEvent : public CommandVectorNb {
 friend std::ostream & operator<<(std::ostream & cmd_os, T1CommEvent const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    tx_comm_event = 0,
+};
+
 
     explicit T1CommEvent();
     ~T1CommEvent() = default;

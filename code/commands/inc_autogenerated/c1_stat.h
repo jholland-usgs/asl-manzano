@@ -30,12 +30,20 @@
 #include "cx_serial_sensor_status.h"
 #include "cx_environmental_processor_status.h"
 
+#include "command_map_ni.h"
 namespace mzn {
+
+// -------------------------------------------------------------------------- //
+class C1Stat : public CommandMapNi {
+
+friend std::ostream & operator<<(std::ostream & cmd_os, C1Stat const & cmd);
+
+public:
 
 // -------------------------------------------------------------------------- //
 
 
-enum class C1StatKey {
+enum class Keys {
     cx_global_status = 0,
     cx_gps_status = 1,
     cx_power_supply_status = 2,
@@ -58,16 +66,7 @@ enum class C1StatKey {
     cx_serial_sensor_status = 19,
     cx_environmental_processor_status = 20,
 };
-} // <- mzn
-#include "command_map_ni.h"
-namespace mzn {
 
-// -------------------------------------------------------------------------- //
-class C1Stat : public CommandMapNi {
-
-friend std::ostream & operator<<(std::ostream & cmd_os, C1Stat const & cmd);
-
-public:
 
     explicit C1Stat();
     ~C1Stat() = default;

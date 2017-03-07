@@ -10,15 +10,6 @@
 
 #include "cy_gps_satellites.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class CxGpsSatellitesKey {
-    cy_gps_satellites = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class CxGpsSatellites : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, CxGpsSatellites const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cy_gps_satellites = 0,
+};
+
 
     explicit CxGpsSatellites();
     ~CxGpsSatellites() = default;

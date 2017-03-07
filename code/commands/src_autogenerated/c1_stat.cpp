@@ -55,7 +55,7 @@ std::ostream & C1Stat::os_print(std::ostream & cmd_os) const {
 
 void C1Stat::create_new_ic(uint8_t const cmd_key) {
 
-    using CKE = C1StatKey;
+    using CKE = C1Stat::Keys;
     auto const cmd_key_enum = static_cast<CKE>(cmd_key);
 
     switch(cmd_key_enum) {

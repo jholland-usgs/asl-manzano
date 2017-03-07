@@ -10,15 +10,6 @@
 
 #include "cy_thread_status.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class CxThreadStatusKey {
-    cy_thread_status = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class CxThreadStatus : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, CxThreadStatus const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cy_thread_status = 0,
+};
+
 
     explicit CxThreadStatus();
     ~CxThreadStatus() = default;

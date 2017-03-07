@@ -34,6 +34,10 @@ std::string to_camel_case(std::string cn) {
     return cn;
 }
 
+// -------------------------------------------------------------------------- //
+bool json_has_key(Json const & json, std::string const & key) {
+    return ( json.find(key) != json.end() );
+}
 
 // -------------------------------------------------------------------------- //
 void mc_key_enums(Json const & cmds_json,
@@ -45,15 +49,36 @@ void mc_key_enums(Json const & cmds_json,
 
         c_fs << "\n";
 
-        c_fs << "\nenum class " << to_camel_case(cmd_name) << "Key {";
+        c_fs << "\nenum class Keys {";
+
+        auto & ic_json = cmds_json[cmd_name.c_str()]["inner_commands"];
+
+        bool has_key_values = json_has_key(ic_json[0], "key_value");
+        bool also_has_key_values;
+
+        for (int kni = 0; kni < knn; kni++) {
+            also_has_key_values = json_has_key(ic_json[kni], "key_value");
+            if (has_key_values != also_has_key_values) {
+                throw std::logic_error(
+                    "mc_key_enums: either all have key_value or none");
+            }
+        }
 
         for (int kni = 0; kni < knn; kni++) {
 
-            std::string const key_name =
-                cmds_json[cmd_name.c_str()]["inner_commands"][kni]["key_name"];
+            std::string const key_name = ic_json[kni]["key_name"];
 
             c_fs << "\n    ";
-            c_fs << key_name << " = " << kni << ",";
+            c_fs << key_name << " = ";
+
+            if (has_key_values) {
+                uint8_t const key_value = ic_json[kni]["key_value"];
+                c_fs << key_value;
+            } else {
+                c_fs << kni;
+            }
+
+            c_fs << ",";
         }
 
         c_fs << "\n};";
@@ -165,11 +190,6 @@ void custom_command_fields(Json const & cmds_json,
             c_fs << "CmdField" << cf_type << ", " << N << "> " << cf_name << ";";
         }
     }
-}
-
-// -------------------------------------------------------------------------- //
-bool json_has_key(Json const & json, std::string const & key) {
-    return ( json.find(key) != json.end() );
 }
 
 // -------------------------------------------------------------------------- //

@@ -10,15 +10,6 @@
 
 #include "tx_irr_filter.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class T1IrrFilterKey {
-    tx_irr_filter = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class T1IrrFilter : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, T1IrrFilter const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    tx_irr_filter = 0,
+};
+
 
     explicit T1IrrFilter();
     ~T1IrrFilter() = default;

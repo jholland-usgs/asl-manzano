@@ -953,7 +953,6 @@
 
   },
 
-
   "c1_stat":{
     "cmd_fields":[
 
@@ -1384,6 +1383,16 @@
   "originator": "both"
 },
 
+
+"t1_ignore":{
+  "cmd_fields":
+  [
+  ],
+  "cmd_number": "0",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
 "t1_version_number":{
   "cmd_fields":
   [
@@ -1415,7 +1424,7 @@
   "originator": "both"
 },
 
-"t1_data_subscription_server_parameter":{
+"t1_data_subscription_server":{
   "cmd_fields":
   [
     {"cf_name": "highest_priority_password", "cf_size": 8, "cf_type": "CmdFieldPstring<8>"},
@@ -1444,7 +1453,7 @@
   "originator": "both"
 },
 
-"t1_clock_processing_parameters":{
+"t1_clock_processing":{
   "cmd_fields":
   [
     {"cf_name": "timezone_offset", "cf_size": 4, "cf_type": "CmdFieldDuration<int32_t>"},
@@ -1559,6 +1568,33 @@
    "inner_commands":
    [
      {"key_name": "tx_irr_filter"}
+   ]
+},
+
+"t2_tokens":{
+   "cmd_fields":
+   [
+   ],
+
+   "cmd_number": "0",
+   "crc_and_header": false,
+   "originator": "both",
+   "container_type": "map",
+   "container_info": "nb",
+   "inner_commands":
+   [
+     {"key_name": "t1_ignore", "key_value": 0},
+     {"key_name": "t1_version_number", "key_value": 1},
+     {"key_name": "t1_network_station", "key_value": 2},
+     {"key_name": "t1_netserver", "key_value": 3},
+     {"key_name": "t1_data_subscription_server", "key_value": 4},
+     {"key_name": "t1_webserver", "key_value": 5},
+     {"key_name": "t1_clock_processing", "key_value": 6},
+     {"key_name": "t1_log_and_timing", "key_value": 7},
+     {"key_name": "t1_configuration_identification", "key_value": 8},
+     {"key_name": "t1_data_server", "key_value": 9},
+     {"key_name": "t1_comm_event", "key_value": 192},
+     {"key_name": "t1_irr_filter", "key_value": 129}
    ]
 }
 

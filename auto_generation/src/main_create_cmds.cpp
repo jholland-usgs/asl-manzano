@@ -176,15 +176,6 @@ int main() {
         // also different for mc and normal commands
         if (command_container) {
 
-            // key enums for map
-            c_fs << "\nnamespace mzn {"
-                 << "\n\n// -------------------------------------------"
-                 << "------------------------------- //"
-                 << "\n";
-            mc_key_enums(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
-            c_fs << "\n} // <- mzn";
-
-
             // class declaration
             if (fixed_map) {
                 base_file = "command_map";
@@ -225,6 +216,19 @@ int main() {
              << cmd_class_name << " const & cmd);";
 
         c_fs << "\n\npublic:";
+
+        // Add definition for keys
+
+        if (command_container) {
+
+            // key enums for map
+            c_fs << "\n\n// -------------------------------------------"
+                 << "------------------------------- //"
+                 << "\n";
+            mc_key_enums(cmds_json, c_fs, cmd_name, mc_cmd_map_size);
+            c_fs << "\n";
+        }
+
         //TODO: default constructor
         c_fs << "\n\n    explicit " << cmd_class_name <<"();"; //default constructor
         c_fs << "\n    ~" << cmd_class_name <<"() = default;"; //default destructor
@@ -444,7 +448,7 @@ int main() {
 
             if (fixed_map) {
 
-                c_fs << "\n    using CKE = " << cmd_class_name << "Key;";
+                c_fs << "\n    using CKE = " << cmd_class_name << "::Keys;";
 
                 c_fs << "\n    auto const cmd_key_enum = static_cast<CKE>(cmd_key);\n";
 

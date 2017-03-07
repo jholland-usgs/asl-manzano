@@ -11,16 +11,6 @@
 #include "cz_internal_temperature_measurement.h"
 #include "cz_humidity_and_external_temperature.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class CySerialSensorStatusKey {
-    cz_internal_temperature_measurement = 0,
-    cz_humidity_and_external_temperature = 1,
-};
-} // <- mzn
 #include "command_map_ni.h"
 namespace mzn {
 
@@ -30,6 +20,15 @@ class CySerialSensorStatus : public CommandMapNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, CySerialSensorStatus const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cz_internal_temperature_measurement = 0,
+    cz_humidity_and_external_temperature = 1,
+};
+
 
     explicit CySerialSensorStatus();
     ~CySerialSensorStatus() = default;

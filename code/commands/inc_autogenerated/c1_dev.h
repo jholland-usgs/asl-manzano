@@ -10,15 +10,6 @@
 
 #include "cx_dev.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class C1DevKey {
-    cx_dev = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class C1Dev : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, C1Dev const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cx_dev = 0,
+};
+
 
     explicit C1Dev();
     ~C1Dev() = default;

@@ -10,15 +10,6 @@
 
 #include "cy_serial_sensor_status.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class CxSerialSensorStatusKey {
-    cy_serial_sensor_status = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class CxSerialSensorStatus : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, CxSerialSensorStatus const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cy_serial_sensor_status = 0,
+};
+
 
     explicit CxSerialSensorStatus();
     ~CxSerialSensorStatus() = default;

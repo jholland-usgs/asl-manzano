@@ -10,15 +10,6 @@
 
 #include "cy_auxiliary_board_status.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class CxAuxiliaryBoardStatusKey {
-    cy_auxiliary_board_status = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class CxAuxiliaryBoardStatus : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, CxAuxiliaryBoardStatus const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cy_auxiliary_board_status = 0,
+};
+
 
     explicit CxAuxiliaryBoardStatus();
     ~CxAuxiliaryBoardStatus() = default;

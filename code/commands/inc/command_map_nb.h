@@ -1,8 +1,8 @@
-// ** CommandMapNi Class ** //
+// ** CommandMapNb Class ** //
 // Manzano software
 
-#ifndef _MZN_COMMAND_MAP_NI_H
-#define _MZN_COMMAND_MAP_NI_H
+#ifndef _MZN_COMMAND_MAP_NB_H
+#define _MZN_COMMAND_MAP_NB_H
 
 #include "command_map.h"
 #include <map>
@@ -15,27 +15,21 @@ namespace mzn {
     @author rfigueroa@usgs.gov
  */
 // -------------------------------------------------------------------------- //
-class CommandMapNi : public CommandMap {
+class CommandMapNb : public CommandMap {
 
 public:
 
-    CommandMapNi(uint16_t const cmd_number,
+    CommandMapNb(uint16_t const cmd_number,
                  uint16_t const cmd_data_size);
 
-    ~CommandMapNi() = default;
-    CommandMapNi(CommandMapNi && rhs) noexcept;
-    CommandMapNi & operator=(CommandMapNi && rhs) noexcept;
-
-    //! pure, not auto generated, typically checks cmd header
-    //! @return true when a particular map_key is expected on the msg
-    //! @see mc_c1_stat.cpp
-    virtual
-    bool command_active(uint8_t const map_key) const = 0;
+    ~CommandMapNb() = default;
+    CommandMapNb(CommandMapNb && rhs) noexcept;
+    CommandMapNb & operator=(CommandMapNb && rhs) noexcept;
 
     //! Pure virtual,
     //! NOT auto generated in derived classes
     virtual
-    uint16_t ni(std::vector<uint8_t> const & msg,
+    uint16_t nb(std::vector<uint8_t> const & msg,
                 uint16_t mf_begin) const = 0;
 
 protected:
@@ -45,4 +39,4 @@ protected:
 };
 
 } // << mzn
-#endif // _MZN_COMMAND_MAP_NI_
+#endif // _MZN_COMMAND_MAP_NB_

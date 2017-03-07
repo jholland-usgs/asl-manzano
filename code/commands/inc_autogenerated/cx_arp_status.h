@@ -10,15 +10,6 @@
 
 #include "cy_arp_status.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class CxArpStatusKey {
-    cy_arp_status = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class CxArpStatus : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, CxArpStatus const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cy_arp_status = 0,
+};
+
 
     explicit CxArpStatus();
     ~CxArpStatus() = default;

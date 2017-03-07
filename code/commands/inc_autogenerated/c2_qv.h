@@ -10,15 +10,6 @@
 
 #include "cx_qv.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class C2QvKey {
-    cx_qv = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class C2Qv : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, C2Qv const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cx_qv = 0,
+};
+
 
     explicit C2Qv();
     ~C2Qv() = default;

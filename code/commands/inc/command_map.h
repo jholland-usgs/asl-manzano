@@ -42,11 +42,6 @@ public:
 
 protected:
 
-    //! pure, not auto generated, typically checks cmd header
-    //! @return true when a particular map_key is expected on the msg
-    //! @see mc_c1_stat.cpp
-    virtual
-    bool command_active(uint8_t const map_key) const = 0;
 
     //! @return the cmd_index in the map
     //! @throw if map_key is not found on the map

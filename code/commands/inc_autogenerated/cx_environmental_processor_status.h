@@ -10,15 +10,6 @@
 
 #include "cy_environmental_processor_status.h"
 
-namespace mzn {
-
-// -------------------------------------------------------------------------- //
-
-
-enum class CxEnvironmentalProcessorStatusKey {
-    cy_environmental_processor_status = 0,
-};
-} // <- mzn
 #include "command_vector_ni.h"
 namespace mzn {
 
@@ -28,6 +19,14 @@ class CxEnvironmentalProcessorStatus : public CommandVectorNi {
 friend std::ostream & operator<<(std::ostream & cmd_os, CxEnvironmentalProcessorStatus const & cmd);
 
 public:
+
+// -------------------------------------------------------------------------- //
+
+
+enum class Keys {
+    cy_environmental_processor_status = 0,
+};
+
 
     explicit CxEnvironmentalProcessorStatus();
     ~CxEnvironmentalProcessorStatus() = default;
