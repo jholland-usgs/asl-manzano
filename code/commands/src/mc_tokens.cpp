@@ -1,5 +1,6 @@
 #include "t1_comm_event.h"
 #include "t1_irr_filter.h"
+#include "t2_tokens.h"
 
 namespace mzn {
 
@@ -33,6 +34,13 @@ uint16_t T1CommEvent::nb(std::vector<uint8_t> const & msg, uint16_t mf_begin) co
 uint16_t T1IrrFilter::ni(std::vector<uint8_t> const & msg, uint16_t mf_begin) const {
 
     return this->number_of_sections();
+}
+
+// -------------------------------------------------------------------------- //
+uint16_t T2Tokens::nb(std::vector<uint8_t> const & msg, uint16_t mf_begin) const {
+    // tokens does not have any header. Only works for the whole msg
+    auto const N = msg.size();
+    return N;
 }
 
 }

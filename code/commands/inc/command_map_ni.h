@@ -32,11 +32,6 @@ public:
     virtual
     bool command_active(uint8_t const map_key) const = 0;
 
-    //! Pure virtual,
-    //! NOT auto generated in derived classes
-    virtual
-    uint16_t ni(std::vector<uint8_t> const & msg,
-                uint16_t mf_begin) const = 0;
 
 protected:
 

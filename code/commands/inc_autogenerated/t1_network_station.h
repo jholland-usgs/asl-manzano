@@ -26,7 +26,7 @@ public:
     std::string const cmd_name = "t1_network_station";
 
     CmdFieldArrayChar<2> network;
-    CmdFieldArrayChar<3> station;
+    CmdFieldArrayChar<5> station;
 
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) override;

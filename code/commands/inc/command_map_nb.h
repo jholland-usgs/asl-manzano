@@ -36,6 +36,10 @@ protected:
 
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) override;
+
+    //! Calls data_to_msg on all inner commands
+    uint16_t data_to_msg(std::vector<uint8_t> & msg,
+                         uint16_t mf_begin) const override;
 };
 
 } // << mzn

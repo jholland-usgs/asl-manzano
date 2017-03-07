@@ -2,7 +2,7 @@
 
 namespace mzn {
 T1NetworkStation::T1NetworkStation():
-    Command(2, 5),
+    Command(2, 7),
     network(),
     station() { }
 

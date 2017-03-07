@@ -28,7 +28,8 @@ public:
     //! Pure virtual, number of items
     //! NOT auto generated in derived classes
     virtual
-    uint16_t ni(std::vector<uint8_t> const & msg, uint16_t mf_begin) const = 0;
+    uint16_t ni(std::vector<uint8_t> const & msg,
+                uint16_t mf_begin) const = 0;
 
 protected:
 

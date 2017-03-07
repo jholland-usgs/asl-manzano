@@ -210,7 +210,6 @@ int main() {
                  << "\nclass " << cmd_class_name << " : public Command {\n";
         }
 
-
         // add operator<< as a friend to access protected member function os_print
         c_fs << "\nfriend std::ostream & operator<<(std::ostream & cmd_os, "
              << cmd_class_name << " const & cmd);";
@@ -268,8 +267,20 @@ int main() {
         // function declarations for multi command
         if (command_container) {
 
-            if (fixed_map) {
-                c_fs << "\n    bool command_active(uint8_t const cmd_key) const override;";
+            // command_active (* yes)
+            //        |Ni|Nb|
+            //        -------
+            // vector |  |  |
+            // map    |* |  |
+            //        -------
+
+            if (info_ni and fixed_map) {
+                c_fs << "\n    bool command_active(uint8_t const cmd_key)"
+                     << " const override;";
+            }
+
+            /*
+            if (
                 c_fs << "\n    // max keys known at compile time for fixed maps mc";
                 c_fs << "\n    uint16_t " << base_func << "(std::vector<uint8_t> const & msg,";
                 c_fs << "\n                uint16_t mf_begin) const override";
@@ -277,14 +288,31 @@ int main() {
                 c_fs << "\n        return " << mc_cmd_map_size << ";";
                 c_fs << "\n    }";
                 c_fs << "\n";
-            } else {
-                c_fs << "\n    // max keys implementation in a separate function/file";
+
+            }
+            */
+
+            // ni() or nb() (* yes)
+            //        |Ni|Nb|
+            //        -------
+            // vector |* |* |
+            // map    |  |* |
+            //        -------
+
+            if ( (not info_ni) or (not fixed_map) ) {
+
+                c_fs << "\n    // max keys implementation"
+                     << " in a separate function/file";
+
                 c_fs << "\n    // not part of auto generation";
-                c_fs << "\n    uint16_t " << base_func << "(std::vector<uint8_t> const & msg,";
+                c_fs << "\n    uint16_t " << base_func
+                     << "(std::vector<uint8_t> const & msg,";
+
                 c_fs << "\n                uint16_t mf_begin) const override";
                 c_fs << ";";
             }
 
+            // create_new_ic
             c_fs << "\n    void create_new_ic(uint8_t const  cmd_key) override;";
         }
 
@@ -406,7 +434,13 @@ int main() {
         custom_data_to_msg(cmds_json, c_fs, cmd_name, cfn);
 
         if (command_container) {
-            c_fs << "\n    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);";
+
+            c_fs << "\n    mf_begin = ";
+
+            if (fixed_map and not info_ni) c_fs << "CommandMapNb";
+            else c_fs << "CommandContainer";
+
+            c_fs << "::data_to_msg(msg, mf_begin);";
         }
 
         c_fs << "\n\n    return mf_begin;";

@@ -87,12 +87,6 @@ public:
     uint16_t data_to_msg(std::vector<uint8_t> & msg,
                          uint16_t mf_begin) const override;
     bool command_active(uint8_t const cmd_key) const override;
-    // max keys known at compile time for fixed maps mc
-    uint16_t ni(std::vector<uint8_t> const & msg,
-                uint16_t mf_begin) const override {
-        return 21;
-    }
-
     void create_new_ic(uint8_t const  cmd_key) override;
 
 private:

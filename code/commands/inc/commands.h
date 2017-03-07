@@ -73,6 +73,7 @@
 #include "dt_open.h"
 #include "qdp_crc.h"
 #include "qdp_header.h"
+#include "t1_ignore.h"
 #include "t1_clock_processing.h"
 #include "t1_configuration_identification.h"
 #include "t1_data_server.h"
@@ -86,5 +87,6 @@
 #include "tx_comm_event.h"
 #include "t1_irr_filter.h"
 #include "tx_irr_filter.h"
+#include "t2_tokens.h"
 
 #endif // _MZN_CMD_COMMANDS_H

@@ -11,9 +11,9 @@
 #include "t1_ignore.h"
 #include "t1_version_number.h"
 #include "t1_network_station.h"
-#include "t1_netserver.h"
+#include "t1_dp_netserver.h"
 #include "t1_data_subscription_server.h"
-#include "t1_webserver.h"
+#include "t1_dp_webserver.h"
 #include "t1_clock_processing.h"
 #include "t1_log_and_timing.h"
 #include "t1_configuration_identification.h"
@@ -37,9 +37,9 @@ public:
         t1_ignore = 0,
         t1_version_number = 1,
         t1_network_station = 2,
-        t1_netserver = 3,
+        t1_dp_netserver = 3,
         t1_data_subscription_server = 4,
-        t1_webserver = 5,
+        t1_dp_webserver = 5,
         t1_clock_processing = 6,
         t1_log_and_timing = 7,
         t1_configuration_identification = 8,
@@ -67,13 +67,10 @@ public:
 
     uint16_t data_to_msg(std::vector<uint8_t> & msg,
                          uint16_t mf_begin) const override;
-    bool command_active(uint8_t const cmd_key) const override;
-    // max keys known at compile time for fixed maps mc
+    // max keys implementation in a separate function/file
+    // not part of auto generation
     uint16_t nb(std::vector<uint8_t> const & msg,
-                uint16_t mf_begin) const override {
-        return 12;
-    }
-
+                uint16_t mf_begin) const override;
     void create_new_ic(uint8_t const  cmd_key) override;
 
 private:

@@ -58,5 +58,18 @@ uint16_t CommandMapNb::msg_to_data(std::vector<uint8_t> const & msg,
 
     return mf_begin;
 }
+// -------------------------------------------------------------------------- //
+uint16_t CommandMapNb::data_to_msg(std::vector<uint8_t> & msg,
+                                   uint16_t mf_begin) const {
 
+    CmdField<uint8_t> map_key_cf;
+
+    for (auto const & ic : inner_commands) {
+        map_key_cf( ic->cmd_number() );
+        mf_begin = map_key_cf.data_to_msg(msg, mf_begin);
+        mf_begin = ic->data_to_msg(msg, mf_begin);
+    }
+
+    return mf_begin ;
+}
 } // << mzn

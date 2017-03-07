@@ -1407,7 +1407,7 @@
   "cmd_fields":
   [
     {"cf_name": "network", "cf_size": 2, "cf_type": "CmdFieldArrayChar<2>"},
-    {"cf_name": "station", "cf_size": 3, "cf_type": "CmdFieldArrayChar<3>"}
+    {"cf_name": "station", "cf_size": 5, "cf_type": "CmdFieldArrayChar<5>"}
   ],
   "cmd_number": "2",
   "crc_and_header": false,
@@ -1586,9 +1586,9 @@
      {"key_name": "t1_ignore", "key_value": 0},
      {"key_name": "t1_version_number", "key_value": 1},
      {"key_name": "t1_network_station", "key_value": 2},
-     {"key_name": "t1_netserver", "key_value": 3},
+     {"key_name": "t1_dp_netserver", "key_value": 3},
      {"key_name": "t1_data_subscription_server", "key_value": 4},
-     {"key_name": "t1_webserver", "key_value": 5},
+     {"key_name": "t1_dp_webserver", "key_value": 5},
      {"key_name": "t1_clock_processing", "key_value": 6},
      {"key_name": "t1_log_and_timing", "key_value": 7},
      {"key_name": "t1_configuration_identification", "key_value": 8},
