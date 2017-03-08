@@ -1,5 +1,6 @@
 #include "t1_comm_event.h"
 #include "t1_irr_filter.h"
+#include "t1_fir_filter.h"
 #include "t2_tokens.h"
 
 namespace mzn {
@@ -25,6 +26,14 @@ uint16_t token_header_size(uint8_t const cmd_number) {
 // -------------------------------------------------------------------------- //
 uint16_t T1CommEvent::nb(std::vector<uint8_t> const & msg, uint16_t mf_begin) const {
     // TODO this works for event, but need more general for bigger headers
+    auto const header_size = token_header_size( this->cmd_number() );
+    auto const N = this->number_of_bytes() - header_size;
+    return N;
+}
+
+// -------------------------------------------------------------------------- //
+uint16_t T1FirFilter::nb(std::vector<uint8_t> const & msg, uint16_t mf_begin) const {
+    // TODO this works for fir filter, but need more general for bigger headers
     auto const header_size = token_header_size( this->cmd_number() );
     auto const N = this->number_of_bytes() - header_size;
     return N;

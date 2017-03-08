@@ -118,6 +118,27 @@ void T2Tokens::create_new_ic(uint8_t const cmd_key) {
                      std::make_unique<T1IrrFilter>() } );
             break;
         }
+        case CKE::t1_fir_filter : {
+
+            inner_commands.push_back(
+                std::unique_ptr<Command>{
+                     std::make_unique<T1FirFilter>() } );
+            break;
+        }
+        case CKE::t1_murdock_hutt_detector : {
+
+            inner_commands.push_back(
+                std::unique_ptr<Command>{
+                     std::make_unique<T1MurdockHuttDetector>() } );
+            break;
+        }
+        case CKE::t1_threshold_detector : {
+
+            inner_commands.push_back(
+                std::unique_ptr<Command>{
+                     std::make_unique<T1ThresholdDetector>() } );
+            break;
+        }
     }
 
     if (inner_commands.back() == nullptr) {

@@ -1571,6 +1571,79 @@
    ]
 },
 
+"tx_fir_filter":{
+  "cmd_fields":
+  [
+    {"cf_name": "filter_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "filter_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
+  ],
+  "cmd_number": "0",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_fir_filter":{
+   "cmd_fields":
+   [
+    {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"}
+   ],
+
+   "cmd_number": "130",
+   "crc_and_header": false,
+   "originator": "both",
+   "container_type": "vector",
+   "container_info": "nb",
+   "inner_commands":
+   [
+     {"key_name": "tx_fir_filter"}
+   ]
+},
+
+
+"t1_murdock_hutt_detector":{
+  "cmd_fields":
+  [
+    {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_filter_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "iw_parameter", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "nht_parameter", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "filhi_parameter", "cf_size": 4, "cf_type": "CmdField<int32_t>"},
+    {"cf_name": "fillo_parameter", "cf_size": 4, "cf_type": "CmdField<int32_t>"},
+    {"cf_name": "wa_parameter", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+    {"cf_name": "spare_1", "cf_size": 2, "cf_type": "CmdFieldIgnore<uint16_t>"},
+    {"cf_name": "tc_parameter", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+    {"cf_name": "x1_parameter_over_2", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "x2_parameter_over_2", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "x3_parameter_over_2", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "xx_parameter", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "av_parameter", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
+  ],
+  "cmd_number": "132",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"t1_threshold_detector":{
+  "cmd_fields":
+  [
+    {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_filter_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "hysterisis_parameter", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "window_parameter", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "high_limit_parameter", "cf_size": 4, "cf_type": "CmdField<int32_t>"},
+    {"cf_name": "low_limit_parameter", "cf_size": 4, "cf_type": "CmdField<int32_t>"},
+    {"cf_name": "tail_parameter", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+    {"cf_name": "spare_1", "cf_size": 2, "cf_type": "CmdFieldIgnore<uint16_t>"},
+    {"cf_name": "detector_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
+  ],
+  "cmd_number": "133",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
 "t2_tokens":{
    "cmd_fields":
    [
@@ -1594,7 +1667,11 @@
      {"key_name": "t1_configuration_identification", "key_value": 8},
      {"key_name": "t1_data_server", "key_value": 9},
      {"key_name": "t1_comm_event", "key_value": 192},
-     {"key_name": "t1_irr_filter", "key_value": 129}
+     {"key_name": "t1_irr_filter", "key_value": 129},
+     {"key_name": "t1_fir_filter", "key_value": 130},
+     {"key_name": "t1_murdock_hutt_detector", "key_value": 132},
+     {"key_name": "t1_threshold_detector", "key_value": 133}
+
    ]
 }
 
