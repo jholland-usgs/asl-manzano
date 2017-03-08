@@ -19,6 +19,7 @@
 #include "t1_configuration_identification.h"
 #include "t1_data_server.h"
 #include "t1_comm_event.h"
+#include "t1_logical_channel_queue.h"
 #include "t1_irr_filter.h"
 #include "t1_fir_filter.h"
 #include "t1_murdock_hutt_detector.h"
@@ -48,6 +49,7 @@ public:
         t1_configuration_identification = 8,
         t1_data_server = 9,
         t1_comm_event = 192,
+        t1_logical_channel_queue = 128,
         t1_irr_filter = 129,
         t1_fir_filter = 130,
         t1_murdock_hutt_detector = 132,
@@ -55,7 +57,7 @@ public:
     };
 
     std::vector<uint8_t> const all_keys = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 192, 129, 130, 132, 133,
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 192, 128, 129, 130, 132, 133,
     };
 
     std::vector<uint8_t> const keys() const override {return all_keys;}

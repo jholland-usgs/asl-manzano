@@ -111,6 +111,13 @@ void T2Tokens::create_new_ic(uint8_t const cmd_key) {
                      std::make_unique<T1CommEvent>() } );
             break;
         }
+        case CKE::t1_logical_channel_queue : {
+
+            inner_commands.push_back(
+                std::unique_ptr<Command>{
+                     std::make_unique<T1LogicalChannelQueue>() } );
+            break;
+        }
         case CKE::t1_irr_filter : {
 
             inner_commands.push_back(

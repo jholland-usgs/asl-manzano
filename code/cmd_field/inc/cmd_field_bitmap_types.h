@@ -750,6 +750,25 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmConfigurationIdentifica
 }
 
 // -------------------------------------------------------------------------- //
+class BmControlDetectorSpecificationOption : public CmdFieldBitmap<1> {
+
+friend std::ostream & operator<<(std::ostream & bm_os, BmControlDetectorSpecificationOption const & bm);
+
+public:
+    explicit BmControlDetectorSpecificationOption() : CmdFieldBitmap<1>{} {};
+    bool const generate_a_log_message() const {return this -> data_.test(0);}
+    void generate_a_log_message(const bool b) {this -> data_.set(0, b);}
+};
+
+inline std::ostream & operator<<(std::ostream & bm_os, BmControlDetectorSpecificationOption const & bm) {
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.generate_a_log_message() ) << "] " << 
+        "generate_a_log_message";
+    bm_os << "\n";
+    return bm_os;
+}
+
+// -------------------------------------------------------------------------- //
 class BmCtrlFlags : public CmdFieldBitmap<2> {
 
 friend std::ostream & operator<<(std::ostream & bm_os, BmCtrlFlags const & bm);
@@ -799,6 +818,35 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmCtrlFlags const & bm) {
     bm_os << "\n    ";
     bm_os << "[" << bm.bool_indicator( bm.reboot_envproc_on_serial_2() ) << "] " << 
         "reboot_envproc_on_serial_2";
+    bm_os << "\n";
+    return bm_os;
+}
+
+// -------------------------------------------------------------------------- //
+class BmDetectorOptions : public CmdFieldBitmap<1> {
+
+friend std::ostream & operator<<(std::ostream & bm_os, BmDetectorOptions const & bm);
+
+public:
+    explicit BmDetectorOptions() : CmdFieldBitmap<1>{} {};
+    bool const detector_runs_by_default() const {return this -> data_.test(0);}
+    bool const logging_enabled() const {return this -> data_.test(1);}
+    bool const text_version_to_message_log() const {return this -> data_.test(3);}
+    void detector_runs_by_default(const bool b) {this -> data_.set(0, b);}
+    void logging_enabled(const bool b) {this -> data_.set(1, b);}
+    void text_version_to_message_log(const bool b) {this -> data_.set(3, b);}
+};
+
+inline std::ostream & operator<<(std::ostream & bm_os, BmDetectorOptions const & bm) {
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_runs_by_default() ) << "] " << 
+        "detector_runs_by_default";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.logging_enabled() ) << "] " << 
+        "logging_enabled";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.text_version_to_message_log() ) << "] " << 
+        "text_version_to_message_log";
     bm_os << "\n";
     return bm_os;
 }
@@ -1580,6 +1628,145 @@ inline std::ostream & operator<<(std::ostream & bm_os, BmLoadsOff const & bm) {
     bm_os << "\n    ";
     bm_os << "[" << bm.bool_indicator( bm.load_7_is_currently_off() ) << "] " << 
         "load_7_is_currently_off";
+    bm_os << "\n";
+    return bm_os;
+}
+
+// -------------------------------------------------------------------------- //
+class BmLogicalChannelOption : public CmdFieldBitmap<4> {
+
+friend std::ostream & operator<<(std::ostream & bm_os, BmLogicalChannelOption const & bm);
+
+public:
+    explicit BmLogicalChannelOption() : CmdFieldBitmap<4>{} {};
+    bool const event_data_if_set_else_continuous() const {return this -> data_.test(0);}
+    bool const writes_detector_packets() const {return this -> data_.test(1);}
+    bool const writes_calibration_packets() const {return this -> data_.test(2);}
+    bool const pre_event_buffers_present() const {return this -> data_.test(3);}
+    bool const gap_threshold_present() const {return this -> data_.test(4);}
+    bool const calibration_delay_present() const {return this -> data_.test(5);}
+    bool const maximum_frame_count_present() const {return this -> data_.test(6);}
+    bool const fir_multiplier_present() const {return this -> data_.test(7);}
+    bool const averaging_parameters_present() const {return this -> data_.test(8);}
+    bool const control_detector_present() const {return this -> data_.test(9);}
+    bool const decimation_entry_present() const {return this -> data_.test(10);}
+    bool const dont_generate_any_output() const {return this -> data_.test(11);}
+    bool const detector_1_present() const {return this -> data_.test(12);}
+    bool const detector_2_present() const {return this -> data_.test(13);}
+    bool const detector_3_present() const {return this -> data_.test(14);}
+    bool const detector_4_present() const {return this -> data_.test(15);}
+    bool const detector_5_present() const {return this -> data_.test(16);}
+    bool const detector_6_present() const {return this -> data_.test(17);}
+    bool const detector_7_present() const {return this -> data_.test(18);}
+    bool const detector_8_present() const {return this -> data_.test(19);}
+    bool const netserv_is_event_only() const {return this -> data_.test(27);}
+    bool const dont_include_this_lcq_when_calculating_freq_bitmap() const {return this -> data_.test(28);}
+    bool const send_this_data_through_dataserv() const {return this -> data_.test(29);}
+    bool const send_this_data_through_netserv() const {return this -> data_.test(30);}
+    bool const force_writing_cnp_opaque_blockettes_one_per_record() const {return this -> data_.test(31);}
+    void event_data_if_set_else_continuous(const bool b) {this -> data_.set(0, b);}
+    void writes_detector_packets(const bool b) {this -> data_.set(1, b);}
+    void writes_calibration_packets(const bool b) {this -> data_.set(2, b);}
+    void pre_event_buffers_present(const bool b) {this -> data_.set(3, b);}
+    void gap_threshold_present(const bool b) {this -> data_.set(4, b);}
+    void calibration_delay_present(const bool b) {this -> data_.set(5, b);}
+    void maximum_frame_count_present(const bool b) {this -> data_.set(6, b);}
+    void fir_multiplier_present(const bool b) {this -> data_.set(7, b);}
+    void averaging_parameters_present(const bool b) {this -> data_.set(8, b);}
+    void control_detector_present(const bool b) {this -> data_.set(9, b);}
+    void decimation_entry_present(const bool b) {this -> data_.set(10, b);}
+    void dont_generate_any_output(const bool b) {this -> data_.set(11, b);}
+    void detector_1_present(const bool b) {this -> data_.set(12, b);}
+    void detector_2_present(const bool b) {this -> data_.set(13, b);}
+    void detector_3_present(const bool b) {this -> data_.set(14, b);}
+    void detector_4_present(const bool b) {this -> data_.set(15, b);}
+    void detector_5_present(const bool b) {this -> data_.set(16, b);}
+    void detector_6_present(const bool b) {this -> data_.set(17, b);}
+    void detector_7_present(const bool b) {this -> data_.set(18, b);}
+    void detector_8_present(const bool b) {this -> data_.set(19, b);}
+    void netserv_is_event_only(const bool b) {this -> data_.set(27, b);}
+    void dont_include_this_lcq_when_calculating_freq_bitmap(const bool b) {this -> data_.set(28, b);}
+    void send_this_data_through_dataserv(const bool b) {this -> data_.set(29, b);}
+    void send_this_data_through_netserv(const bool b) {this -> data_.set(30, b);}
+    void force_writing_cnp_opaque_blockettes_one_per_record(const bool b) {this -> data_.set(31, b);}
+};
+
+inline std::ostream & operator<<(std::ostream & bm_os, BmLogicalChannelOption const & bm) {
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.event_data_if_set_else_continuous() ) << "] " << 
+        "event_data_if_set_else_continuous";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.writes_detector_packets() ) << "] " << 
+        "writes_detector_packets";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.writes_calibration_packets() ) << "] " << 
+        "writes_calibration_packets";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.pre_event_buffers_present() ) << "] " << 
+        "pre_event_buffers_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.gap_threshold_present() ) << "] " << 
+        "gap_threshold_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.calibration_delay_present() ) << "] " << 
+        "calibration_delay_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.maximum_frame_count_present() ) << "] " << 
+        "maximum_frame_count_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.fir_multiplier_present() ) << "] " << 
+        "fir_multiplier_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.averaging_parameters_present() ) << "] " << 
+        "averaging_parameters_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.control_detector_present() ) << "] " << 
+        "control_detector_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.decimation_entry_present() ) << "] " << 
+        "decimation_entry_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.dont_generate_any_output() ) << "] " << 
+        "dont_generate_any_output";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_1_present() ) << "] " << 
+        "detector_1_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_2_present() ) << "] " << 
+        "detector_2_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_3_present() ) << "] " << 
+        "detector_3_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_4_present() ) << "] " << 
+        "detector_4_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_5_present() ) << "] " << 
+        "detector_5_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_6_present() ) << "] " << 
+        "detector_6_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_7_present() ) << "] " << 
+        "detector_7_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.detector_8_present() ) << "] " << 
+        "detector_8_present";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.netserv_is_event_only() ) << "] " << 
+        "netserv_is_event_only";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.dont_include_this_lcq_when_calculating_freq_bitmap() ) << "] " << 
+        "dont_include_this_lcq_when_calculating_freq_bitmap";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.send_this_data_through_dataserv() ) << "] " << 
+        "send_this_data_through_dataserv";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.send_this_data_through_netserv() ) << "] " << 
+        "send_this_data_through_netserv";
+    bm_os << "\n    ";
+    bm_os << "[" << bm.bool_indicator( bm.force_writing_cnp_opaque_blockettes_one_per_record() ) << "] " << 
+        "force_writing_cnp_opaque_blockettes_one_per_record";
     bm_os << "\n";
     return bm_os;
 }

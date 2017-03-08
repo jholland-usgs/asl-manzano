@@ -67,6 +67,17 @@
     "mf_size": 2, "bm_originator": "q"
   },
 
+  "bm_detector_options":{
+    "bm_fields":[
+
+      {"bmf_name": "detector_runs_by_default", "bmf_bit": 0},
+      {"bmf_name": "logging_enabled", "bmf_bit": 1},
+      {"bmf_name": "text_version_to_message_log", "bmf_bit": 3}
+
+    ],
+    "mf_size": 1, "bm_originator": "both"
+  },
+
   "bm_sdiphase":{
     "bm_fields":[
 
@@ -685,6 +696,46 @@
       {"bmf_name": "environmental_processor_status", "bmf_bit": 20}    ]
 
 ,    "mf_size": 4, "bm_originator": "q"
+},
+
+ "bm_logical_channel_option":{
+    "bm_fields":[
+      {"bmf_name": "event_data_if_set_else_continuous", "bmf_bit": 0},
+      {"bmf_name": "writes_detector_packets", "bmf_bit": 1},
+      {"bmf_name": "writes_calibration_packets", "bmf_bit": 2},
+      {"bmf_name": "pre_event_buffers_present", "bmf_bit": 3},
+      {"bmf_name": "gap_threshold_present", "bmf_bit": 4},
+      {"bmf_name": "calibration_delay_present", "bmf_bit": 5},
+      {"bmf_name": "maximum_frame_count_present", "bmf_bit": 6},
+      {"bmf_name": "fir_multiplier_present", "bmf_bit": 7},
+      {"bmf_name": "averaging_parameters_present", "bmf_bit": 8},
+      {"bmf_name": "control_detector_present", "bmf_bit": 9},
+      {"bmf_name": "decimation_entry_present", "bmf_bit": 10},
+      {"bmf_name": "dont_generate_any_output", "bmf_bit": 11},
+      {"bmf_name": "detector_1_present", "bmf_bit": 12},
+      {"bmf_name": "detector_2_present", "bmf_bit": 13},
+      {"bmf_name": "detector_3_present", "bmf_bit": 14},
+      {"bmf_name": "detector_4_present", "bmf_bit": 15},
+      {"bmf_name": "detector_5_present", "bmf_bit": 16},
+      {"bmf_name": "detector_6_present", "bmf_bit": 17},
+      {"bmf_name": "detector_7_present", "bmf_bit": 18},
+      {"bmf_name": "detector_8_present", "bmf_bit": 19},
+      {"bmf_name": "netserv_is_event_only", "bmf_bit": 27},
+      {"bmf_name": "dont_include_this_lcq_when_calculating_freq_bitmap", "bmf_bit": 28},
+      {"bmf_name": "send_this_data_through_dataserv", "bmf_bit": 29},
+      {"bmf_name": "send_this_data_through_netserv", "bmf_bit": 30},
+      {"bmf_name": "force_writing_cnp_opaque_blockettes_one_per_record", "bmf_bit": 31}
+    ],
+
+    "mf_size": 4, "bm_originator": "both"
+},
+
+
+"bm_control_detector_specification_option":{
+    "bm_fields":[
+      {"bmf_name": "generate_a_log_message", "bmf_bit": 0}
+    ],
+    "mf_size": 1, "bm_originator": "both"
 },
 
  "bm_balerstatus_special":{

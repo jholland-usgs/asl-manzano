@@ -46,6 +46,11 @@ uint16_t T1IrrFilter::ni(std::vector<uint8_t> const & msg, uint16_t mf_begin) co
 }
 
 // -------------------------------------------------------------------------- //
+bool T1LogicalChannelQueue::command_active(uint8_t const cmd_key) const {
+   return option.data_.test(cmd_key);
+}
+
+// -------------------------------------------------------------------------- //
 uint16_t T2Tokens::nb(std::vector<uint8_t> const & msg, uint16_t mf_begin) const {
     // tokens does not have any header. Only works for the whole msg
     auto const N = msg.size();

@@ -1599,6 +1599,186 @@
    ]
 },
 
+"tx_pre_event_buffers":{
+  "cmd_fields":[
+    {"cf_name": "number_of_pre_event_buffers", "cf_size": 2, "cf_type": "CmdField<uint16_t>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_gap_threshold":{
+  "cmd_fields":[
+    {"cf_name": "gap_threshold", "cf_size": 4, "cf_type": "CmdField<float>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_calibration_delay":{
+  "cmd_fields":[
+    {"cf_name": "calibration_delay", "cf_size": 2, "cf_type": "CmdFieldDuration<uint16_t>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_maximum_frame_count":{
+  "cmd_fields":[
+    {"cf_name": "maximum_frame_count", "cf_size": 1, "cf_type": "CmdField<uint8_t>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_fir_multiplier":{
+  "cmd_fields":[
+    {"cf_name": "fir_multiplier", "cf_size": 4, "cf_type": "CmdField<float>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_averaging_parameters":{
+  "cmd_fields":[
+    {"cf_name": "number_of_samples_between_reports", "cf_size": 4, "cf_type": "CmdField<int32_t>"},
+    {"cf_name": "optional_irr_filter_to_use", "cf_size": 1, "cf_type": "CmdField<uint8_t>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_control_detector":{
+  "cmd_fields":[
+    {"cf_name": "control_detector_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_decimation_entry":{
+  "cmd_fields":[
+    {"cf_name": "source_lcq_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "decimation_fir_filter_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_1":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_2":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_3":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_4":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_5":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_6":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_7":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"tx_detector_8":{
+  "cmd_fields":[
+    {"cf_name": "detector_number_to_use_as_base", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number_of_this_invocation", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_options", "cf_size": 1, "cf_type": "BmDetectorOptions"}
+  ],
+  "cmd_number": "0", "crc_and_header": false, "originator": "both"
+},
+
+"t1_logical_channel_queue":{
+  "cmd_fields":[
+    {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "location_code", "cf_size": 2, "cf_type": "CmdFieldArrayChar<2>"},
+    {"cf_name": "seed_name", "cf_size": 3, "cf_type": "CmdFieldArrayChar<3>"},
+    {"cf_name": "lcq_reference_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "source", "cf_size": 2, "cf_type": "CmdFieldHex<uint16_t>"},
+    {"cf_name": "option", "cf_size": 4, "cf_type": "BmLogicalChannelOption"},
+    {"cf_name": "rate", "cf_size": 2, "cf_type": "CmdField<int16_t>"}
+  ],
+
+  "cmd_number": "128",
+  "crc_and_header": false,
+  "originator": "both",
+  "container_type": "map",
+  "container_info": "ni",
+  "inner_commands":[
+    {"key_name": "tx_pre_event_buffers", "key_value": 3},
+    {"key_name": "tx_gap_threshold", "key_value": 4},
+    {"key_name": "tx_calibration_delay", "key_value": 5},
+    {"key_name": "tx_maximum_frame_count", "key_value": 6},
+    {"key_name": "tx_fir_multiplier", "key_value": 7},
+    {"key_name": "tx_averaging_parameters", "key_value": 8},
+    {"key_name": "tx_control_detector", "key_value": 9},
+    {"key_name": "tx_decimation_entry", "key_value": 10},
+    {"key_name": "tx_detector_1", "key_value": 12},
+    {"key_name": "tx_detector_2", "key_value": 13},
+    {"key_name": "tx_detector_3", "key_value": 14},
+    {"key_name": "tx_detector_4", "key_value": 15},
+    {"key_name": "tx_detector_5", "key_value": 16},
+    {"key_name": "tx_detector_6", "key_value": 17},
+    {"key_name": "tx_detector_7", "key_value": 18},
+    {"key_name": "tx_detector_8", "key_value": 19}
+  ]
+},
+
+
+"t1_control_detector_specification_base":{
+  "cmd_fields":
+  [
+    {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+    {"cf_name": "detector_option", "cf_size": 1, "cf_type": "CmdField<bool>"},
+    {"cf_name": "detector_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"},
+    {"cf_name": "detector_equation", "cf_size": 0, "cf_type": "CmdFieldVector<0>"}
+  ],
+  "cmd_number": "131",
+  "crc_and_header": false,
+  "originator": "both"
+},
 
 "t1_murdock_hutt_detector":{
   "cmd_fields":
@@ -1667,6 +1847,7 @@
      {"key_name": "t1_configuration_identification", "key_value": 8},
      {"key_name": "t1_data_server", "key_value": 9},
      {"key_name": "t1_comm_event", "key_value": 192},
+     {"key_name": "t1_logical_channel_queue", "key_value": 128},
      {"key_name": "t1_irr_filter", "key_value": 129},
      {"key_name": "t1_fir_filter", "key_value": 130},
      {"key_name": "t1_murdock_hutt_detector", "key_value": 132},
