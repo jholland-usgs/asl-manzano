@@ -1770,7 +1770,7 @@
 "tx_detector_equation":{
   "cmd_fields":
   [
-    {"cf_name": "element", "cf_size": 1, "cf_type": "CmdFieldHex<uint8_t>"}
+    {"cf_name": "element", "cf_size": 1, "cf_type": "CmdFieldCdse"}
   ],
   "cmd_number": "0",
   "crc_and_header": false,

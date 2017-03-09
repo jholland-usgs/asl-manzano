@@ -16,6 +16,7 @@
 #include "cmd_field_bitmap.h"
 #include "cmd_field_bitmap_types.h"
 #include "cmd_field_cal_amplitude.h"
+#include "cmd_field_cdse.h"
 #include "cmd_field_hex.h"
 #include "cmd_field_pstring.h"
 #include "cmd_field_string.h"

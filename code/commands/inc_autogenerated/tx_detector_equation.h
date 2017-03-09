@@ -25,7 +25,7 @@ public:
     TxDetectorEquation & operator=(TxDetectorEquation const & rhs) = default;
     std::string const cmd_name = "tx_detector_equation";
 
-    CmdFieldHex<uint8_t> element;
+    CmdFieldCdse element;
 
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) override;

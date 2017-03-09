@@ -112,6 +112,20 @@ std::ostream & operator<<(std::ostream & cf_os,
     Element const e = cf.element();
     cf_os << e << "::";
 
+    switch (e) {
+        case Element::comm_event  : {cf_os << "event_bit_number: ";   break;}
+
+        case Element::murdock_hutt_or_threshold_detector  : {
+            cf_os << "detector_number: ";
+            break;
+        }
+
+        case Element::calibration_on  : {cf_os << "lcq_number: ";   break;}
+        case Element::logical_operator : {cf_os << " ";   break;}
+
+        default: throw std::logic_error("@CmdFieldCdse::Element::operator<<");
+    }
+
     if (e == Element::logical_operator) {
         cf_os << cf.element_logical_operator();
     } else {
