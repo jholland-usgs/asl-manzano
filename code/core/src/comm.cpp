@@ -109,21 +109,54 @@ void Comm::run<Action::get, Kind::dev>(TA const & ta, OI const & oi) {
 template<>
 void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
 
-    C1Rqmem cmd_rqmem;
-    cmd_rqmem.starting_address(0);
-    cmd_rqmem.byte_count(0);
-    using MT = BmMemoryType::MemoryType;
-    cmd_rqmem.memory_type.memory_type(MT::data_port_1);
-
+    // send and receive commands
+    auto cmd_rqmem = input_store.get_input_cmd<Action::get, Kind::token>(ta, oi);
+    uint16_t starting_address = 0;
     auto & q = sn.q_ref(ta);
-    std::array<uint8_t, 16> pw {0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0};
-    cmd_rqmem.pw(pw);
+    std::vector<uint8_t> tokens_msg;
 
-    C1Mem cmd_mem;
-    std::cout << std::endl << "get tokens\n" << cmd_rqmem;
+    while (true) {
 
-    md.send_recv(q.port_config, cmd_rqmem, cmd_mem, true);
+        cmd_rqmem.starting_address(starting_address);
+
+        C1Mem cmd_mem;
+
+        md.send_recv(q.port_config, cmd_rqmem, cmd_mem, false);
+        CxMem * mem = dynamic_cast<CxMem *>( cmd_mem.inner_commands[0].get() );
+
+        if (mem == nullptr) throw FatalException("Comm",
+                                                 "get token",
+                                                 "mem nullptr");
+
+        auto const mem_reported_size = cmd_mem.byte_count();
+        auto const & mem_msg = mem->memory_contents.data();
+
+        // size of segment_number + total_number_of_segments
+        auto constexpr mem_header_size = 4;
+        auto const mem_size = mem_msg.size() + mem_header_size;
+
+        if (mem_size != mem_reported_size) {
+            throw FatalException("Comm",
+                                 "get token",
+                                 "mem size differs from reported");
+        }
+
+        // one big tokens_msg, from memory chunks
+        // the chunks are incomplete, might cut in the middle of a token
+        // the big tokens_msg does have entire tokens
+        tokens_msg.insert( tokens_msg.end(), mem_msg.begin(), mem_msg.end() );
+
+        auto const current = mem->segment_number;
+        auto const limit = mem->total_number_of_segments;
+        if (current == limit) break;
+
+        auto constexpr memory_chunk_size = 448;
+        starting_address += memory_chunk_size;
+    }
+
+    T2Tokens tokens;
+    tokens.msg_to_data(tokens_msg, 0);
+    std::cout << std::endl << tokens;
 }
 
 // -------------------------------------------------------------------------- //

@@ -129,6 +129,9 @@ InstructionMap::filter_options(Action const action, Kind const kind) {
             switch (kind) {
                 case Kind::stat: return VS{"boom", "gps", "gpssat", "power",
                                            "dataport", "pll", "thread"};
+
+                case Kind::token: return VS{"1", "2", "3", "4"};
+
                 default: return VS{};
             }
         }
@@ -172,6 +175,7 @@ bool InstructionMap::has_empty_option(Action const action, Kind const kind) {
     if (action == Action::set    and kind == Kind::ctrl)   return false;
     if (action == Action::start  and kind == Kind::cal)    return false;
     if (action == Action::auto_  and kind == Kind::stat)   return false;
+    if (action == Action::get    and kind == Kind::token)  return false;
 
     return true;
 }

@@ -57,6 +57,35 @@ get_default_cmd<Action::get, Kind::stat>(TargetAddress const & ta,
 
 // -------------------------------------------------------------------------- //
 template<>
+typename Ci<Action::get, Kind::token>::type
+InputStore::
+get_default_cmd<Action::get, Kind::token>(TargetAddress const & ta,
+                                          std::string const & option) {
+
+    //  unless there an option is provided and is in the cmd_map
+    //if (ui.option != "") return get_live_cmd<C1Ping4>(ui.option);
+    using Ci = typename Ci<Action::get, Kind::token>::type;
+    Ci cmd;
+
+    cmd.byte_count(0);
+    using MT = BmMemoryType::MemoryType;
+
+    if (option == "1") cmd.memory_type.memory_type(MT::data_port_1); else
+    if (option == "2") cmd.memory_type.memory_type(MT::data_port_2); else
+    if (option == "3") cmd.memory_type.memory_type(MT::data_port_3); else
+    if (option == "4") cmd.memory_type.memory_type(MT::data_port_4); else
+    throw_bad_option(option);
+
+    // no requirements to read these
+    std::array<uint8_t, 16> pw {0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0};
+    cmd.pw(pw);
+
+    return cmd;
+}
+
+// -------------------------------------------------------------------------- //
+template<>
 typename Ci<Action::start, Kind::cal>::type
 InputStore::
 get_default_cmd<Action::start, Kind::cal>(TargetAddress const & ta,

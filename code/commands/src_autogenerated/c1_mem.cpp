@@ -2,12 +2,10 @@
 
 namespace mzn {
 C1Mem::C1Mem():
-    Command(0xB8, 24),
+    CommandVectorNb(0xB8, 8),
     starting_address(),
     byte_count(),
-    memory_type(),
-    pw(),
-    memory_contents() { }
+    memory_type() { }
 
 uint16_t C1Mem::msg_to_data(std::vector<uint8_t> const & msg,
                             uint16_t mf_begin) {
@@ -25,8 +23,7 @@ uint16_t C1Mem::msg_to_data(std::vector<uint8_t> const & msg,
     mf_begin = starting_address.msg_to_data(msg, mf_begin);
     mf_begin = byte_count.msg_to_data(msg, mf_begin);
     mf_begin = memory_type.msg_to_data(msg, mf_begin);
-    mf_begin = pw.msg_to_data(msg, mf_begin);
-    mf_begin = memory_contents.msg_to_data(msg, mf_begin);
+    mf_begin = CommandVectorNb::msg_to_data(msg, mf_begin);
 
     return mf_begin;
 }
@@ -47,8 +44,7 @@ uint16_t C1Mem::data_to_msg(std::vector<uint8_t> & msg,
     mf_begin = starting_address.data_to_msg(msg, mf_begin);
     mf_begin = byte_count.data_to_msg(msg, mf_begin);
     mf_begin = memory_type.data_to_msg(msg, mf_begin);
-    mf_begin = pw.data_to_msg(msg, mf_begin);
-    mf_begin = memory_contents.data_to_msg(msg, mf_begin);
+    mf_begin = CommandContainer::data_to_msg(msg, mf_begin);
 
     return mf_begin;
 }
@@ -61,13 +57,22 @@ std::ostream & C1Mem::os_print(std::ostream & cmd_os) const {
     cmd_os << "\nbyte_count: "; cmd_os << byte_count;
 
     cmd_os << "\nmemory_type: "; cmd_os << memory_type;
-
-    cmd_os << "\npw: "; cmd_os << pw;
-
-    cmd_os << "\nmemory_contents: "; cmd_os << memory_contents;
     cmd_os << std::endl;
 
-    return cmd_os;
+    return CommandContainer::os_print(cmd_os);
 }
 
+
+void C1Mem::create_new_ic(uint8_t const cmd_key) {
+
+    inner_commands.push_back(
+        std::unique_ptr<Command>{ std::make_unique<CxMem>() } );
+
+    if (inner_commands.back() == nullptr) {
+        throw WarningException("CxMem",
+                               "create_new_ic",
+                               "nullptr inner command");
+     }
+
+}
 } // end namespace

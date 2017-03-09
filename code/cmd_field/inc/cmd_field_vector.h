@@ -125,7 +125,7 @@ std::size_t CmdFieldVector<0>::msg_to_data(M const & msg,
     // TODO add a third argument for count? hard to generalize
     // could be default to std::npos and then a check, for now is always
     // to the end of the message. If done it should be everywhere.
-    int const N = this->data_.size() - mf_pos;
+    int const N = msg.size() - mf_pos;
 
     // needs to be checked here since it is not known at compile time
     // N == 0 is ok, just resize data, skips for loop
