@@ -24,6 +24,7 @@
 #include "cmd_field_ignore.h"
 #include "cmd_field_ip.h"
 #include "cmd_field_cal_amplitude.h"
+#include "cmd_field_cdse.h"
 #include "cmd_field_time.h"
 
 #include "string_utilities.h"
@@ -114,6 +115,7 @@ public:
     mzn::CmdFieldContainer<float> cfc_float;
 
     mzn::CmdFieldCalAmplitude amplitude;
+    mzn::CmdFieldCdse cdse;
     // the special ones:
 
     mzn::CmdFieldArray<uint8_t, 16> auc;
@@ -246,6 +248,51 @@ TEST_F(FixtureCmdField, cmd_field_accessor_mutator) {
     EXPECT_EQ( 0, ui16ignore() );
     EXPECT_EQ( 0, ui32ignore() );
     EXPECT_EQ( 0, ui64ignore() );
+}
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCmdField, control_detector_specification_equation) {
+
+    using Element = mzn::CmdFieldCdse::Element;
+    using LO = mzn::CmdFieldCdse::LogicalOperator;
+
+    cdse(0xC0);
+    cdse(0x41);
+    cdse(0xC4);
+    cdse(0x00);
+    cdse(0xC4);
+    cdse(0x04);
+    cdse(0xC1);
+    cdse(0xC3);
+    cdse(0xC2);
+    cdse(0x0B);
+    cdse(0xFF);
+
+    std::stringstream ss;
+
+    cdse(Element::comm_event, 20);
+    auto const e = cdse.element();
+    auto const ev = cdse.element_value();
+    EXPECT_EQ(e, Element::comm_event);
+    EXPECT_EQ(ev, 20);
+    EXPECT_THROW(cdse.element_logical_operator(), mzn::WarningException);
+
+    ss << "\n" << e << " " << (int)ev << " ";
+
+    cdse(Element::logical_operator, LO::xor_);
+    auto const e2 = cdse.element();
+    auto const elo = cdse.element_logical_operator();
+    auto const ev2 = static_cast<uint8_t>(elo);
+    EXPECT_EQ(e2, Element::logical_operator);
+    EXPECT_EQ(elo, LO::xor_);
+    EXPECT_EQ( ev2, static_cast<uint8_t>(LO::xor_) );
+
+    ss << "\n" << e2 << " " << (int)ev2 << " " << elo;
+
+    std::cout << std::endl << ss.str();
+
+    // logical operators go from 0 to 6
+    EXPECT_THROW(cdse(Element::logical_operator, 7), mzn::WarningException);
 }
 
 // -------------------------------------------------------------------------- //
