@@ -132,6 +132,13 @@ void T2Tokens::create_new_ic(uint8_t const cmd_key) {
                      std::make_unique<T1FirFilter>() } );
             break;
         }
+        case CKE::t1_control_detector_specification : {
+
+            inner_commands.push_back(
+                std::unique_ptr<Command>{
+                     std::make_unique<T1ControlDetectorSpecification>() } );
+            break;
+        }
         case CKE::t1_murdock_hutt_detector : {
 
             inner_commands.push_back(

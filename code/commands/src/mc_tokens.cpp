@@ -40,6 +40,21 @@ uint16_t T1FirFilter::nb(std::vector<uint8_t> const & msg, uint16_t mf_begin) co
 }
 
 // -------------------------------------------------------------------------- //
+uint16_t T1ControlDetectorSpecification::nb(std::vector<uint8_t> const & msg,
+                                            uint16_t mf_begin) const {
+    // specific to this one
+    auto const header_size = token_header_size( this->cmd_number() );
+    auto constexpr other_vars_size = 2;
+    auto const detector_name_size = this->detector_name().size();
+
+    auto const total_extra_size =
+        header_size + other_vars_size + detector_name_size;
+
+    auto const N = this->number_of_bytes() - total_extra_size;
+
+    return N;
+}
+// -------------------------------------------------------------------------- //
 uint16_t T1IrrFilter::ni(std::vector<uint8_t> const & msg, uint16_t mf_begin) const {
 
     return this->number_of_sections();

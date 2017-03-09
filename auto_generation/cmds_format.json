@@ -1766,18 +1766,35 @@
 },
 
 
-"t1_control_detector_specification_base":{
+
+"tx_detector_equation":{
   "cmd_fields":
   [
-    {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
-    {"cf_name": "detector_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
-    {"cf_name": "detector_option", "cf_size": 1, "cf_type": "CmdField<bool>"},
-    {"cf_name": "detector_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"},
-    {"cf_name": "detector_equation", "cf_size": 0, "cf_type": "CmdFieldVector<0>"}
+    {"cf_name": "element", "cf_size": 1, "cf_type": "CmdFieldHex<uint8_t>"}
   ],
-  "cmd_number": "131",
+  "cmd_number": "0",
   "crc_and_header": false,
   "originator": "both"
+},
+
+"t1_control_detector_specification":{
+   "cmd_fields":
+   [
+      {"cf_name": "number_of_bytes", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+      {"cf_name": "detector_number", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+      {"cf_name": "detector_option", "cf_size": 1, "cf_type": "BmControlDetectorSpecificationOption"},
+      {"cf_name": "detector_name", "cf_size": 1, "cf_type": "CmdFieldPstring<0>"}
+   ],
+
+   "cmd_number": "131",
+   "crc_and_header": false,
+   "originator": "both",
+   "container_type": "vector",
+   "container_info": "nb",
+   "inner_commands":
+   [
+     {"key_name": "tx_detector_equation"}
+   ]
 },
 
 "t1_murdock_hutt_detector":{
@@ -1850,6 +1867,7 @@
      {"key_name": "t1_logical_channel_queue", "key_value": 128},
      {"key_name": "t1_irr_filter", "key_value": 129},
      {"key_name": "t1_fir_filter", "key_value": 130},
+     {"key_name": "t1_control_detector_specification", "key_value": 131},
      {"key_name": "t1_murdock_hutt_detector", "key_value": 132},
      {"key_name": "t1_threshold_detector", "key_value": 133}
 
