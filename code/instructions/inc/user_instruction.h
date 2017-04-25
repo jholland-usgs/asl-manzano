@@ -44,7 +44,7 @@ enum class Action {
 enum class Kind {
 
     target,
-    command,
+    help,
     config,
     status,
     wait,
@@ -100,7 +100,7 @@ std::ostream & operator<<(std::ostream & os, Kind const & kind) {
     switch(kind) {
 
         case Kind::target        : os << "target"; break;
-        case Kind::command       : os << "command"; break;
+        case Kind::help          : os << "help"; break;
         case Kind::config        : os << "config"; break;
         case Kind::status        : os << "status"; break;
         case Kind::wait          : os << "wait"; break;

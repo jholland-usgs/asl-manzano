@@ -34,7 +34,7 @@ void OutputStore::match(UserInstruction const & ui,
         case Kind::target:  cm.run<action, Kind::target>(ui, ta);  break;
         case Kind::config:  cm.run<action, Kind::config>(ui, ta);  break;
         case Kind::status:  cm.run<action, Kind::status>(ui, ta);  break;
-        case Kind::command: cm.run<action, Kind::command>(ui, ta); break;
+        case Kind::help: cm.run<action, Kind::help>(ui, ta); break;
         case Kind::poll:    cm.run<action, Kind::poll>(ui, ta);    break;
         case Kind::ping:    cm.run<action, Kind::ping>(ui, ta);    break;
         case Kind::stat:    cm.run<action, Kind::stat>(ui, ta);    break;
