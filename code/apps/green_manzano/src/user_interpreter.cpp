@@ -170,6 +170,19 @@ void UserInterpreter::run_user_input(std::string & user_input) {
         input_tokens[kind_index].erase(option_mark_location);
     }
 
+    // shortcut for edit target target_address
+    if (input_tokens.size() == 1) {
+        // see comments below for respective functions
+        auto ta = match_target_address(input_tokens[0]);
+        instruction_interpreter.merge_and_check_target_address(ta);
+
+        auto constexpr action = Action::edit;
+        auto constexpr kind = Kind::target;
+        auto const ui = UserInstruction(action, kind, option);
+        instruction_interpreter.run_instruction(ui, ta);
+        return;
+    }
+
     auto const action = match_action(input_tokens[action_index]);
     auto const kind = match_kind(input_tokens[kind_index]);
     auto const ui = UserInstruction(action, kind, option);
@@ -280,11 +293,6 @@ void UserInterpreter::user_input_loop() {
                 break;
             }
 
-            if (user_input == "help") {
-                instruction_interpreter.cm.stream_output.show_help();
-                continue;
-            }
-
             run_user_input(user_input);
 
         } catch (FatalException const & e) {
@@ -309,12 +317,6 @@ UserInterpreter::parse_user_input(std::string & user_input) {
     std::istream_iterator<std::string> begin(ss);
     std::istream_iterator<std::string> end;
     std::vector<std::string> input_tokens(begin, end);
-
-    if (input_tokens.size() < 2) {
-        throw WarningException("UserInterpreter",
-                               "parse_user_input",
-                               "minimum of two arguments");
-    }
 
     if (input_tokens.size() > 3) {
 
