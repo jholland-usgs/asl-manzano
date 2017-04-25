@@ -41,7 +41,7 @@ InstructionMap::filter_kinds(TargetAddress const & ta, Action const action) {
     if (action == Action::edit) return VK{Kind::target};
 
     if (action == Action::show) return VK{Kind::target,
-                                          Kind::command,
+                                          Kind::help,
                                           Kind::config,
                                           Kind::wait,
                                           Kind::status};

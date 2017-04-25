@@ -1135,8 +1135,8 @@ void Comm::run<Action::show, Kind::status>(TA const & ta, OI const & oi) {
 
 // -------------------------------------------------------------------------- //
 template<>
-void Comm::run<Action::show, Kind::command>(TA const & ta, OI const & oi) {
-    stream_output.show<Kind::command>(ta);
+void Comm::run<Action::show, Kind::help>(TA const & ta, OI const & oi) {
+    stream_output.show<Kind::help>(ta);
 }
 
 // -------------------------------------------------------------------------- //

@@ -32,7 +32,7 @@ void InstructionInterpreter::match(UserInstruction const & ui,
         case Kind::target:  cm.run<action, Kind::target>(ta, oi);  break;
         case Kind::config:  cm.run<action, Kind::config>(ta, oi);  break;
         case Kind::status:  cm.run<action, Kind::status>(ta, oi);  break;
-        case Kind::command: cm.run<action, Kind::command>(ta, oi); break;
+        case Kind::help:    cm.run<action, Kind::help>(ta, oi);    break;
         case Kind::poll:    cm.run<action, Kind::poll>(ta, oi);    break;
         case Kind::global:  cm.run<action, Kind::global>(ta, oi);  break;
         case Kind::ping:    cm.run<action, Kind::ping>(ta, oi);    break;
@@ -48,7 +48,7 @@ void InstructionInterpreter::match(UserInstruction const & ui,
         case Kind::mzn:     cm.run<action, Kind::mzn>(ta, oi);     break;
         case Kind::plan:    cm.run<action, Kind::plan>(ta, oi);    break;
         case Kind::link:    cm.run<action, Kind::link>(ta, oi);    break;
-        case Kind::token:   cm.run<action, Kind::token>(ta, oi);  break;
+        case Kind::token:   cm.run<action, Kind::token>(ta, oi);   break;
         case Kind::wait:    cm.run<action, Kind::wait>(ta, oi);    break;
         case Kind::output:  cm.run<action, Kind::output>(ta, oi);  break;
         default:

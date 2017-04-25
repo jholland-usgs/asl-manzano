@@ -186,10 +186,10 @@ void StreamOutput::show<Kind::status>(TargetAddress const & ta) const {
 
 }
 
-// show command
+// show help
 // -------------------------------------------------------------------------- //
 template<>
-void StreamOutput::show<Kind::command>(TargetAddress const & ta) const {
+void StreamOutput::show<Kind::help>(TargetAddress const & ta) const {
 
     auto const actions = InstructionMap::filter_actions(ta);
 
