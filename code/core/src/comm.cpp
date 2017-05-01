@@ -451,7 +451,9 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
     // ---------------------------------------------------------------------- //
     // with start cal as individual action for when printing individual msg_task
     // since auto cal is a series of start cal
-    auto const start_cal_ui = UserInstruction(Action::start, Kind::cal);
+    auto const start_cal_ui = UserInstruction(Action::start,
+                                              Kind::cal,
+                                              oi.option);
 
     auto msg_tasks =
         cmd_file_reader_.construct_msg_tasks<Action::start, Kind::cal>(
@@ -700,8 +702,12 @@ void Comm::run<Action::set, Kind::output>(TA const & ta, OI const & oi) {
     auto & q = sn.q_ref(ta);
     auto const & s = sn.s_const_ref(ta);
 
+    auto const ui = UserInstruction(Action::set,
+                                    Kind::output,
+                                    oi.option);
+
     // returns a vector for general case, only one needed
-    auto cmds_ssc = cmd_file_reader_.construct_cmds<C1Ssc>(ta);
+    auto cmds_ssc = cmd_file_reader_.construct_cmds<C1Ssc>(ui, ta);
     auto & cmd_ssc = cmds_ssc[0];
 
     // the intention is to be  able to set outputs for a specific sensor,

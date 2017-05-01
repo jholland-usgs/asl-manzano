@@ -17,7 +17,8 @@ void CmdFileReader::check_json(bool const check, std::string const & e_what) {
 // -------------------------------------------------------------------------- //
 template <>
 std::vector<C1Qcal>
-CmdFileReader::construct_cmds(TargetAddress const & ta) {
+CmdFileReader::construct_cmds(UserInstruction const & ui,
+                              TargetAddress const & ta) {
 
     std::ifstream cals_fs;
 
@@ -56,7 +57,7 @@ CmdFileReader::construct_cmds(TargetAddress const & ta) {
     cmds.reserve( sensor_cals_json.size() ) ;
 
     // ********** from config to real commands *********** //
-    for (auto i = 0; i < sensor_cals_json.size(); i++) {
+    auto qcal_json_to_cmd = [&](auto const & i) {
 
         C1Qcal cal{};
 
@@ -173,6 +174,27 @@ CmdFileReader::construct_cmds(TargetAddress const & ta) {
 
         // add to vector of calibrations
         cmds.push_back(cal);
+    };
+
+    // check if only a specific cmd is desired
+    if (ui.option_input.option != "") {
+
+        std::size_t token_index = 0;
+
+        auto const restrict_to_cmd_index =
+            Utility::match_positive_number(ui.option_input.option, token_index);
+
+        if ( restrict_to_cmd_index >= sensor_cals_json.size() )  {
+            throw WarningException("CmdFileReader",
+                                   "construct_cmds<QCal>",
+                                   "specified index is outside the bounds");
+        }
+
+        qcal_json_to_cmd(restrict_to_cmd_index);
+
+    } else {
+        // do all the relevant commands in the file
+        for (auto i = 0; i < sensor_cals_json.size(); i++) qcal_json_to_cmd(i);
     }
 
     return cmds;
@@ -335,7 +357,8 @@ void set_control_lines_b(C1Ssc & cmd_ssc,
 // -------------------------------------------------------------------------- //
 template <>
 std::vector<C1Ssc>
-CmdFileReader::construct_cmds(TargetAddress const & ta) {
+CmdFileReader::construct_cmds(UserInstruction const & ui,
+                              TargetAddress const & ta) {
 
     std::ifstream outputs_fs;
 

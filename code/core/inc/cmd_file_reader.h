@@ -46,7 +46,8 @@ public:
 
     //! read cals cal sequences config file and setup cal_tasks_;
     template <typename Ci>
-    std::vector<Ci> construct_cmds(TargetAddress const & ta);
+    std::vector<Ci> construct_cmds(UserInstruction const & ui,
+                                   TargetAddress const & ta);
 
 private:
     //! checks json format and throws if error
@@ -70,7 +71,7 @@ std::vector<MsgTask>
 CmdFileReader::construct_msg_tasks(UserInstruction const & ui,
                                    TargetAddress const & ta) {
 
-    auto const cmds = construct_cmds<Ci>(ta);
+    auto const cmds = construct_cmds<Ci>(ui, ta);
     auto const run_durations = calculate_run_durations(cmds);
     auto const delays = calculate_delays(run_durations);
 
@@ -79,7 +80,7 @@ CmdFileReader::construct_msg_tasks(UserInstruction const & ui,
     // --- package into tasks ---
     std::vector<MsgTask> msg_tasks{};
 
-    for (int i = 0; i < cmds.size(); i++) {
+    auto package_tasks = [&](auto const & i) {
 
         MsgTask msg_task(cmds[i],
                          cmd_recv,
@@ -89,7 +90,11 @@ CmdFileReader::construct_msg_tasks(UserInstruction const & ui,
                          ta);
 
         msg_tasks.push_back( std::move(msg_task) );
-    }
+    };
+
+    // process all cmds
+    for (int i = 0; i < cmds.size(); i++) package_tasks(i);
+
     // error
     return msg_tasks;
 }
