@@ -458,6 +458,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             start_cal_ui,
             ta);
 
+    Comm::run<Action::set, Kind::reg>(ta);
     auto const sce = sensor_control_cal(q, s);
 
     // the cal times depend on the digitizer time (seconds since epoch)

@@ -139,10 +139,10 @@ get_default_cmd<Action::start, Kind::cal>(TargetAddress const & ta,
     // sensor calibration channel first
     if (s.config.input == Sensor::Input::a) {
         cmd.calibration_bitmap.input(BmCalibrationBitmap::Input::a);
-        cmd.monitor_channel_bitmap.channel_5(true);
+        cmd.monitor_channel_bitmap.channel_4(true);
     } else {
         cmd.calibration_bitmap.input(BmCalibrationBitmap::Input::b);
-        cmd.monitor_channel_bitmap.channel_2(true);
+        cmd.monitor_channel_bitmap.channel_1(true);
     }
 
     cmd.waveform.automatic_calibration(true);

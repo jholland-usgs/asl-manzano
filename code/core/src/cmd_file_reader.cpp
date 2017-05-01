@@ -75,16 +75,15 @@ CmdFileReader::construct_cmds(TargetAddress const & ta) {
             cal.calibration_bitmap.input(BmCalibrationBitmap::Input::a);
             // TODO: I need the current SCM
             // cal.sensor_control_enable.;
-            cal.monitor_channel_bitmap.channel_5(true);
+            cal.monitor_channel_bitmap.channel_4(true);
 
         } else if (s.config.input == Sensor::Input::b)  {
 
             cal.calibration_bitmap.input(BmCalibrationBitmap::Input::b);
             // TODO: I need the current SCM
             // cal.sensor_control_map.lines(SCML::sensor_b_calibration);
-            cal.monitor_channel_bitmap.channel_2(true);
+            cal.monitor_channel_bitmap.channel_1(true);
         }
-
 
         // ------------- WAVEFORM -------------------- //
         std::string const waveform_json = sensor_cals_json[i]["wave_form"];
