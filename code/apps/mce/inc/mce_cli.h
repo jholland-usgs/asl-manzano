@@ -28,7 +28,7 @@ public:
 
             config_home_path = Utility::get_runtime_config_path();
 
-        } catch(mzn::FatalException & e) {
+        } catch (mzn::FatalException & e) {
 
             std::cout << std::endl << "No runtime configuration files found";
             auto const confirm = Utility::ask_yes("Create empty config file");

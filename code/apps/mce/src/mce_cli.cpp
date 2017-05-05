@@ -1,5 +1,6 @@
 // ** command line interface ** //
 // Manzano Software //
+#include <cstdlib>
 #include "mce_cli.h"
 
 namespace mzn {
@@ -46,6 +47,39 @@ void MceCli::user_input_loop() {
                 continue;
             }
 
+            if (user_input[0] == '!') {
+
+                auto const mcer_path = Utility::get_home_path() +
+                                       std::string("mcer");
+
+                std::string const mcer_script_path =
+                    mcer_path + std::string("/get_mzn_config.bash");
+
+                auto const tokens = Utility::get_tokens(user_input, ' ');
+
+                if (tokens.size() < 2 or tokens[0] != "!") {
+                    throw WarningException("MceCli",
+                                           "user_input_loop",
+                                           "wrong format for getting configuration, \
+                                           should be ! ST1 ST2");
+                }
+
+                auto const system_cmd = std::string("bash ") +
+                                        mcer_script_path +
+                                        user_input.substr(1);
+
+                std::cout << std::endl << system_cmd;
+
+                std::system( system_cmd.c_str() );
+
+                auto const temp_config_path = mcer_script_path +
+                                              std::string("/config.json");
+
+                std::cout << std::endl << "@@@\n"
+                          << std::ifstream(temp_config_path).rdbuf();
+
+                continue;
+            }
 
             if (user_input == "rm") {
                 // changes ta_ to parent

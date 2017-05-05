@@ -38,6 +38,13 @@ std::string get_environmental_variable(std::string const & v) {
 
 // -------------------------------------------------------------------------- //
 inline
+std::string get_home_path() {
+    auto const home_path = get_environmental_variable("HOME");
+    return home_path;
+}
+
+// -------------------------------------------------------------------------- //
+inline
 std::string get_runtime_config_path() {
 
     auto const home_path = get_environmental_variable("HOME");
