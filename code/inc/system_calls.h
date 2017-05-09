@@ -119,6 +119,24 @@ bool cin_cancel(std::chrono::time_point<Clock, Duration> tp) {
     return cin_cancel( tp - std::chrono::system_clock::now() );
 }
 
+// -------------------------------------------------------------------------- //
+inline
+void system_call(std::string const & system_cmd) {
+
+    auto const sys_result = std::system( system_cmd.c_str() );
+
+    if (sys_result != 0) {
+
+        auto const error_msg =
+            std::string("the following [cmd] returned an error:\n") +
+            std::string("\n[") + system_cmd + std::string("]");
+
+        throw WarningException("Utility",
+                               "system_call",
+                               error_msg);
+    }
+}
+
 } // <- Utility
 } // <- mzn
 

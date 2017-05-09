@@ -6,6 +6,85 @@
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
+void MceCli::change_config(std::string const & user_input) const {
+
+    // check basic format
+    auto station_names = Utility::get_tokens(user_input, ' ');
+    Utility::capitalize_tokens(station_names);
+
+    auto const temp_file_path = config_home_path + "/config.tmp";
+    auto const config_file_path = config_home_path + "/config.json";
+    auto const mcer_path = Utility::get_home_path() + std::string("/mcer");
+
+    std::string const mcer_script_path = mcer_path +
+                                         std::string("/get_mzn_config.sh");
+
+    // clear any old temp file before opening a new one
+    // --------------------------------------------------------- //
+    {
+        std::ofstream ofs;
+        ofs.open(temp_file_path, std::ofstream::out | std::ofstream::trunc);
+        ofs.close();
+    }
+
+    // run script
+    // --------------------------------------------------------- //
+    auto system_cmd = std::string("bash ") + mcer_script_path +
+                      std::string(" -o ") + temp_file_path;
+
+    for (auto const & station_name : station_names) {
+        system_cmd += std::string(" -a ") + station_name;
+    }
+
+    Utility::system_call(system_cmd);
+
+    // check the temp file is not empty
+    // --------------------------------------------------------- //
+    {
+        std::ifstream ifs;
+        ifs.open(temp_file_path);
+
+        bool const ifs_is_empty =
+            ( ifs.peek() == std::ifstream::traits_type::eof() );
+
+        if ( (not ifs) or ifs_is_empty) {
+            std::cout << std::endl;
+            throw WarningException("MceCli",
+                                   "change_config",
+                                   "can't open temp config file");
+        }
+        std::cout << std::endl << "__RAW FILE FROM SERVER__\n" << ifs.rdbuf();
+    }
+
+    // test if configuration is valid
+    // --------------------------------------------------------- //
+    // test if the file can be made into a seismic network
+    SeismicNetwork const sn_temp(temp_file_path);
+    // ok, it created some valid seismic network.
+    // now, check if the stations on this sn_temp are the same as desired
+    auto sn_has_st = [&sn_temp](std::string const & station_name) {
+        for (auto const & st : sn_temp.st) {
+            if (st.config.station_name == station_name) return true;
+        }
+        return false;
+    };
+
+    for (auto const & station_name : station_names) {
+        if ( not sn_has_st(station_name) ) {
+            auto const msg_error = std::string("station not found: ") +
+                                   station_name;
+            throw WarningException("MceCli", "change_config", msg_error);
+        }
+    }
+
+    // all good, replace current config with temp file
+    auto const mv_cmd = std::string("mv ") + temp_file_path +
+                        std::string(" ") + config_file_path;
+
+    Utility::system_call(mv_cmd);
+}
+
+// -------------------------------------------------------------------------- //
 void MceCli::user_input_loop() {
 
     // prompts the user for their command
@@ -49,81 +128,14 @@ void MceCli::user_input_loop() {
 
             if (user_input[0] == '!') {
 
-                auto const temp_file_path = config_home_path + "/config.tmp";
-                auto const config_file_path = config_home_path + "/config.json";
-
-                auto const mcer_path = Utility::get_home_path() +
-                                       std::string("/mcer");
-
-                std::string const mcer_script_path =
-                    mcer_path + std::string("/get_mzn_config.sh");
-
-                // check basic format
-                auto const tokens = Utility::get_tokens(user_input, ' ');
-
-                if (tokens.size() < 2 or tokens[0] != "!") {
+                if (user_input.size() < 3 or user_input[1] != ' ') {
                     throw WarningException("MceCli",
                                            "user_input_loop",
                                            "wrong format for getting configuration, \
                                            should be ! ST1 ST2");
                 }
 
-                // clear old temp file before opening a new one
-                // --------------------------------------------------------- //
-                {
-                    std::ofstream ofs;
-
-                    ofs.open(temp_file_path,
-                             std::ofstream::out | std::ofstream::trunc);
-
-                    ofs.close();
-                }
-
-                // --------------------------------------------------------- //
-                auto system_cmd = std::string("bash ") + mcer_script_path +
-                                  std::string(" -o ") + temp_file_path;
-
-                for (int i = 1; i < tokens.size(); i++) {
-                    system_cmd += std::string(" -a ") + tokens[i];
-                }
-
-                std::cout << std::endl << system_cmd;
-                auto const sys_result = std::system( system_cmd.c_str() );
-
-                if (sys_result < 0) {
-                    throw WarningException("MceCli",
-                                           "user_input_loop",
-                                           "get_mzn_config.sh returned error");
-                }
-
-                {
-                    std::ifstream ifs;
-                    ifs.open(temp_file_path);
-
-                    bool const ifs_is_empty =
-                        ( ifs.peek() == std::ifstream::traits_type::eof() );
-
-                    if ( (not ifs) or ifs_is_empty) {
-                        throw WarningException("MceCli",
-                                               "user_input_loop",
-                                               "can't open temp config file");
-                    }
-
-                    std::cout << std::endl << "__ RAW FILE FROM SERVER __\n"
-                              << ifs.rdbuf();
-                }
-
-                // test if the file can be made into a seismic network
-                SeismicNetwork const sn_temp(temp_file_path);
-
-                // all good
-                auto const mv_cmd = std::string("mv ") + temp_file_path +
-                                    std::string(" ") + config_file_path;
-
-                std::cout << std::endl << "xxxxxx" <<  mv_cmd;
-
-                std::system( mv_cmd.c_str() );
-
+                change_config( user_input.substr(2) );
                 continue;
             }
 

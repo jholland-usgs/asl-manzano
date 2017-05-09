@@ -35,6 +35,12 @@ std::vector<std::string> get_tokens(std::string const & line,
 
 // -------------------------------------------------------------------------- //
 inline
+void capitalize_tokens(std::vector<std::string> & tokens) {
+    for (auto & token : tokens) for (auto & c: token) c = std::toupper(c);
+}
+
+// -------------------------------------------------------------------------- //
+inline
 void expect_string(std::string const & expected,
                    std::string const & token) {
 
