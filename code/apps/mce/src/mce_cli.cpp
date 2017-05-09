@@ -49,12 +49,16 @@ void MceCli::user_input_loop() {
 
             if (user_input[0] == '!') {
 
+                auto const temp_file_path = config_home_path + "/config.tmp";
+                auto const config_file_path = config_home_path + "/config.json";
+
                 auto const mcer_path = Utility::get_home_path() +
-                                       std::string("mcer");
+                                       std::string("/mcer");
 
                 std::string const mcer_script_path =
-                    mcer_path + std::string("/get_mzn_config.bash");
+                    mcer_path + std::string("/get_mzn_config.sh");
 
+                // check basic format
                 auto const tokens = Utility::get_tokens(user_input, ' ');
 
                 if (tokens.size() < 2 or tokens[0] != "!") {
@@ -64,19 +68,61 @@ void MceCli::user_input_loop() {
                                            should be ! ST1 ST2");
                 }
 
-                auto const system_cmd = std::string("bash ") +
-                                        mcer_script_path +
-                                        user_input.substr(1);
+                // clear old temp file before opening a new one
+                // --------------------------------------------------------- //
+                {
+                    std::ofstream ofs;
+
+                    ofs.open(temp_file_path,
+                             std::ofstream::out | std::ofstream::trunc);
+
+                    ofs.close();
+                }
+
+                // --------------------------------------------------------- //
+                auto system_cmd = std::string("bash ") + mcer_script_path +
+                                  std::string(" -o ") + temp_file_path;
+
+                for (int i = 1; i < tokens.size(); i++) {
+                    system_cmd += std::string(" -a ") + tokens[i];
+                }
 
                 std::cout << std::endl << system_cmd;
+                auto const sys_result = std::system( system_cmd.c_str() );
 
-                std::system( system_cmd.c_str() );
+                if (sys_result < 0) {
+                    throw WarningException("MceCli",
+                                           "user_input_loop",
+                                           "get_mzn_config.sh returned error");
+                }
 
-                auto const temp_config_path = mcer_script_path +
-                                              std::string("/config.json");
+                {
+                    std::ifstream ifs;
+                    ifs.open(temp_file_path);
 
-                std::cout << std::endl << "@@@\n"
-                          << std::ifstream(temp_config_path).rdbuf();
+                    bool const ifs_is_empty =
+                        ( ifs.peek() == std::ifstream::traits_type::eof() );
+
+                    if ( (not ifs) or ifs_is_empty) {
+                        throw WarningException("MceCli",
+                                               "user_input_loop",
+                                               "can't open temp config file");
+                    }
+
+                    std::cout << std::endl << "__ RAW FILE FROM SERVER __\n"
+                              << ifs.rdbuf();
+                }
+
+                // test if the file can be made into a seismic network
+                SeismicNetwork const sn_temp(temp_file_path);
+
+                // all good
+                auto const mv_cmd = std::string("mv ") + temp_file_path +
+                                    std::string(" ") + config_file_path;
+
+                std::cout << std::endl << "xxxxxx" <<  mv_cmd;
+
+                std::system( mv_cmd.c_str() );
 
                 continue;
             }

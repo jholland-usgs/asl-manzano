@@ -44,6 +44,7 @@ public:
      */
     // --------------------------------------------------------------------- //
     SeismicNetwork();
+    SeismicNetwork(std::string const & file_path);
     ~SeismicNetwork() = default;
 
     //! holds a vector of stations

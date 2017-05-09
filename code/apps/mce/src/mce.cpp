@@ -3,7 +3,6 @@
 #include <exception>
 #include <cstdlib>
 
-
 #include "mzn_except.h"
 #include "mzn_cmake_config.h"
 #include "mce_cmake_config.h"

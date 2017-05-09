@@ -31,6 +31,26 @@ SeismicNetwork::SeismicNetwork() : st{} {
     }
 }
 
+// -------------------------------------------------------------------------- //
+SeismicNetwork::SeismicNetwork(std::string const & file_path) : st{} {
+
+    try {
+
+        auto sn_json = Utility::read_json(file_path);
+
+        for (auto const & st_json : sn_json["station"]) {
+            st.push_back( Utility::st_from_json(st_json) );
+        }
+
+    } catch(std::out_of_range const & e) {
+
+        // thrown by Json
+        throw WarningException( "SeismicNetwork",
+                                "setup_from_file",
+                                e.what() );
+    }
+}
+
 // ------------ Get const references to sn targets -------------- //
 // -------------------------------------------------------------------------- //
 Station const & SeismicNetwork::st_const_ref(TargetAddress const & ta) const {
