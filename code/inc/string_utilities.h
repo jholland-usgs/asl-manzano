@@ -28,7 +28,9 @@ std::vector<std::string> get_tokens(std::string const & line,
     ss.str(line);
     std::string token;
 
-    while ( std::getline(ss, token, delimiter) ) tokens.push_back(token);
+    while ( std::getline(ss, token, delimiter) ) {
+        if ( not token.empty() ) tokens.push_back(token);
+    }
 
     return tokens;
 }

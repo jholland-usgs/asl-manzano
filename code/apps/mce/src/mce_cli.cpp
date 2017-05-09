@@ -62,6 +62,24 @@ void MceCli::user_input_loop() {
                 continue;
             }
 
+            if (user_input == "@") {
+                add_to_config(sn);
+                continue;
+            }
+
+            if (user_input[0] == '@') {
+
+                if (user_input.size() < 3 or user_input[1] != ' ') {
+                    throw WarningException("MceCli",
+                                           "user_input_loop",
+                                           "wrong format for getting configuration, \
+                                           should be @ ST1 ST2");
+                }
+
+                add_to_config( sn, user_input.substr(2) );
+                continue;
+            }
+
             if (user_input == "rm") {
                 // changes ta_ to parent
                 remove_from_config(sn, ta_);
@@ -412,6 +430,12 @@ void MceCli::change_config(std::string const & user_input) const {
     auto station_names = Utility::get_tokens(user_input, ' ');
     Utility::capitalize_tokens(station_names);
 
+    if ( station_names.empty() ) {
+        throw WarningException("MceCli",
+                               "change_config",
+                               "no stations provided");
+    }
+
     auto const temp_file_path = config_home_path + "/config.tmp";
     auto const config_file_path = config_home_path + "/config.json";
     auto const mcer_path = Utility::get_home_path() + std::string("/mcer");
@@ -471,8 +495,8 @@ void MceCli::change_config(std::string const & user_input) const {
 
     for (auto const & station_name : station_names) {
         if ( not sn_has_st(station_name) ) {
-            auto const msg_error = std::string("station not found: ") +
-                                   station_name;
+            auto const msg_error = std::string("station not found:[") +
+                                   station_name + std::string("]");
             throw WarningException("MceCli", "change_config", msg_error);
         }
     }
@@ -483,4 +507,15 @@ void MceCli::change_config(std::string const & user_input) const {
 
     Utility::system_call(mv_cmd);
 }
+
+// -------------------------------------------------------------------------- //
+void MceCli::add_to_config(SeismicNetwork const & sn,
+                           std::string const & user_input) const {
+    // repeated stations are ok
+    std::stringstream ss;
+    for (auto const & st : sn.st) ss << " " << st.config.station_name;
+    auto const appended_user_input = user_input + ss.str();
+    change_config(appended_user_input);
+}
+
 } // end namespace

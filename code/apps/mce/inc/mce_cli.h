@@ -55,6 +55,11 @@ public:
     void remove_from_config(SeismicNetwork & sn, TargetAddress & ta) const;
     void change_config(SeismicNetwork & sn, TargetAddress const & ta) const;
 
+    //! these functions take station information from mce web service
+    //! with user_input in format: "ST1 ST2 ST3"
+    void add_to_config(SeismicNetwork const & sn,
+                       std::string const & user_input = "") const;
+
     void change_config(std::string const & user_input) const;
 
 private:
