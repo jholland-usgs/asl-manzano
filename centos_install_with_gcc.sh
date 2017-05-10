@@ -1,6 +1,3 @@
-# exit if there is an error
-trap 'exit' ERR
-
 # install gcc 6 and other related dev tools
 sudo yum install centos-release-scl -y
 sudo yum install devtoolset-6-gcc* -y
@@ -37,4 +34,7 @@ cmake ..
 make
 sudo make install
 
-echo "installation success. Use an existing config file or create one with mce"
+echo "-----------------------------------------------------------"
+echo " green_manzano and mce installation end."
+echo " Use an existing config file or create one with mce"
+echo "-----------------------------------------------------------"
