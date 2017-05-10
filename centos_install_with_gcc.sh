@@ -1,9 +1,15 @@
+# exit if there is an error
+trap 'exit' ERR
+
 # install gcc 6 and other related dev tools
 sudo yum install centos-release-scl -y
 sudo yum install devtoolset-6-gcc* -y
 # enable for this user
 echo 'source scl_source enable devtoolset-6' >> ~/.bashrc
 source ~/.bashrc
+
+# install wget
+sudo yum install wget -y
 
 # install cmake
 cd ~/
