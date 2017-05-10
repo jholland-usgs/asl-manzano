@@ -48,8 +48,11 @@ include(${DIR_MZN}/exceptions/exceptions.cmake)
 include_directories(${DIR_MZN}/inc)
 
 # ----- COMPILER FLAGS ----- #
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pthreads -Wall -Qunused-arguments -Wno-missing-braces -Wmissing-field-initializers")
-
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pthreads -Wall -Qunused-arguments -Wno-missing-braces -Wmissing-field-initializers")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pthread -w")
+endif()
 # ----- CONFIGURATION VARIABLE ----- #
 include_directories(${DIR_MZN})
 
