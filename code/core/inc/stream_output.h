@@ -49,19 +49,19 @@ private:
     void show_target() const;
 
     void show_target(Station const & st,
-                     int const target_index,
+                     unsigned const target_index,
                      std::vector<bool> const & margins = {}) const;
 
     void show_target(Digitizer const & q,
-                     int const target_index,
+                     unsigned const target_index,
                      std::vector<bool> const & margins = {}) const;
 
     void show_target(DataProcessor const & dp,
-                     int const target_index,
+                     unsigned const target_index,
                      std::vector<bool> const & margins = {}) const;
 
     void show_target(Sensor const & s,
-                     int const target_index,
+                     unsigned const target_index,
                      std::vector<bool> const & margins = {}) const;
 
 

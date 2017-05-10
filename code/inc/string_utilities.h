@@ -56,7 +56,7 @@ void expect_string(std::string const & expected,
 // used to underline the problematic token in the error message
 // -------------------------------------------------------------------------- //
 inline
-std::string underline_error(std::string const & token, int e_index) {
+std::string underline_error(std::string const & token, unsigned e_index) {
 
     std::stringstream token_underlined;
 
@@ -72,12 +72,12 @@ std::string underline_error(std::string const & token, int e_index) {
 
 // -------------------------------------------------------------------------- //
 inline
-int match_positive_number(std::string const & token,
-                          std::size_t & token_index) {
+unsigned match_positive_number(std::string const & token,
+                               std::size_t & token_index) {
 
     std::string token_number;
 
-    for (int i = token_index; i < token.size(); i++) {
+    for (unsigned i = token_index; i < token.size(); i++) {
         if (std::isdigit(token[i])) {
             token_number.push_back(token[i]);
         } else {
@@ -108,7 +108,7 @@ int match_positive_number(std::string const & token,
 
 // -------------------------------------------------------------------------- //
 template <typename Period>
-using DurationInt = std::chrono::duration<int, Period>;
+using DurationInt = std::chrono::duration<unsigned, Period>;
 
 // -------------------------------------------------------------------------- //
 inline

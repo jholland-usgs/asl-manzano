@@ -115,7 +115,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
     int mf_size = bms_json[bm_name.c_str()]["mf_size"];
 
     //! bmfn : number of bitmap fields
-    int bmfn = bms_json[bm_name.c_str()]["bm_fields"].size();
+    unsigned bmfn = bms_json[bm_name.c_str()]["bm_fields"].size();
 
     bm_h_fs << "\n\n// -------------------------------------------------"
             << "------------------------- //";
@@ -227,7 +227,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
     */
 
     // loop over bitmap fields, make enums
-    for (int bmfi = 0; bmfi < bmfn; bmfi++) {
+    for (unsigned bmfi = 0; bmfi < bmfn; bmfi++) {
 
         auto bmf_json = bms_json[bm_name.c_str()]["bm_fields"][bmfi];
 
@@ -241,12 +241,12 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
             std::cout << "\nEnums for: " << bmf_name << std::endl;
 
             //! bmf_cn : number of bitmap field codes
-            int bmf_cn = bmf_json["bmf_codes"].size();
+            unsigned bmf_cn = bmf_json["bmf_codes"].size();
 
             bm_h_fs << "\n\n    ";
             bm_h_fs << "enum class " << bmf_class_name << " {";
 
-            for (int bmf_ci = 0; bmf_ci < bmf_cn; bmf_ci++) {
+            for (unsigned bmf_ci = 0; bmf_ci < bmf_cn; bmf_ci++) {
 
                 // code name
                 std::string bmf_code_name =
@@ -279,7 +279,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
             i.e.:
             const unsigned long global_event_val() const;
     */
-    for (int bmfi = 0; bmfi < bmfn; bmfi++) {
+    for (unsigned bmfi = 0; bmfi < bmfn; bmfi++) {
 
         auto bmf_json = bms_json[bm_name.c_str()]["bm_fields"][bmfi];
 
@@ -380,7 +380,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
 
     if (bm_originator != "q") {
         // loop over bitmap fields
-        for (int bmfi = 0; bmfi < bmfn; bmfi++) {
+        for (unsigned bmfi = 0; bmfi < bmfn; bmfi++) {
 
             auto bmf_json = bms_json[bm_name.c_str()]["bm_fields"][bmfi];
 
@@ -391,8 +391,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
             if (json_has_key(bmf_json, "bmf_bit")) {
                 // binary value
 
-                int bmf_bit =
-                    bmf_json["bmf_bit"];
+                int bmf_bit = bmf_json["bmf_bit"];
 
                 bm_h_fs << "\n    ";
                 bm_h_fs << "void " << bmf_name << "(const bool b) {";
@@ -407,8 +406,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
                 if (not bmf_code_full_range) {
 
                     // the code is located in a range of the bitset
-                    int bmf_code_begin =
-                        bmf_json["bmf_code_begin"];
+                    int bmf_code_begin = bmf_json["bmf_code_begin"];
 
                     std::string bmf_code_mask =
                         bmf_json["bmf_code_mask"];
@@ -440,7 +438,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
     //                        OPERATOR<< OVERLOAD (codes)                     //
     // ---------------------------------------------------------------------- //
     // loop over bitmap fields (codes) and stream data
-    for (int bmfi = 0; bmfi < bmfn; bmfi++) {
+    for (unsigned bmfi = 0; bmfi < bmfn; bmfi++) {
 
         auto bmf_json = bms_json[bm_name.c_str()]["bm_fields"][bmfi];
 
@@ -465,10 +463,10 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
         // description:
         bm_h_fs << "\n    switch(bmc) {";
 
-        int bmf_cn = bmf_json["bmf_codes"].size();
+        unsigned bmf_cn = bmf_json["bmf_codes"].size();
 
         // loop over codes of this bitmap field
-        for (int bmf_ci = 0; bmf_ci < bmf_cn; bmf_ci++) {
+        for (unsigned bmf_ci = 0; bmf_ci < bmf_cn; bmf_ci++) {
 
             std::string bmf_code_name =
                 bmf_json["bmf_codes"][bmf_ci]["bmf_code_name"];
@@ -496,7 +494,7 @@ for (auto bm_itr = bms_json.begin(); bm_itr != bms_json.end(); ++bm_itr) {
             << bm_classname << " const & bm) {";
 
     // loop over bitmap fields and stream data
-    for (int bmfi = 0; bmfi < bmfn; bmfi++) {
+    for (unsigned bmfi = 0; bmfi < bmfn; bmfi++) {
 
         auto bmf_json = bms_json[bm_name.c_str()]["bm_fields"][bmfi];
         std::string bmf_name = bmf_json["bmf_name"];

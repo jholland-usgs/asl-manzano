@@ -34,7 +34,7 @@ void StreamOutput::show_target() const {
 
     os << "\nsn : seismic_network";
 
-    for (int i = 0; i < sn_.st.size(); i++) {
+    for (unsigned i = 0; i < sn_.st.size(); i++) {
 
         os << "\n│\n";
 
@@ -51,7 +51,7 @@ void StreamOutput::show_target() const {
 
 // -------------------------------------------------------------------------- //
 void StreamOutput::show_target(Station const & st,
-                               int const target_index,
+                               unsigned const target_index,
                                std::vector<bool> const & margins/*={}*/) const {
 
     if (margins.size() == 0) os << "\n";
@@ -64,7 +64,7 @@ void StreamOutput::show_target(Station const & st,
     margins_end.push_back(false);
     margins_mid.push_back(true);
 
-    for (int i = 0; i < st.q.size(); i++) {
+    for (unsigned i = 0; i < st.q.size(); i++) {
 
         os << "\n";
         show_margins(margins);
@@ -84,7 +84,7 @@ void StreamOutput::show_target(Station const & st,
         }
     }
 
-    for (int i = 0; i < st.dp.size(); i++) {
+    for (unsigned i = 0; i < st.dp.size(); i++) {
 
         os << "\n";
         show_margins(margins);
@@ -101,14 +101,14 @@ void StreamOutput::show_target(Station const & st,
 
 // -------------------------------------------------------------------------- //
 void StreamOutput::show_target(Digitizer const & q,
-                               int const target_index,
+                               unsigned const target_index,
                                std::vector<bool> const & margins/*={}*/) const {
 
     if (margins.size() == 0) os << "\n";
 
     os << "q[" << target_index << "] : " << q;
 
-    for (int i = 0; i < q.s.size(); i++) {
+    for (unsigned i = 0; i < q.s.size(); i++) {
 
         os << "\n";
         show_margins(margins);
@@ -128,7 +128,7 @@ void StreamOutput::show_target(Digitizer const & q,
 
 // -------------------------------------------------------------------------- //
 void StreamOutput::show_target(Sensor const & s,
-                               int const target_index,
+                               unsigned const target_index,
                                std::vector<bool> const & margins/*={}*/) const {
 
     if (margins.size() == 0) os << "\n";
@@ -138,7 +138,7 @@ void StreamOutput::show_target(Sensor const & s,
 
 // -------------------------------------------------------------------------- //
 void StreamOutput::show_target(DataProcessor const & dp,
-                               int const target_index,
+                               unsigned const target_index,
                                std::vector<bool> const & margins/*={}*/) const {
 
     if (margins.size() == 0) os << "\n";
@@ -200,7 +200,7 @@ void StreamOutput::show<Kind::help>(TargetAddress const & ta) const {
         auto const kinds = InstructionMap::filter_kinds(ta, action);
         auto const n = kinds.size();
 
-        for(int i = 0; i < n; i++) {
+        for(unsigned i = 0; i < n; i++) {
 
             // -------- KINDS --------- //
             os << "\n ";
@@ -221,7 +221,7 @@ void StreamOutput::show<Kind::help>(TargetAddress const & ta) const {
                     os << " []";
                 }
 
-                for (int j = 0; j < m; j++) {
+                for (unsigned j = 0; j < m; j++) {
                     os << " [:" << options[j] << "]";
                 }
 
@@ -235,7 +235,7 @@ void StreamOutput::show<Kind::help>(TargetAddress const & ta) const {
 void StreamOutput::show_tree(std::vector<std::string> const & items,
                              std::vector<bool> const & margins/*={}*/) const {
 
-    for(int i = 0; i < items.size(); i++) {
+    for(unsigned i = 0; i < items.size(); i++) {
         os << "\n ";
         show_margins(margins);
         if ( i + 1 == items.size() ) os << "└── "; else os << "├── ";
@@ -246,7 +246,7 @@ void StreamOutput::show_tree(std::vector<std::string> const & items,
 // -------------------------------------------------------------------------- //
 void StreamOutput::show_num_tree(std::vector<std::string> const & items) const {
 
-    for(int i = 0; i < items.size(); i++) {
+    for(unsigned i = 0; i < items.size(); i++) {
         os << "\n ├──<" << i << "> " << items[i];
     }
 
@@ -263,7 +263,7 @@ void StreamOutput::show_config(SeismicNetwork const & sn) {
 
     TargetAddress ta;
 
-    for (int i = 0; i < sn_.st.size(); i++) {
+    for (unsigned i = 0; i < sn_.st.size(); i++) {
         ta.sn_child = Target(Scope::station, i);
         show_config(sn_.st[i], ta);
     }
@@ -275,12 +275,12 @@ void StreamOutput::show_config(Station const & st,
     os << "\n\n" << ta
        << "\n" << st.config;
 
-    for (int i = 0; i < st.q.size(); i++) {
+    for (unsigned i = 0; i < st.q.size(); i++) {
         ta.st_child = Target(Scope::digitizer, i);
         show_config(st.q[i], ta);
     }
 
-    for (int i = 0; i < st.dp.size(); i++) {
+    for (unsigned i = 0; i < st.dp.size(); i++) {
         ta.st_child = Target(Scope::data_processor, i);
         show_config(st.dp[i], ta);
     }
@@ -292,7 +292,7 @@ void StreamOutput::show_config(Digitizer const & q,
     os << "\n\n" << ta
        << "\n" << q.config;
 
-    for (int i = 0; i < q.s.size(); i++) {
+    for (unsigned i = 0; i < q.s.size(); i++) {
         ta.q_child = Target(Scope::sensor, i);
         show_config(q.s[i], ta);
     }
@@ -316,7 +316,7 @@ void StreamOutput::show_status() {
 
     TargetAddress ta;
 
-    for (int i = 0; i < sn_.st.size(); i++) {
+    for (unsigned i = 0; i < sn_.st.size(); i++) {
         ta.sn_child = Target(Scope::station, i);
         show_status(sn_.st[i], ta);
     }
@@ -328,12 +328,12 @@ void StreamOutput::show_status(Station const & st,
     os << "\n\n" << ta
        << "\n" << st.status;
 
-    for (int i = 0; i < st.q.size(); i++) {
+    for (unsigned i = 0; i < st.q.size(); i++) {
         ta.st_child = Target(Scope::digitizer, i);
         show_status(st.q[i], ta);
     }
 
-    for (int i = 0; i < st.dp.size(); i++) {
+    for (unsigned i = 0; i < st.dp.size(); i++) {
         ta.st_child = Target(Scope::data_processor, i);
         show_status(st.dp[i], ta);
     }
@@ -345,7 +345,7 @@ void StreamOutput::show_status(Digitizer const & q,
     os << "\n\n" << ta
        << "\n" << q.status;
 
-    for (int i = 0; i < q.s.size(); i++) {
+    for (unsigned i = 0; i < q.s.size(); i++) {
         ta.q_child = Target(Scope::sensor, i);
         show_status(q.s[i], ta);
     }

@@ -185,7 +185,7 @@ inline
 std::ostream & operator<<(std::ostream & cf_os,
                           CmdField<uint8_t> const & cf) {
 
-    cf_os << static_cast<unsigned int>( cf.data() );
+    cf_os << static_cast<unsigned>( cf.data() );
     return cf_os;
 }
 

@@ -138,7 +138,7 @@ uint32_t constexpr k_shift_seconds_1970_2000 =
 // as in january 1 is 1
 // ---------------------------------------------------------------------- //
 inline
-int julian_day( YearMonthDay const & ymd_data = sys_year_month_day() ) {
+unsigned julian_day( YearMonthDay const & ymd_data = sys_year_month_day() ) {
 
     auto ymd_start = date::year{ ymd_data.year() }/1/1;
 
@@ -156,7 +156,7 @@ int julian_day( YearMonthDay const & ymd_data = sys_year_month_day() ) {
 // as in january 1 is 1
 // ---------------------------------------------------------------------- //
 inline
-int julian_day(int const y, int const m, int const d) {
+unsigned julian_day(int const y, int const m, int const d) {
 
     return julian_day(date::year{y}/m/d);
 }
@@ -204,7 +204,7 @@ std::ostream & operator<<(std::ostream & os,
     if (d_m.count() > 0) d_parts.emplace_back(std::to_string(d_m.count()) + "min");
     if (d_s.count() > 0) d_parts.emplace_back(std::to_string(d_s.count()) + "s");
 
-    for (int i = 0; i < d_parts.size(); i++) {
+    for (unsigned i = 0; i < d_parts.size(); i++) {
         os << d_parts[i];
         if (i != d_parts.size() - 1) os << "_";
     }

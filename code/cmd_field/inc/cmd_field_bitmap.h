@@ -51,14 +51,14 @@ public:
         in addition to the use for codes, some bitsets have actual
         values embedded. */
     // --------------------------------------------------------------------- //
-    unsigned long raw_value_from_range(unsigned int const bmv_val_begin,
-                                       unsigned int const bmv_val_mask) const {
+    unsigned long raw_value_from_range(unsigned const bmv_val_begin,
+                                       unsigned const bmv_val_mask) const {
 
         return (data_.to_ulong() >> bmv_val_begin) & bmv_val_mask;
     }
 
     // --------------------------------------------------------------------- //
-    void set_raw_value_in_range(unsigned int const bmv_val_begin,
+    void set_raw_value_in_range(unsigned const bmv_val_begin,
                                 unsigned long const bmv_val_mask,
                                 unsigned long const bmv_val_raw) {
 

@@ -15,16 +15,16 @@
 
 #include <tuple>
 
-std::tuple<unsigned int, unsigned int, unsigned int>duration_txt_to_hms(
+std::tuple<unsigned, unsigned, unsigned >duration_txt_to_hms(
         std::string &txt) {
 
     if (txt == "0" or txt == "0s" or txt == "0m" or txt == "0h") {
         return std::make_tuple(0, 0, 0);
     }
 
-    unsigned int h = 0; // hours
-    unsigned int m = 0; // minutes
-    unsigned int s = 0; // seconds
+    unsigned h = 0; // hours
+    unsigned m = 0; // minutes
+    unsigned s = 0; // seconds
 
     if ( txt.size() <= 1 ) {
         std::cerr << "\nwrong duration format, good examples: 5m, 2h or 20s";
@@ -167,7 +167,7 @@ int main() {
 
             // duration objects
             std::string t;
-            unsigned int h, m, s;
+            unsigned h, m, s;
 
             json_fs << ", \"settling_time\": ";
             t = cal.settling_time;

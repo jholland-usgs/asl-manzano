@@ -174,7 +174,7 @@ private:
 
     //! for run-time, on-the-fly custom commands
     static
-    std::map< uint16_t, OptionCmdMap > mpid_options_map;
+    std::map<uint16_t, OptionCmdMap> mpid_options_map;
 
     // --------------------------------------------------------------------- //
     inline

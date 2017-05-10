@@ -50,7 +50,7 @@ std::ostream & operator<<(std::ostream & cf_os,
                           CmdFieldHex<uint8_t> const & cf) {
 
     cf_os << std::showbase << std::uppercase << std::hex
-          << static_cast<unsigned int>( cf.data() )
+          << static_cast<unsigned>( cf.data() )
           << std::noshowbase << std::nouppercase << std::dec;
 
     return cf_os;

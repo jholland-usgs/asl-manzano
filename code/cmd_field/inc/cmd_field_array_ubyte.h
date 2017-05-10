@@ -36,7 +36,7 @@ std::ostream & operator<<(std::ostream & cf_os,
     cf_os << "[";
     //<< std::showbase << std::uppercase << std::hex;
     for ( auto const & b : cf.data() ) {
-        cf_os << static_cast<unsigned int>(b) << " ";
+        cf_os << static_cast<unsigned>(b) << " ";
     }
     cf_os << "]";
     // << std::noshowbase << std::nouppercase << std::dec;

@@ -31,7 +31,7 @@ void ip_format_check(std::string const & ip) {
                                                           "ip_format_check",
                                                           "not 4 byte format");
 
-        for (int i = 0; i < ip_tokens.size(); i++) {
+        for (unsigned i = 0; i < ip_tokens.size(); i++) {
             int const ipb =  std::stoi(ip_tokens[i]);
             if (ipb < 0 or ipb > 255) {
                 throw WarningException("JsonSn",

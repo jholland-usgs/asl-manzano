@@ -93,7 +93,7 @@ CmdFileReader::construct_msg_tasks(UserInstruction const & ui,
     };
 
     // process all cmds
-    for (int i = 0; i < cmds.size(); i++) package_tasks(i);
+    for (unsigned i = 0; i < cmds.size(); i++) package_tasks(i);
 
     // error
     return msg_tasks;

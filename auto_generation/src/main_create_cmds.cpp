@@ -101,22 +101,22 @@ int main() {
         std::cout << "Processing: " << cmd_class_name << std::endl;
 
         //! cfn = number of command fields
-        int cfn = cmds_json[cmd_name.c_str()]["cmd_fields"].size();
+        unsigned cfn = cmds_json[cmd_name.c_str()]["cmd_fields"].size();
 
         //! cmd_data_size = bytes of a serialized message containing all cmd data
-        int cmd_data_size = 0;
-        for (int cfi = 0; cfi < cfn; cfi++) {
-            int cf_size =
+        unsigned cmd_data_size = 0;
+        for (unsigned cfi = 0; cfi < cfn; cfi++) {
+            unsigned cf_size =
                 cmds_json[cmd_name.c_str()]["cmd_fields"][cfi]["cf_size"];
             cmd_data_size += cf_size;
         }
 
         // initializing variables to default, non mc values
         bool command_container = false;
-        int mc_header_size = 0;
+        unsigned mc_header_size = 0;
         bool fixed_map;
         bool info_ni;
-        int mc_cmd_map_size = 0;
+        unsigned mc_cmd_map_size = 0;
 
         // if mc, setup the mc values for the values in the json
         // also, add necessary #define, #include in the files
