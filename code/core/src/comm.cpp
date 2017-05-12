@@ -604,23 +604,25 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
 
             Comm::run<Action::set, Kind::dereg>(ta);
 
-            // add some wiggle time in between
-            auto constexpr wiggle_duration = std::chrono::seconds(20);
-            // sleep on this thread, each msg task has the run_duration
-            // already calculated.
-            auto const sleep_duration = msg_task.run_duration() +
-                                        wiggle_duration;
+            if (msg_tasks.size() > 1) {
+                // add some wiggle time in between
+                auto constexpr wiggle_duration = std::chrono::seconds(20);
+                // sleep on this thread, each msg task has the run_duration
+                // already calculated.
+                auto const sleep_duration = msg_task.run_duration() +
+                                            wiggle_duration;
 
-            CmdFieldTime<> sleep_until_time;
-            sleep_until_time(std::chrono::system_clock::now() + sleep_duration);
+                CmdFieldTime<> sleep_until_time;
+                sleep_until_time(std::chrono::system_clock::now() + sleep_duration);
 
-            std::cout << std::endl << " ### now: "
-                      << Time::sys_time_of_day() << " ###\n";
+                std::cout << std::endl << " ### now: "
+                          << Time::sys_time_of_day() << " ###\n";
 
-            std::cout << std::endl << "sleep for: " << sleep_duration
-                      << " until: " << sleep_until_time << std::endl;
+                std::cout << std::endl << "sleep for: " << sleep_duration
+                          << " until: " << sleep_until_time << std::endl;
 
-            std::this_thread::sleep_for(sleep_duration);
+                std::this_thread::sleep_for(sleep_duration);
+            }
         }
 
         std::cout << std::endl << " ### now: "
