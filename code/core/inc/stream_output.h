@@ -8,6 +8,7 @@
 
 #include "seismic_network.h"
 #include "instruction_map.h"
+#include "c1_qcal.h"
 
 namespace mzn {
 
@@ -40,6 +41,10 @@ public:
 
     void show_help() const;
 
+    // --------------------------------------------------------------------- //
+    template<typename C>
+    std::ostream & line_stream(std::ostream & os) const;
+
 private:
 
     std::ostream & os = std::cout;
@@ -63,9 +68,14 @@ private:
     void show_target(Sensor const & s,
                      unsigned const target_index,
                      std::vector<bool> const & margins = {}) const;
-
-
 };
+
+// --------------------------------------------------------------------- //
+template<>
+inline
+std::ostream & StreamOutput::line_stream<C1Qcal>(std::ostream & os) const {
+    return os;
+}
 
 } // end namespace
 

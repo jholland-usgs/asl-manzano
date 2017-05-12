@@ -1,5 +1,6 @@
 #include "cmd_file_reader.h"
 #include "json_sn.h"
+#include "json_cals.h"
 
 namespace mzn {
 
@@ -20,35 +21,10 @@ std::vector<C1Qcal>
 CmdFileReader::construct_cmds(UserInstruction const & ui,
                               TargetAddress const & ta) {
 
-    std::ifstream cals_fs;
-
-    auto const runtime_config_path = Utility::get_runtime_config_path();
-    std::string const cal_sequences_path{"/cal_sequences.json"};
-
-    cals_fs.open(runtime_config_path + cal_sequences_path);
-
-    if (not cals_fs) {
-        throw WarningException("CmdFileReader",
-                                "construct_cals",
-                                "can't open cal file: " + cal_sequences_path);
-    }
-
-    std::stringstream cals_ss;
-    cals_ss << cals_fs.rdbuf();
-
-    Json cals_json = Json::parse( cals_ss.str() );
-
-    check_json(cals_json.is_object(), "cal sequences not in json format");
 
     // is the expected cal sequence on the cal sequence list?
     auto const & s = sn_.s_const_ref(ta);
-
-    check_json( cals_json.find( s.config.cals.c_str() ) != cals_json.end(),
-                std::string("sensor (") + s.config.cals +
-                std::string(") not found in cal sequences file") );
-
-    // setup complete, now to read the parsed configuration file
-    auto const sensor_cals_json = cals_json[ s.config.cals.c_str() ]["cals"];
+    auto const sensor_cals_json = Utility::get_cals_json(s.config.cals);
 
     // --------------------------------------------------------------------- //
     std::vector<C1Qcal> cmds;
@@ -57,7 +33,7 @@ CmdFileReader::construct_cmds(UserInstruction const & ui,
     cmds.reserve( sensor_cals_json.size() ) ;
 
     // ********** from config to real commands *********** //
-    auto qcal_json_to_cmd = [&](auto const & i) {
+    auto qcal_from_json = [&](auto const & i) {
 
         C1Qcal cal{};
 
@@ -190,11 +166,11 @@ CmdFileReader::construct_cmds(UserInstruction const & ui,
                                    "specified index is outside the bounds");
         }
 
-        qcal_json_to_cmd(restrict_to_cmd_index);
+        qcal_from_json(restrict_to_cmd_index);
 
     } else {
         // do all the relevant commands in the file
-        for (auto i = 0; i < sensor_cals_json.size(); i++) qcal_json_to_cmd(i);
+        for (auto i = 0; i < sensor_cals_json.size(); i++) qcal_from_json(i);
     }
 
     return cmds;
