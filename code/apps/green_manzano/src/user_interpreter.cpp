@@ -70,6 +70,7 @@ Kind UserInterpreter::match_kind(std::string const & token) {
 // -------------------------------------------------------------------------- //
 Scope UserInterpreter::match_scope(std::string const & token,
                                    std::size_t & token_index) {
+
     Scope scope;
 
     //! match by scope short name
@@ -313,10 +314,7 @@ void UserInterpreter::user_input_loop() {
 std::vector<std::string>
 UserInterpreter::parse_user_input(std::string & user_input) {
 
-    std::stringstream ss(user_input);
-    std::istream_iterator<std::string> begin(ss);
-    std::istream_iterator<std::string> end;
-    std::vector<std::string> input_tokens(begin, end);
+    auto const input_tokens = Utility::get_tokens(user_input, ' ');
 
     if (input_tokens.size() > 3) {
 

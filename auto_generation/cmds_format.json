@@ -412,11 +412,11 @@
   "cy_thread_status":{
     "cmd_fields":[
 
-      {"cf_name": "total_running_time", "cf_size": 6, "cf_type": "CmdField<uint64_t, 6>", "cf_units": "ms"},
-      {"cf_name": "priority", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
-      {"cf_name": "priority_counter", "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+      {"cf_name": "total_running_time",  "cf_size": 6, "cf_type": "CmdField<uint64_t, 6>", "cf_units": "ms"},
+      {"cf_name": "priority",            "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
+      {"cf_name": "priority_counter",    "cf_size": 1, "cf_type": "CmdField<uint8_t>"},
       {"cf_name": "time_since_last_run", "cf_size": 6, "cf_type": "CmdField<uint64_t, 6>", "cf_units": "ms"},
-      {"cf_name": "thread_flags", "cf_size": 2, "cf_type": "BmFgThread"}
+      {"cf_name": "thread_flags",        "cf_size": 2, "cf_type": "BmFgThread"}
     ],
 
     "cmd_number": "0",
