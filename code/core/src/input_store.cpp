@@ -112,6 +112,7 @@ get_default_cmd<Action::start, Kind::cal>(TargetAddress const & ta,
         cmd.settling_time( Minutes(2) );
         cmd.cal_duration( Minutes(2) );
         cmd.trailer_time( Minutes(1) );
+        cmd.frequency_divider(1); // 1hz for sine waveform
 
     } else if (option == "longstep") {
 
@@ -128,6 +129,16 @@ get_default_cmd<Action::start, Kind::cal>(TargetAddress const & ta,
         cmd.settling_time( Minutes(2) );
         cmd.cal_duration( Minutes(10) );
         cmd.trailer_time( Minutes(5) );
+        cmd.frequency_divider(1); // 1hz for sine waveform
+
+    } else if (option == "hf") {
+
+        cmd.waveform.waveform(BmCalWaveform::Waveform::white_noise);
+        cmd.amplitude(-12);
+        cmd.settling_time( Minutes(10) );
+        cmd.cal_duration( Minutes(20) );
+        cmd.trailer_time( Minutes(10) );
+        cmd.frequency_divider(1); // 125hz for noise waveform
 
     } else {
         throw_bad_option(option);
@@ -147,7 +158,6 @@ get_default_cmd<Action::start, Kind::cal>(TargetAddress const & ta,
 
     cmd.waveform.automatic_calibration(true);
     cmd.waveform.negative_step(false);
-    cmd.frequency_divider(1);
 
     std::array<char, 12> constexpr
         coupling_bytes {{'r','e','s','i','s','t','i','v','e'}};
