@@ -143,6 +143,7 @@ UserInterpreter::match_target_address(std::string const & token) {
     return ta;
 }
 
+// requires user_input not empty, checked before calling this function
 // -------------------------------------------------------------------------- //
 void UserInterpreter::run_user_input(std::string & user_input) {
 
@@ -153,8 +154,11 @@ void UserInterpreter::run_user_input(std::string & user_input) {
     auto constexpr target_address_index = 2;
 
     // container with all the token strings, checks number of tokens
-    auto input_tokens = parse_user_input(user_input);
+    auto input_tokens = Utility::get_tokens(user_input, ' ');
 
+
+    // option ':'
+    // ---------------------------------------------------------------------- //
     std::string option;
     // an option can be specified by adding the mark ':', for example stat:boom
     // where "stat" is the Kind and "boom" is the option
@@ -172,6 +176,7 @@ void UserInterpreter::run_user_input(std::string & user_input) {
     }
 
     // shortcut for edit target target_address
+    // ---------------------------------------------------------------------- //
     if (input_tokens.size() == 1) {
         // see comments below for respective functions
         auto ta = match_target_address(input_tokens[0]);
@@ -184,11 +189,34 @@ void UserInterpreter::run_user_input(std::string & user_input) {
         return;
     }
 
+    // at least 2 elements on input_tokens, must be action kind
+    // ---------------------------------------------------------------------- //
     auto const action = match_action(input_tokens[action_index]);
     auto const kind = match_kind(input_tokens[kind_index]);
     auto const ui = UserInstruction(action, kind, option);
 
-    if (input_tokens.size() == 3) {
+    // dash '-'
+    // ---------------------------------------------------------------------- //
+    // a dash instruction can be specified by dash and letter '-x',
+    // for example get ping -i (preview input only)
+    std::string dash{};
+    while (input_tokens.back()[0] == '-' and input_tokens.back().size() == 2) {
+        dash += input_tokens.back()[1];
+        input_tokens.pop_back();
+    }
+    std::cout << std::endl << "dash: [" << dash << "]";
+
+    // ta 'st?q?s?'
+    // ---------------------------------------------------------------------- //
+
+    if (input_tokens.size() == 2) {
+
+        // use the current target address
+        // no merging/checking of target_address needed
+        instruction_interpreter.check_instruction_map(ui);
+        instruction_interpreter.run_instruction(ui);
+
+    } else if (input_tokens.size() == 3) {
 
         // matches to whatever the user wrote, it can create an erroneous ta
         // like "st0s0" (instead of st0q0s0 or q0s0 or s0), gets checked next
@@ -206,11 +234,22 @@ void UserInterpreter::run_user_input(std::string & user_input) {
 
     } else {
 
-        // use the current target address
-        // no merging/checking of target_address needed
-        instruction_interpreter.check_instruction_map(ui);
-        instruction_interpreter.run_instruction(ui);
+        // input_tokens.size() > 3
+        std::stringstream error_msg;
+        error_msg << "too many arguments";
 
+        error_msg << "\n\narguments received       : ";
+        for (auto const & token : input_tokens) error_msg << token << " ";
+
+        error_msg << "\narguments not understood : ";
+        for (int i = 3; i < input_tokens.size() ; i++) {
+            error_msg << input_tokens[i] << " ";
+        }
+
+        error_msg << "\n\n";
+        throw WarningException("UserInterpreter",
+                               "run_user_input",
+                               error_msg.str() );
     }
 }
 
@@ -308,37 +347,6 @@ void UserInterpreter::user_input_loop() {
                       << std::endl << e.what();
         }
     }
-}
-
-// -------------------------------------------------------------------------- //
-std::vector<std::string>
-UserInterpreter::parse_user_input(std::string & user_input) {
-
-    auto const input_tokens = Utility::get_tokens(user_input, ' ');
-
-    if (input_tokens.size() > 3) {
-
-        std::stringstream error_msg;
-        error_msg << "too many arguments";
-
-        error_msg << "\n\narguments received       : ";
-        for (int i = 0; i < input_tokens.size() ; i++) {
-            error_msg << input_tokens[i] << " ";
-        }
-
-        error_msg << "\narguments not understood : ";
-        for (int i = 3; i < input_tokens.size() ; i++) {
-            error_msg << input_tokens[i] << " ";
-        }
-
-        error_msg << "\n\n";
-
-        throw WarningException("UserInterpreter",
-                               "parse_user_input",
-                               error_msg.str() );
-    }
-
-    return input_tokens;
 }
 
 } // <- mzn

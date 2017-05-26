@@ -119,7 +119,8 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
 
         cmd_rqmem.starting_address(starting_address);
 
-        C1Mem cmd_mem;
+        using Co = typename Co<Action::get, Kind::token>::type;
+        Co cmd_mem;
 
         md.send_recv(q.port_config, cmd_rqmem, cmd_mem, false);
         CxMem * mem = dynamic_cast<CxMem *>( cmd_mem.inner_commands[0].get() );

@@ -42,6 +42,7 @@ public:
         "show status st12q2s1",     //10
         "edit target s0",
         "start cal q0",
+        "start cal q0 -p -x",
     };
 
     // ui = UserInstruction

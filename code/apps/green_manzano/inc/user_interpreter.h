@@ -34,14 +34,8 @@ public:
     void user_input_loop(std::string const & qrun_fname);
 
     //! user_input is one line in the console/file
-    //! @calls parse_user_input
     //! @calls instruction_interpreter
     void run_user_input(std::string & user_input);
-
-    //! @calls match_*
-    //! @returns input_tokens
-    static
-    std::vector<std::string> parse_user_input(std::string & user_input);
 
     //! match_* converts from a string to the correct type/value
     static
