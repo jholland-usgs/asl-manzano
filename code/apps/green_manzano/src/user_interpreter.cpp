@@ -156,7 +156,6 @@ void UserInterpreter::run_user_input(std::string & user_input) {
     // container with all the token strings, checks number of tokens
     auto input_tokens = Utility::get_tokens(user_input, ' ');
 
-
     // option ':'
     // ---------------------------------------------------------------------- //
     std::string option;
@@ -204,11 +203,10 @@ void UserInterpreter::run_user_input(std::string & user_input) {
         dash += input_tokens.back()[1];
         input_tokens.pop_back();
     }
-    std::cout << std::endl << "dash: [" << dash << "]";
+    // std::cout << std::endl << "dash: [" << dash << "]";
 
     // ta 'st?q?s?'
     // ---------------------------------------------------------------------- //
-
     if (input_tokens.size() == 2) {
 
         // use the current target address

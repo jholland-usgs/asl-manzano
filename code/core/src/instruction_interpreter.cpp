@@ -13,7 +13,7 @@ InstructionInterpreter::InstructionInterpreter(TargetAddress const & ta) :
 
         check_ta_in_sn(current_ta_);
 
-    } catch(WarningException const & e) {
+    } catch (WarningException const & e) {
 
         std::cerr << "\nta: " << ta << "\nNot present, configuration likely broken";
         std::cerr << e.what();
