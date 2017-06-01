@@ -131,18 +131,43 @@ get_default_cmd<Action::start, Kind::cal>(TargetAddress const & ta,
         cmd.trailer_time( Minutes(5) );
         cmd.frequency_divider(1); // 1hz for sine waveform
 
-    } else if (option == "hf") {
+    } else if (option == "hfw6") {
 
         cmd.waveform.waveform(BmCalWaveform::Waveform::white_noise);
-        cmd.amplitude(-12);
+        cmd.amplitude(-6);
         cmd.settling_time( Minutes(10) );
         cmd.cal_duration( Minutes(20) );
         cmd.trailer_time( Minutes(10) );
         cmd.frequency_divider(1); // 125hz for noise waveform
 
-    } else {
-        throw_bad_option(option);
-    }
+    } else if (option == "hfr6") {
+
+        cmd.waveform.waveform(BmCalWaveform::Waveform::random);
+        cmd.amplitude(-6);
+        cmd.settling_time( Minutes(10) );
+        cmd.cal_duration( Minutes(20) );
+        cmd.trailer_time( Minutes(10) );
+        cmd.frequency_divider(1); // 125hz for noise waveform
+
+    } else if (option == "hfw18") {
+
+        cmd.waveform.waveform(BmCalWaveform::Waveform::white_noise);
+        cmd.amplitude(-18);
+        cmd.settling_time( Minutes(10) );
+        cmd.cal_duration( Minutes(20) );
+        cmd.trailer_time( Minutes(10) );
+        cmd.frequency_divider(1); // 125hz for noise waveform
+
+    } else if (option == "hfr18") {
+
+        cmd.waveform.waveform(BmCalWaveform::Waveform::random);
+        cmd.amplitude(-18);
+        cmd.settling_time( Minutes(10) );
+        cmd.cal_duration( Minutes(20) );
+        cmd.trailer_time( Minutes(10) );
+        cmd.frequency_divider(1); // 125hz for noise waveform
+
+    } else throw_bad_option(option);
 
     // Need to setup basic command before choosing options
     auto const & s = sn_.s_const_ref(ta);

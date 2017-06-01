@@ -149,7 +149,8 @@ InstructionMap::filter_options(Action const action, Kind const kind) {
 
             switch (kind) {
                 case Kind::cal: return VS{"sine", "step",
-                                          "longsine", "longstep", "hf"};
+                                          "longsine", "longstep",
+                                          "hfw6", "hfr6", "hfw18", "hfr18"};
                 case Kind::center: return VS{"&pulse_duration"};
                 default: return VS{};
             }
