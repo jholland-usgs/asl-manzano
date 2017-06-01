@@ -57,9 +57,15 @@ std::string get_runtime_config_path() {
     std::ifstream fs_src_check(config_src_path + "/config.json");
     if ( fs_src_check.good() ) return std::string(config_src_path);
 
+    std::string const config_etc_path{"/etc/manzano"};
+    std::ifstream fs_etc_check(config_etc_path + "/config.json");
+    if ( fs_etc_check.good() ) return std::string(config_etc_path);
+
     std::stringstream ss;
     ss << "Config path not found at: \n    "
-       << config_home_path << " or\n    " << config_src_path;
+       << config_home_path << " or\n    "
+       << config_src_path << " or\n    "
+       << config_etc_path;
 
     throw FatalException( "Manzano",
                           "get_runtime_config_path",
