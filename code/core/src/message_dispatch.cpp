@@ -3,40 +3,7 @@
 
 namespace mzn {
 
-// utility private methods
-// -------------------------------------------------------------------------- //
-template <typename M>
-std::array<uint8_t, 4>
-MessageDispatch::calc_crc(M const & msg) {
 
-    uint32_t constexpr mask_lsbyte(0xFF);
-
-    uint32_t crc_msbyte = 0;
-    uint32_t crc = 0;
-    uint32_t crc_table_index = 0;
-
-    // for every byte on the message, create/update the
-    // cyclic redundancy code
-    // to be sent to the digitizers
-    // the code follows the digitizer's communication protocol manual
-    // and dp writer's manual
-
-    for (int i = qdp_begin_header_; i < msg.size(); i++) {
-
-        uint32_t const msg_byte( msg[i] );
-        crc_table_index = (crc_msbyte ^ msg_byte) & mask_lsbyte;
-        crc = (crc << 8) ^ crc_table_[crc_table_index];
-        crc_msbyte = crc >> 24;
-    }
-
-    std::array<uint8_t, 4> crc_array;
-    crc_array[0] = static_cast<uint8_t>( (crc >> 24) & mask_lsbyte );
-    crc_array[1] = static_cast<uint8_t>( (crc >> 16) & mask_lsbyte );
-    crc_array[2] = static_cast<uint8_t>( (crc >> 8)  & mask_lsbyte );
-    crc_array[3] = static_cast<uint8_t>(crc & mask_lsbyte);
-
-    return crc_array;
-}
 
 // -------------------------------------------------------------------------- //
 Qdp::Message MessageDispatch::create_qdp_msg(ConnectionHandler & q_port,

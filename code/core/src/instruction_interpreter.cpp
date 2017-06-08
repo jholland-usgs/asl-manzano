@@ -22,41 +22,6 @@ InstructionInterpreter::InstructionInterpreter(TargetAddress const & ta) :
 }
 
 // -------------------------------------------------------------------------- //
-template<Action action>
-void InstructionInterpreter::match(UserInstruction const & ui,
-                                   TargetAddress const & ta) {
-
-    auto const & oi = ui.option_input;
-
-    switch (ui.kind) {
-        case Kind::target:  cm.run<action, Kind::target>(ta, oi);  break;
-        case Kind::config:  cm.run<action, Kind::config>(ta, oi);  break;
-        case Kind::status:  cm.run<action, Kind::status>(ta, oi);  break;
-        case Kind::help:    cm.run<action, Kind::help>(ta, oi);    break;
-        case Kind::poll:    cm.run<action, Kind::poll>(ta, oi);    break;
-        case Kind::global:  cm.run<action, Kind::global>(ta, oi);  break;
-        case Kind::ping:    cm.run<action, Kind::ping>(ta, oi);    break;
-        case Kind::stat:    cm.run<action, Kind::stat>(ta, oi);    break;
-        case Kind::qview:   cm.run<action, Kind::qview>(ta, oi);   break;
-        case Kind::dev:     cm.run<action, Kind::dev>(ta, oi);     break;
-        case Kind::ctrl:    cm.run<action, Kind::ctrl>(ta, oi);    break;
-        case Kind::reg:     cm.run<action, Kind::reg>(ta, oi);     break;
-        case Kind::dereg:   cm.run<action, Kind::dereg>(ta, oi);   break;
-        case Kind::cal:     cm.run<action, Kind::cal>(ta, oi);     break;
-        case Kind::center:  cm.run<action, Kind::center>(ta, oi);  break;
-        case Kind::uptime:  cm.run<action, Kind::uptime>(ta, oi);  break;
-        case Kind::mzn:     cm.run<action, Kind::mzn>(ta, oi);     break;
-        case Kind::plan:    cm.run<action, Kind::plan>(ta, oi);    break;
-        case Kind::link:    cm.run<action, Kind::link>(ta, oi);    break;
-        case Kind::token:   cm.run<action, Kind::token>(ta, oi);   break;
-        case Kind::wait:    cm.run<action, Kind::wait>(ta, oi);    break;
-        case Kind::output:  cm.run<action, Kind::output>(ta, oi);  break;
-        default:
-            throw std::logic_error{"at InstructionInterpreter::run_instruction"};
-    }
-}
-
-// -------------------------------------------------------------------------- //
 void InstructionInterpreter::run_instruction(UserInstruction const & ui,
                                              TargetAddress const & ta) {
 
