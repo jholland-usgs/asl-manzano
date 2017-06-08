@@ -206,7 +206,7 @@ void UdpConnection::recv(M & msg_recv) {
                                msg_recv.size(),
                                0,
                                (sockaddr *)&sin_remote_recv_,
-                               &sock_addr_len_);
+                               (socklen_t *)&sock_addr_len_);
 
     // Failure
     if (recv_result < 0) {
