@@ -56,7 +56,7 @@ void expect_string(std::string const & expected,
 // used to underline the problematic token in the error message
 // -------------------------------------------------------------------------- //
 inline
-std::string underline_error(std::string const & token, unsigned e_index) {
+std::string underline_error(std::string const & token, unsigned const e_index) {
 
     std::stringstream token_underlined;
 
@@ -78,19 +78,15 @@ unsigned match_positive_number(std::string const & token,
     std::string token_number;
 
     for (unsigned i = token_index; i < token.size(); i++) {
-        if (std::isdigit(token[i])) {
-            token_number.push_back(token[i]);
-        } else {
-            break;
-        }
+        if ( std::isdigit(token[i]) ) token_number.push_back(token[i]);
+        else break;
     }
 
-    if (token_number.size() == 0) {
+    if ( token_number.empty() ) {
 
         std::stringstream error_msg;
 
-        error_msg << "expected positive number in token \'"
-                  << token << "\' \n";
+        error_msg << "expected positive number in token \'" << token << "\'\n";
 
         if (token.size() > 1) {
             error_msg << "at:" << underline_error(token, token_index);

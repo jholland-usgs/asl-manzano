@@ -72,7 +72,7 @@ using TimePoint = std::chrono::time_point<SysClock, Duration>;
 template <typename Duration = SysClock::duration,
           typename Rep = typename Duration::rep>
 inline
-SysTimeSeconds<typename Duration::rep> constexpr
+SysTimeSeconds<typename Duration::rep>
 sys_time_of_day(TimePoint<Duration> const tp = SysClock::now() ) {
 
     using Days = Time::Days<Rep>;
@@ -123,7 +123,7 @@ shift_seconds_for_epoch(YearMonthDay const other_epoch_ymd) {
 // -------------------------------------------------------------------------- //
 template <typename Rep>
 inline
-constexpr TimePoint< Seconds<Rep> >
+TimePoint< Seconds<Rep> > constexpr
 shift_epoch(TimePoint< Seconds<Rep> > const tp,
             YearMonthDay const other_epoch_ymd) {
 

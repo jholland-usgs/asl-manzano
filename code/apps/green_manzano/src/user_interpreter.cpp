@@ -97,7 +97,7 @@ Scope UserInterpreter::match_scope(std::string const & token,
 
         error_msg << "mismatch in token \'" << token << "\' \n";
 
-        if (token.size() > 1) {
+        if ( not token.empty() ) {
             error_msg << "at:" << Utility::underline_error(token, token_index);
         }
 
@@ -113,18 +113,15 @@ Scope UserInterpreter::match_scope(std::string const & token,
 }
 
 // -------------------------------------------------------------------------- //
-TargetAddress
-UserInterpreter::match_target_address(std::string const & token) {
+TargetAddress UserInterpreter::match_target_address(std::string const & token) {
 
     // format SCOPE NUMBER (SCOPE NUMBER)*optionally
     // examples of the token string: "sn", "st0", "st1q0", "st0q0s1"
 
     // apply to all seismic network
-    if (token == "sn"){
-        return TargetAddress{};
-    }
+    if (token == "sn") return TargetAddress{};
 
-    TargetAddress ta{};
+    TargetAddress ta;
 
     // gets changed on the match_* with 2 arguments
     std::size_t token_index = 0;
@@ -180,6 +177,8 @@ void UserInterpreter::run_user_input(std::string & user_input) {
         // see comments below for respective functions
         auto ta = match_target_address(input_tokens[0]);
         instruction_interpreter.merge_and_check_target_address(ta);
+
+        std::cout << std::endl << "target_address: " << ta;
 
         auto constexpr action = Action::edit;
         auto constexpr kind = Kind::target;
@@ -301,21 +300,19 @@ void UserInterpreter::user_input_loop() {
     // prompts the user for their command
     // interactive
 
-    std::string user_input;
+    std::string user_input = "";
 
     while (true) {
 
         instruction_interpreter.show_prompt();
 
-        getline(std::cin, user_input);
+        std::getline(std::cin, user_input);
 
         std::cout << std::flush << "### " << Time::sys_time_of_day() << " ###";
 
         try {
 
-            if (user_input == "") {
-                continue;
-            }
+            if (user_input == "") continue;
 
             if (user_input == "..") {
                 instruction_interpreter.current_ta_remove_one_target();
