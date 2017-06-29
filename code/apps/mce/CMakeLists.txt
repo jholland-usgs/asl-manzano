@@ -38,6 +38,13 @@ add_executable(mce ${SOURCES_mce})
 install(TARGETS mce
         DESTINATION ${DIR_install_bin}/)
 
+# ---------------------------------------------------------------- #
+message("\n ***** bash executable ***** ")
+message("path: " ${DIR_install_bin})
+
+install(FILES get_mzn_config.sh
+        DESTINATION ${DIR_install_bin})
+
 # GOOGLE TEST
 # ---------------------------------------------------------------- #
 if(FALSE)

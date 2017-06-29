@@ -14,15 +14,16 @@
 #include "user_interpreter.h"
 #include "instruction_interpreter.h"
 #include "json_sn.h"
+#include "mcew_connection.h"
 
 namespace mzn {
 
+// -------------------------------------------------------------------------- //
 class MceCli {
-
 public:
 
     explicit
-    MceCli() : ta_{} {
+    MceCli() : ta_{}, mcew_connection{} {
 
         try {
 
@@ -35,9 +36,12 @@ public:
             if (confirm) create_empty_config_file(); else throw e;
         }
 
+        mcew_connection.config_home_path = config_home_path;
+
     };
 
     std::string config_home_path;
+    McewConnection mcew_connection;
 
     ~MceCli() = default;
 
@@ -55,17 +59,9 @@ public:
     void remove_from_config(SeismicNetwork & sn, TargetAddress & ta) const;
     void change_config(SeismicNetwork & sn, TargetAddress const & ta) const;
 
-    //! these functions take station information from mce web service
-    //! with user_input in format: "ST1 ST2 ST3"
-    void add_to_config(SeismicNetwork const & sn,
-                       std::string const & user_input = "") const;
-
-    void change_config(std::string const & user_input) const;
-
 private:
 
     TargetAddress ta_;
-
 };
 
 } // end namespace
