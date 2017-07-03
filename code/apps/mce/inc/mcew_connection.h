@@ -24,21 +24,28 @@ public:
     McewConnection() = default;
     ~McewConnection() = default;
 
-    std::string config_home_path;
+    std::string config_dir_path;
+    std::string config_file_path;
+    std::string const temp_config_file_name = "config.tmp";
 
-    void get_config(SeismicNetwork const & sn,
-                    std::string const & user_input = "") const;
+    using StNms = std::vector<std::string>;
 
-    void change_config(std::string const & user_input) const;
+    // ---------------------------------------------------------------------- //
+    bool sn_has_st(SeismicNetwork const & sn,
+                   std::string const & station_name) const;
 
-    void get_config(SeismicNetwork const & sn,
-                    std::string const & user_input = "") const;
+    bool sn_has_st(Json const & sn_json,
+                   std::string const & station_name) const;
 
-    std::vector<Station> fetch_stations(std::vector<std::string> const station_names);
+    // ---------------------------------------------------------------------- //
+    Json fetch_stations(StNms station_names) const;
 
-private:
-
-    TargetAddress ta_;
+    // ---------------------------------------------------------------------- //
+    void update_all(SeismicNetwork const & sn) const;
+    void update(SeismicNetwork const & sn, StNms const & station_names) const;
+    void use(SeismicNetwork const & sn, StNms const & station_names) const;
+    void get(SeismicNetwork const & sn, StNms const & station_names) const;
+    void send(SeismicNetwork const & sn, StNms const & station_names) const;
 
 };
 

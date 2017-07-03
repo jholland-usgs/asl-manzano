@@ -523,6 +523,34 @@ Json json_add_child_from_ta(SeismicNetwork const & sn,
     }
 }
 
+// -------------------------------------------------------------------------- //
+inline
+Json empty_sn_json() {
+    Json j = "{ \"station\": [] }"_json;
+    return j;
+}
+
+// -------------------------------------------------------------------------- //
+inline
+void save_to_config_file(Json const & sn_json,
+                         std::string const & config_file_path) {
+
+    std::ofstream config_fs;
+    config_fs.open(config_file_path, std::ofstream::out | std::ofstream::trunc);
+
+    std::cout << std::endl << "saving to file\n";
+    config_fs << sn_json.dump(4) << std::endl;
+}
+
+// -------------------------------------------------------------------------- //
+inline
+void save_to_config_file(SeismicNetwork const & sn,
+                         std::string const & config_file_path) {
+
+    auto const sn_json = Utility::json_from_ta(sn, TargetAddress{});
+    save_to_config_file(sn_json, config_file_path);
+}
+
 } // <- Utility
 } // <- mzn
 

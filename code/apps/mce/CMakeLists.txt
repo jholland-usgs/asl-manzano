@@ -55,6 +55,7 @@ if(FALSE)
             ${SOURCES_core}
             ${DIR_mce}/src/mce.cpp
             ${DIR_mce}/src/mce_cli.cpp
+            ${DIR_mce}/src/mce_connection.cpp
             ${DIR_green_manzano}/src/user_interpreter.cpp
             ${DIR_mce}/test/test_mce.cpp)
 
