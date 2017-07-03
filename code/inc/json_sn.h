@@ -537,8 +537,7 @@ void save_to_config_file(Json const & sn_json,
 
     std::ofstream config_fs;
     config_fs.open(config_file_path, std::ofstream::out | std::ofstream::trunc);
-
-    std::cout << std::endl << "saving to file\n";
+    std::cout << std::endl << "saving to file: " << config_file_path << "\n";
     config_fs << sn_json.dump(4) << std::endl;
 }
 

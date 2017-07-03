@@ -38,7 +38,7 @@ public:
         try {
 
             config_dir_path = Utility::get_runtime_config_path();
-            config_file_path = config_dir_path + "config.json";
+            config_file_path = config_dir_path + "/config.json";
 
         } catch (mzn::FatalException & e) {
 
@@ -52,7 +52,6 @@ public:
         mcew_connection.config_dir_path = config_dir_path;
         mcew_connection.config_file_path = config_file_path;
     };
-
 
     ~MceCli() = default;
 

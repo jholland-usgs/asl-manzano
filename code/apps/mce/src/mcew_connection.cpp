@@ -8,6 +8,7 @@ namespace mzn {
 // -------------------------------------------------------------------------- //
 bool McewConnection::sn_has_st(SeismicNetwork const & sn,
                                std::string const & station_name) const {
+
     for (auto const & st : sn.st) {
         if (st.config.station_name == station_name) return true;
     }
@@ -17,9 +18,9 @@ bool McewConnection::sn_has_st(SeismicNetwork const & sn,
 // -------------------------------------------------------------------------- //
 bool McewConnection::sn_has_st(Json const & sn_json,
                                std::string const & station_name) const {
-    auto const stations_json = sn_json["station"];
-    Utility::JsonRef stations_json_ref(stations_json);
-    return stations_json_ref.has(station_name);
+
+    SeismicNetwork const sn_temp(sn_json);
+    return sn_has_st(sn_temp, station_name);
 }
 
 // -------------------------------------------------------------------------- //
@@ -31,19 +32,44 @@ void McewConnection::update_all(SeismicNetwork const & sn) const {
 }
 
 // -------------------------------------------------------------------------- //
+void McewConnection::use(SeismicNetwork const & sn,
+                         StNms const & station_names) const {
+
+    auto updated_sn_json = fetch_stations(station_names);
+    Utility::save_to_config_file(updated_sn_json, config_file_path);
+}
+
+// -------------------------------------------------------------------------- //
 void McewConnection::update(SeismicNetwork const & sn,
                             StNms const & station_names) const {
 
-    auto updated_sn_json = fetch_stations(station_names);
+    for (auto const & station_name : station_names) {
+        if ( not sn_has_st(sn, station_name) ) {
+            std::stringstream ss;
+            ss << "station [" << station_name << "] could not be updated\n"
+               << "because it is not in the current seismic network\n";
+            throw WarningException("McewConnection", "update", ss.str() );
+        }
+    }
 
-    // add stations from current configuration, except if present on remote
+    auto const current_sn_json = Utility::json_from_sn(sn);
+    auto const fetched_sn_json = fetch_stations(station_names);
+    SeismicNetwork fetched_sn(fetched_sn_json);
+
+    auto updated_sn_json = Utility::empty_sn_json();
+
+    // some extra work to keep the same order as the current sn
     for (auto const & st: sn.st) {
-        auto const updated_version_available = sn_has_st(updated_sn_json,
-                                                        st.config.station_name);
-        if (not updated_version_available) {
-            // use current local version
-            auto const st_local_json = Utility::json_from_st(st);
-            updated_sn_json["station"].push_back(st_local_json);
+        auto const & station_name = st.config.station_name;
+        auto const fetched_version_available = sn_has_st(fetched_sn,
+                                                         station_name);
+        if (fetched_version_available) {
+            auto const & st_fetched = fetched_sn.st_const_ref(station_name);
+            auto const st_fetched_json = Utility::json_from_st(st_fetched);
+            updated_sn_json["station"].push_back(st_fetched_json);
+        } else {
+            auto const st_current_json = Utility::json_from_st(st);
+            updated_sn_json["station"].push_back(st_current_json);
         }
     }
 
@@ -51,17 +77,27 @@ void McewConnection::update(SeismicNetwork const & sn,
 }
 
 // -------------------------------------------------------------------------- //
-void McewConnection::use(SeismicNetwork const & sn,
-                         StNms const & station_names) const {
-
-    auto const remote_json = fetch_stations(station_names);
-}
-
-// -------------------------------------------------------------------------- //
 void McewConnection::get(SeismicNetwork const & sn,
                          StNms const & station_names) const {
 
-    auto const remote_json = fetch_stations(station_names);
+    // all stations in station_names must not exist in the sn
+    auto const current_sn_json = Utility::json_from_sn(sn);
+    for (auto const & station_name : station_names) {
+        if ( sn_has_st(current_sn_json, station_name) ) {
+            std::stringstream ss;
+            ss << "station [" << station_name << "] is already in the\n"
+               << "current seismic network\n";
+            throw WarningException("McewConnection", "get", ss.str() );
+        }
+    }
+
+    auto updated_sn_json = fetch_stations(station_names);
+
+    for (auto const & station_json : current_sn_json["station"]) {
+        updated_sn_json["station"].push_back(station_json);
+    }
+
+    Utility::save_to_config_file(updated_sn_json, config_file_path);
 }
 
 // -------------------------------------------------------------------------- //

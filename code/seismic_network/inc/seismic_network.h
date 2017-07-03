@@ -13,6 +13,7 @@
 #include "station.h"
 #include "target_address.h"
 #include "mzn_except.h"
+#include "json.h"
 
 namespace mzn {
 
@@ -45,6 +46,7 @@ public:
     // --------------------------------------------------------------------- //
     SeismicNetwork();
     SeismicNetwork(std::string const & file_path);
+    SeismicNetwork(Json const & sn_json);
     ~SeismicNetwork() = default;
 
     //! holds a vector of stations
@@ -56,16 +58,19 @@ public:
     Status status;
 
     // --------------------------------------------------------------------- //
+    Digitizer & q_ref(TargetAddress const & ta);
+    Sensor & s_ref(TargetAddress const & ta);
+    Station & st_ref(TargetAddress const & ta);
+    DataProcessor & dp_ref(TargetAddress const & ta) ;
+
+    // --------------------------------------------------------------------- //
     Digitizer const & q_const_ref(TargetAddress const & ta) const;
     Sensor const & s_const_ref(TargetAddress const & ta) const;
     Station const & st_const_ref(TargetAddress const & ta) const;
     DataProcessor const & dp_const_ref(TargetAddress const & ta) const;
 
     // --------------------------------------------------------------------- //
-    Digitizer & q_ref(TargetAddress const & ta);
-    Sensor & s_ref(TargetAddress const & ta);
-    Station & st_ref(TargetAddress const & ta);
-    DataProcessor & dp_ref(TargetAddress const & ta) ;
+    Station const & st_const_ref(std::string const & station_name) const;
 
     // ---------------------------------------------------------------------- //
     void stream_config(std::ostream & os) const;
