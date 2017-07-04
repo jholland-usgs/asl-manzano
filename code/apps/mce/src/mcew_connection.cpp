@@ -24,19 +24,20 @@ bool McewConnection::sn_has_st(Json const & sn_json,
 }
 
 // -------------------------------------------------------------------------- //
-void McewConnection::update_all(SeismicNetwork const & sn) const {
-    StNms station_names;
-    for (auto const & st : sn.st) station_names.push_back(st.config.station_name);
-    auto updated_sn_json = fetch_stations(station_names);
-    Utility::save_to_config_file(updated_sn_json, config_file_path);
-}
-
 // -------------------------------------------------------------------------- //
 void McewConnection::use(SeismicNetwork const & sn,
                          StNms const & station_names) const {
 
     auto updated_sn_json = fetch_stations(station_names);
     Utility::save_to_config_file(updated_sn_json, config_file_path);
+}
+
+// -------------------------------------------------------------------------- //
+void McewConnection::update_all(SeismicNetwork const & sn) const {
+    StNms station_names;
+    for (auto const & st : sn.st) station_names.push_back(st.config.station_name);
+    // use update(...) to keep stations in the current order
+    update(sn, station_names);
 }
 
 // -------------------------------------------------------------------------- //
@@ -81,9 +82,8 @@ void McewConnection::get(SeismicNetwork const & sn,
                          StNms const & station_names) const {
 
     // all stations in station_names must not exist in the sn
-    auto const current_sn_json = Utility::json_from_sn(sn);
     for (auto const & station_name : station_names) {
-        if ( sn_has_st(current_sn_json, station_name) ) {
+        if ( sn_has_st(sn, station_name) ) {
             std::stringstream ss;
             ss << "station [" << station_name << "] is already in the\n"
                << "current seismic network\n";
@@ -91,13 +91,15 @@ void McewConnection::get(SeismicNetwork const & sn,
         }
     }
 
-    auto updated_sn_json = fetch_stations(station_names);
+    auto current_sn_json = Utility::json_from_sn(sn);
+    auto const fetched_sn_json = fetch_stations(station_names);
 
-    for (auto const & station_json : current_sn_json["station"]) {
-        updated_sn_json["station"].push_back(station_json);
+    // no problem, with ordering, add fetched stations at the end
+    for (auto const & station_json : fetched_sn_json["station"]) {
+        current_sn_json["station"].push_back(station_json);
     }
 
-    Utility::save_to_config_file(updated_sn_json, config_file_path);
+    Utility::save_to_config_file(current_sn_json, config_file_path);
 }
 
 // -------------------------------------------------------------------------- //
