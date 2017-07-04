@@ -22,7 +22,7 @@ SeismicNetwork::SeismicNetwork() : st{} {
             st.push_back( Utility::st_from_json(st_json) );
         }
 
-    } catch(std::out_of_range const & e) {
+    } catch (std::out_of_range const & e) {
 
         // thrown by Json
         throw WarningException( "SeismicNetwork",
@@ -42,7 +42,7 @@ SeismicNetwork::SeismicNetwork(std::string const & file_path) : st{} {
             st.push_back( Utility::st_from_json(st_json) );
         }
 
-    } catch(std::out_of_range const & e) {
+    } catch (std::out_of_range const & e) {
 
         // thrown by Json
         throw WarningException( "SeismicNetwork",
@@ -51,6 +51,23 @@ SeismicNetwork::SeismicNetwork(std::string const & file_path) : st{} {
     }
 }
 
+// -------------------------------------------------------------------------- //
+SeismicNetwork::SeismicNetwork(Json const & sn_json) : st{} {
+
+    try {
+
+        for (auto const & st_json : sn_json["station"]) {
+            st.push_back( Utility::st_from_json(st_json) );
+        }
+
+    } catch (std::out_of_range const & e) {
+
+        // thrown by Json
+        throw WarningException( "SeismicNetwork",
+                                "setup_from_file",
+                                e.what() );
+    }
+}
 // ------------ Get const references to sn targets -------------- //
 // -------------------------------------------------------------------------- //
 Station const & SeismicNetwork::st_const_ref(TargetAddress const & ta) const {
@@ -94,6 +111,21 @@ Sensor const & SeismicNetwork::s_const_ref(TargetAddress const & ta) const {
     auto q_index = ta.st_child.index;
     auto s_index = ta.q_child.index;
     return st[st_index].q[q_index].s[s_index];
+}
+
+// -------------------------------------------------------------------------- //
+Station const &
+SeismicNetwork::st_const_ref(std::string const & station_name) const {
+
+    for (auto const & station : this->st) {
+        if (station.config.station_name == station_name) return station;
+    }
+
+    std::stringstream ss;
+    ss << "station [" << station_name << "] could not be found";
+    throw WarningException( "SeismicNetwork",
+                            "st_const_ref",
+                            ss.str() );
 }
 
 // ------------ Get references to sn targets -------------- //

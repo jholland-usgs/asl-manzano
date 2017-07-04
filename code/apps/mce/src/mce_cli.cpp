@@ -17,73 +17,43 @@ void MceCli::user_input_loop() {
         // rebuild TODO change sn contructor, total rebuild not needed
         // ----------------------------------------------------------------- //
         InstructionInterpreter ii(ta_);
-
         auto & sn = ii.cm.sn;
 
         // check ta_ again, this time without catching
         // ----------------------------------------------------------------- //
-        // ta_.sn_child = Target(Scope::station, 0);
         ii.check_ta_in_sn(ta_);
 
+
         // show prompt
-        // ----------------------------------------------------------------- //
-        std::cout << "\n";
+        // ------------------------------------------------------------------ //
         ii.cm.stream_output.show<Kind::target>(ta_);
         std::cout << "\n---------------------------------------------";
         ii.cm.stream_output.show_prompt(ta_);
-        // std::cout << std::endl << " » ";
 
-        // ----------------------------------------------------------------- //
+        // ------------------------------------------------------------------ //
         std::getline(std::cin, user_input);
 
         try {
 
             //! user hit enter
+            // -------------------------------------------------------------- //
             if (user_input == "") continue;
 
             //! ta to parent
+            // -------------------------------------------------------------- //
             if (user_input == "..") {
                 ta_.remove_one_target();
                 continue;
             }
 
-            if (user_input[0] == '!') {
-
-                if (user_input.size() < 3 or user_input[1] != ' ') {
-                    throw WarningException("MceCli",
-                                           "user_input_loop",
-                                           "wrong format for getting configuration, \
-                                           should be ! ST1 ST2");
-                }
-
-                change_config( user_input.substr(2) );
-                continue;
-            }
-
-            if (user_input == "@") {
-                add_to_config(sn);
-                continue;
-            }
-
-            if (user_input[0] == '@') {
-
-                if (user_input.size() < 3 or user_input[1] != ' ') {
-                    throw WarningException("MceCli",
-                                           "user_input_loop",
-                                           "wrong format for getting configuration, \
-                                           should be @ ST1 ST2");
-                }
-
-                add_to_config( sn, user_input.substr(2) );
-                continue;
-            }
-
+            // -------------------------------------------------------------- //
             if (user_input == "rm") {
                 // changes ta_ to parent
                 remove_from_config(sn, ta_);
                 continue;
             }
 
+            // -------------------------------------------------------------- //
             if (user_input == "ed") {
                 // same ta_
                 change_config(sn, ta_);
@@ -91,22 +61,88 @@ void MceCli::user_input_loop() {
             }
 
             //! stream raw json format
+            // -------------------------------------------------------------- //
             if (user_input == "raw") {
                 auto const json = Utility::json_from_ta(sn, ta_);
                 std::cout << json.dump(4) << std::endl;
                 continue;
             }
 
+            // -------------------------------------------------------------- //
             if (user_input[0] == '+') {
                 // changes ta_ to newly added
                 add_to_config(sn, user_input, ta_);
                 continue;
             }
 
-            if (user_input == "quit") break;
+            // -------------------------------------------------------------- //
+            if (user_input == "@") {
+                mcew_connection.update_all(sn);
+                continue;
+            }
 
+            // -------------------------------------------------------------- //
+            auto pack_station_args = [&user_input](char const c) {
+
+                if (user_input.size() < 3 or user_input[1] != ' ') {
+
+                    std::stringstream ss;
+                    ss << "wrong format for station names, example: "
+                       << c << " ST1 ST2";
+
+                    throw WarningException( "MceCli",
+                                            "user_input_loop",
+                                            ss.str() );
+                }
+
+                auto const args = user_input.substr(2);
+                return Utility::get_tokens(args, ' ');
+            };
+
+            // -------------------------------------------------------------- //
+            auto const & first_char = user_input[0];
+
+            //! replace current stations with the stations requested from mcew
+            // -------------------------------------------------------------- //
+            if (first_char == '!') {
+                auto const station_names = pack_station_args(first_char);
+                mcew_connection.use(sn, station_names);
+                // the current ta might not be in the configuration
+                // default to top of the sn consistently
+                ta_ = TargetAddress{};
+                continue;
+            }
+
+            //! update current stations with the stations requested from mcew
+            // -------------------------------------------------------------- //
+            if (first_char == '@') {
+                auto const station_names = pack_station_args(first_char);
+                mcew_connection.update(sn, station_names);
+                continue;
+            }
+
+            //! add stations from mcew
+            // -------------------------------------------------------------- //
+            if (first_char == '<') {
+                auto const station_names = pack_station_args(first_char);
+                mcew_connection.get(sn, station_names);
+                continue;
+            }
+
+            //! send stations to mcew
+            // -------------------------------------------------------------- //
+            if (first_char == '>') {
+                auto const station_names = pack_station_args(first_char);
+                mcew_connection.send(sn, station_names);
+                continue;
+            }
+
+            // -------------------------------------------------------------- //
             if (user_input == "help") {
-                std::cout << "\nrm      : remove current target"
+                std::cout << "\n"
+                          << "\n   usage:"
+                          << "\n   ===================="
+                          << "\nrm      : remove current target"
                           << "\ned      : edit current target"
                           << "\nraw     : view raw json format"
                           << "\n+st     : add station to sn"
@@ -119,6 +155,14 @@ void MceCli::user_input_loop() {
                           << "\nst#q#   : select st[#]q[#]"
                           << "\nst#q#s# : select st[#]q[#]s[#]"
                           << "\nst#dp#  : select st[#]dp[#]"
+                          << "\n"
+                          << "\n   mce web service:"
+                          << "\n   ===================="
+                          << "\n! ST1 ST2 : replace config with these stations"
+                          << "\n@ ST1 ST2 : update these stations"
+                          << "\n< ST1 ST2 : add these stations"
+                          << "\n> ST1 ST2 : send these stations"
+                          << "\n@         : update all current stations"
                           << "\n"
                           << "\n   relative addressing:"
                           << "\n   ===================="
@@ -137,7 +181,11 @@ void MceCli::user_input_loop() {
                 continue;
             }
 
+            // -------------------------------------------------------------- //
+            if (user_input == "quit") break;
+
             //! only thing left is a target address
+            // -------------------------------------------------------------- //
             auto ta = UserInterpreter::match_target_address(user_input);
 
             ta.add_targets_from_ta(ta_);
@@ -157,31 +205,17 @@ void MceCli::user_input_loop() {
                       << "caught error @Mce::user_input_loop()"
                       << std::endl << e.what();
         }
-
    }
-
     std::cout << std::endl << "\nbye" << std::endl;
 }
 
-// -------------------------------------------------------------------------- //
-void MceCli::save_to_config_file(SeismicNetwork const & sn) const {
-
-    std::ofstream config_fs;
-
-    config_fs.open(config_home_path + "/config.json",
-                   std::ofstream::out | std::ofstream::trunc);
-
-    std::cout << std::endl << "saving to file\n";
-    auto const json = Utility::json_from_ta(sn, TargetAddress{});
-    config_fs << json.dump(4) << std::endl;
-}
 
 // -------------------------------------------------------------------------- //
 void MceCli::create_empty_config_file() {
 
     // use home as default
     auto const home_path = Utility::get_environmental_variable("HOME");
-    config_home_path = home_path + std::string("/.config/manzano");
+    auto const config_home_path = home_path + std::string("/.config/manzano");
 
     std::cout << std::endl << "config path: " << config_home_path;
 
@@ -193,6 +227,7 @@ void MceCli::create_empty_config_file() {
     config_fs << "{ \"station\": [] }";
 }
 
+// for interactive filling of target information
 // -------------------------------------------------------------------------- //
 void MceCli::add_to_config(SeismicNetwork & sn,
                            std::string const & user_input,
@@ -252,7 +287,7 @@ void MceCli::add_to_config(SeismicNetwork & sn,
         default: throw std::logic_error{"@MceCli::add_to_config"};
     }
 
-    save_to_config_file(sn);
+    Utility::save_to_config_file(sn, config_file_path);
 
     // child_ta is incomplete, lets add the parents
     child_ta.add_targets_from_ta(ta);
@@ -324,7 +359,7 @@ void MceCli::remove_from_config(SeismicNetwork & sn,
         default: throw std::logic_error{"@MceCli::add_to_config"};
     }
 
-    save_to_config_file(sn);
+    Utility::save_to_config_file(sn, config_file_path);
 
     // this target no longer exist, so ta is set to its parent
     ta.remove_one_target();
@@ -418,102 +453,7 @@ void MceCli::change_config(SeismicNetwork & sn,
         default: throw std::logic_error{"@MceCli::add_to_config"};
     }
 
-    save_to_config_file(sn);
-}
-
-// -------------------------------------------------------------------------- //
-void MceCli::change_config(std::string const & user_input) const {
-
-    // check basic format
-    auto station_names = Utility::get_tokens(user_input, ' ');
-    Utility::capitalize_tokens(station_names);
-
-    if ( station_names.empty() ) {
-        throw WarningException("MceCli",
-                               "change_config",
-                               "no stations provided");
-    }
-
-    auto const temp_file_path = config_home_path + "/config.tmp";
-    auto const config_file_path = config_home_path + "/config.json";
-    auto const mcer_path = Utility::get_home_path() + std::string("/mcer");
-
-    std::string const mcer_script_path = mcer_path +
-                                         std::string("/get_mzn_config.sh");
-
-    // clear any old temp file before opening a new one
-    // --------------------------------------------------------- //
-    {
-        std::ofstream ofs;
-        ofs.open(temp_file_path, std::ofstream::out | std::ofstream::trunc);
-        ofs.close();
-    }
-
-    // run script
-    // --------------------------------------------------------- //
-    auto system_cmd = std::string("bash ") + mcer_script_path +
-                      std::string(" -o ") + temp_file_path;
-
-    for (auto const & station_name : station_names) {
-        system_cmd += std::string(" -a ") + station_name;
-    }
-
-    Utility::system_call(system_cmd);
-
-    // check the temp file is not empty
-    // --------------------------------------------------------- //
-    {
-        std::ifstream ifs;
-        ifs.open(temp_file_path);
-
-        bool const ifs_is_empty =
-            ( ifs.peek() == std::ifstream::traits_type::eof() );
-
-        if ( (not ifs) or ifs_is_empty) {
-            std::cout << std::endl;
-            throw WarningException("MceCli",
-                                   "change_config",
-                                   "can't open temp config file");
-        }
-        std::cout << std::endl << "__RAW FILE FROM SERVER__\n" << ifs.rdbuf();
-    }
-
-    // test if configuration is valid
-    // --------------------------------------------------------- //
-    // test if the file can be made into a seismic network
-    SeismicNetwork const sn_temp(temp_file_path);
-    // ok, it created some valid seismic network.
-    // now, check if the stations on this sn_temp are the same as desired
-    auto sn_has_st = [&sn_temp](std::string const & station_name) {
-        for (auto const & st : sn_temp.st) {
-            if (st.config.station_name == station_name) return true;
-        }
-        return false;
-    };
-
-    for (auto const & station_name : station_names) {
-        if ( not sn_has_st(station_name) ) {
-            auto const msg_error = std::string("station not found:[") +
-                                   station_name + std::string("]");
-            throw WarningException("MceCli", "change_config", msg_error);
-        }
-    }
-
-    // all good, replace current config with temp file
-    auto const mv_cmd = std::string("mv ") + temp_file_path +
-                        std::string(" ") + config_file_path;
-
-    Utility::system_call(mv_cmd);
-}
-
-// -------------------------------------------------------------------------- //
-void MceCli::add_to_config(SeismicNetwork const & sn,
-                           std::string const & user_input) const {
-    // repeated stations are ok
-    std::stringstream ss;
-    for (auto const & st : sn.st) ss << " " << st.config.station_name;
-    auto const appended_user_input = user_input + ss.str();
-    change_config(appended_user_input);
+    Utility::save_to_config_file(sn, config_file_path);
 }
 
 } // end namespace
