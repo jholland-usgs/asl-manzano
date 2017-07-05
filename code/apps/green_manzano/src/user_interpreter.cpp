@@ -270,11 +270,13 @@ void UserInterpreter::user_input_loop(std::string const & qrun_fname) {
     }
 
     std::string user_input;
-    instruction_interpreter.show_prompt();
 
     while ( std::getline(qrun_fs, user_input) ) {
 
         try {
+
+            instruction_interpreter.show_prompt();
+            std::cout << user_input;
 
             if (user_input == "") continue;
 
@@ -293,7 +295,6 @@ void UserInterpreter::user_input_loop(std::string const & qrun_fname) {
             }
 
             run_user_input(user_input);
-            instruction_interpreter.show_prompt();
 
         } catch (Exception const & e) {
 
