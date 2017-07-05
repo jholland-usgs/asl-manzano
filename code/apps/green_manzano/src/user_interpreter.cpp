@@ -142,16 +142,35 @@ TargetAddress UserInterpreter::match_target_address(std::string const & token) {
 
 // requires user_input not empty, checked before calling this function
 // -------------------------------------------------------------------------- //
-void UserInterpreter::run_user_input(std::string & user_input) {
+void UserInterpreter::run_user_input(std::string const & user_input) {
 
+    // container with all the token strings, checks number of tokens
+    auto input_tokens = Utility::get_tokens(user_input, ' ');
+
+    // ---------------------------------------------------------------------- //
+    if ( input_tokens.empty() ) throw std::logic_error("run_user_input");
+
+    // shortcut for edit target target_address
+    // ---------------------------------------------------------------------- //
+    if (input_tokens.size() == 1) {
+        // see comments below for respective functions
+        auto ta = match_target_address(input_tokens[0]);
+        instruction_interpreter.merge_and_check_target_address(ta);
+
+        auto constexpr action = Action::edit;
+        auto constexpr kind = Kind::target;
+        std::string const option = "";
+        auto const ui = UserInstruction(action, kind, option);
+        instruction_interpreter.run_instruction(ui, ta);
+        return;
+    }
+
+    // at least 2 elements on input_tokens, must be action kind
+    // ---------------------------------------------------------------------- //
     // order in which the tokens will be provided, for example:
     // get ping q0 = action kind target_address
     auto constexpr action_index = 0;
     auto constexpr kind_index = 1;
-    auto constexpr target_address_index = 2;
-
-    // container with all the token strings, checks number of tokens
-    auto input_tokens = Utility::get_tokens(user_input, ' ');
 
     // option ':'
     // ---------------------------------------------------------------------- //
@@ -171,23 +190,6 @@ void UserInterpreter::run_user_input(std::string & user_input) {
         input_tokens[kind_index].erase(option_mark_location);
     }
 
-    // shortcut for edit target target_address
-    // ---------------------------------------------------------------------- //
-    if (input_tokens.size() == 1) {
-        // see comments below for respective functions
-        auto ta = match_target_address(input_tokens[0]);
-        instruction_interpreter.merge_and_check_target_address(ta);
-
-        std::cout << std::endl << "target_address: " << ta;
-
-        auto constexpr action = Action::edit;
-        auto constexpr kind = Kind::target;
-        auto const ui = UserInstruction(action, kind, option);
-        instruction_interpreter.run_instruction(ui, ta);
-        return;
-    }
-
-    // at least 2 elements on input_tokens, must be action kind
     // ---------------------------------------------------------------------- //
     auto const action = match_action(input_tokens[action_index]);
     auto const kind = match_kind(input_tokens[kind_index]);
@@ -197,7 +199,7 @@ void UserInterpreter::run_user_input(std::string & user_input) {
     // ---------------------------------------------------------------------- //
     // a dash instruction can be specified by dash and letter '-x',
     // for example get ping -i (preview input only)
-    std::string dash{};
+    std::string dash;
     while (input_tokens.back()[0] == '-' and input_tokens.back().size() == 2) {
         dash += input_tokens.back()[1];
         input_tokens.pop_back();
@@ -214,6 +216,8 @@ void UserInterpreter::run_user_input(std::string & user_input) {
         instruction_interpreter.run_instruction(ui);
 
     } else if (input_tokens.size() == 3) {
+
+        auto constexpr target_address_index = 2;
 
         // matches to whatever the user wrote, it can create an erroneous ta
         // like "st0s0" (instead of st0q0s0 or q0s0 or s0), gets checked next

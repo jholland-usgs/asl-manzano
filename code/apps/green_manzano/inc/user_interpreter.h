@@ -35,7 +35,7 @@ public:
 
     //! user_input is one line in the console/file
     //! @calls instruction_interpreter
-    void run_user_input(std::string & user_input);
+    void run_user_input(std::string const & user_input);
 
     //! match_* converts from a string to the correct type/value
     static
