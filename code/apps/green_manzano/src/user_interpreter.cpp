@@ -263,19 +263,25 @@ void UserInterpreter::user_input_loop(std::string const & qrun_fname) {
     std::ifstream qrun_fs(qrun_path);
     //qrun_fs.open(qrun_path);
 
-    if (!qrun_fs) {
+    if (not qrun_fs) {
         throw FatalException("UserInterpreter",
                              "user_input_loop",
                              std::string("can't open script file") + qrun_path);
     }
 
     std::string user_input;
-
     instruction_interpreter.show_prompt();
 
     while ( std::getline(qrun_fs, user_input) ) {
 
         try {
+
+            if (user_input == "") continue;
+
+            if (user_input == "..") {
+                instruction_interpreter.current_ta_remove_one_target();
+                continue;
+            }
 
             //! quit program normally
             if (user_input == "quit") {
@@ -303,15 +309,13 @@ void UserInterpreter::user_input_loop(std::string const & qrun_fname) {
 void UserInterpreter::user_input_loop() {
     // prompts the user for their command
     // interactive
-
-    std::string user_input = "";
+    std::string user_input;
 
     while (true) {
 
         instruction_interpreter.show_prompt();
 
         std::getline(std::cin, user_input);
-
         std::cout << std::flush << "### " << Time::sys_time_of_day() << " ###";
 
         try {
