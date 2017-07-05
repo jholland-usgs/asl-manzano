@@ -25,11 +25,12 @@ std::vector<std::string> get_tokens(std::string const & line,
 
     std::vector<std::string> tokens;
     std::stringstream ss;
-    ss.str(line);
+    ss << line;
     std::string token;
 
     while ( std::getline(ss, token, delimiter) ) {
         if ( not token.empty() ) tokens.push_back(token);
+        token.clear();
     }
 
     return tokens;
