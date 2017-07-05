@@ -155,7 +155,7 @@ void UserInterpreter::run_user_input(std::string & user_input) {
 
     // option ':'
     // ---------------------------------------------------------------------- //
-    std::string option = "";
+    std::string option;
     // an option can be specified by adding the mark ':', for example stat:boom
     // where "stat" is the Kind and "boom" is the option
     auto option_mark_location = input_tokens[kind_index].find(':');
