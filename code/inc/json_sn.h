@@ -108,6 +108,12 @@ Json json_add_st() {
 
     Json st_json;
     ask<std::string>(st_json, "station_name", "ABCDF");
+
+    // capitilize station name
+    auto station_name = st_json["station_name"];
+    for (auto & c: station_name) c = std::toupper(c);
+    st_json["station_name"] = station_name;
+
     st_json["digitizer"] = Json::array();
     st_json["data_processor"] = Json::array();
 

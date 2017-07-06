@@ -96,7 +96,9 @@ void MceCli::user_input_loop() {
                 }
 
                 auto const args = user_input.substr(2);
-                return Utility::get_tokens(args, ' ');
+                auto station_names = Utility::get_tokens(args, ' ');
+                Utility::capitalize_tokens(station_names);
+                return station_names;
             };
 
             // -------------------------------------------------------------- //
@@ -186,7 +188,7 @@ void MceCli::user_input_loop() {
 
             //! only thing left is a target address
             // -------------------------------------------------------------- //
-            auto ta = UserInterpreter::match_target_address(user_input);
+            auto ta = ii.match_target_address(user_input);
 
             ta.add_targets_from_ta(ta_);
             ii.check_ta_in_sn(ta);

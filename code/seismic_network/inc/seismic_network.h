@@ -72,6 +72,18 @@ public:
     // --------------------------------------------------------------------- //
     Station const & st_const_ref(std::string const & station_name) const;
 
+    // --------------------------------------------------------------------- //
+    unsigned station_index(std::string const & station_name) const {
+        for (unsigned i = 0; i < st.size(); i++) {
+            if (station_name == st[i].config.station_name) return i;
+        }
+        std::stringstream ss;
+        ss << "station ["  << station_name << "] not found";
+        throw WarningException( "SeismicNetwork",
+                                "station_index",
+                                ss.str() );
+    }
+
     // ---------------------------------------------------------------------- //
     void stream_config(std::ostream & os) const;
     void stream_status(std::ostream & os) const;
