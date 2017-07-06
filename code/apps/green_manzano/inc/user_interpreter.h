@@ -20,12 +20,10 @@ class UserInterpreter {
 public:
 
     explicit
-    UserInterpreter() :
-            instruction_interpreter{} {}
-
+    UserInterpreter() : ii{} {}
     ~UserInterpreter() = default;
 
-    InstructionInterpreter instruction_interpreter;
+    InstructionInterpreter ii;
 
     //! green manzano starts here
     //! either interactively
@@ -48,7 +46,8 @@ public:
     Scope match_scope(std::string const & token, std::size_t & token_index);
 
     static
-    TargetAddress match_target_address(std::string const & token);
+    TargetAddress match_target_address(std::string const & token,
+                                       SeismicNetwork const & sn);
 };
 
 } // end namespace

@@ -188,6 +188,25 @@ InstructionInterpreter::check_ta_in_sn(TargetAddress const & ta) const {
 
         throw_no_ta_in_sn();
     }
+
+    // check tree structure
+    if (ta.q_child.scope == Scope::sensor and
+        ta.st_child.scope != Scope::digitizer) {
+
+        throw_no_ta_in_sn();
+    }
+
+    if (ta.st_child.scope == Scope::digitizer and
+        ta.sn_child.scope != Scope::station) {
+
+        throw_no_ta_in_sn();
+    }
+
+    if (ta.st_child.scope == Scope::data_processor and
+        ta.sn_child.scope != Scope::station) {
+
+        throw_no_ta_in_sn();
+    }
 }
 
 } // <- mzn

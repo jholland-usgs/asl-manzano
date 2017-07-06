@@ -96,7 +96,9 @@ void MceCli::user_input_loop() {
                 }
 
                 auto const args = user_input.substr(2);
-                return Utility::get_tokens(args, ' ');
+                auto station_names = Utility::get_tokens(args, ' ');
+                Utility::capitalize_tokens(station_names);
+                return station_names;
             };
 
             // -------------------------------------------------------------- //
@@ -152,6 +154,7 @@ void MceCli::user_input_loop() {
                           << "\n..      : select parent target"
                           << "\nsn      : select seismic network"
                           << "\nst#     : select st[#]"
+                          << "\n[ST1]   : select station ST1"
                           << "\nst#q#   : select st[#]q[#]"
                           << "\nst#q#s# : select st[#]q[#]s[#]"
                           << "\nst#dp#  : select st[#]dp[#]"
@@ -186,8 +189,8 @@ void MceCli::user_input_loop() {
 
             //! only thing left is a target address
             // -------------------------------------------------------------- //
-            auto ta = UserInterpreter::match_target_address(user_input);
-
+            auto ta = UserInterpreter::match_target_address(user_input,
+                                                            ii.cm.sn);
             ta.add_targets_from_ta(ta_);
             ii.check_ta_in_sn(ta);
             ta_ = ta;

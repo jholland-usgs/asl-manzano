@@ -113,7 +113,9 @@ Scope UserInterpreter::match_scope(std::string const & token,
 }
 
 // -------------------------------------------------------------------------- //
-TargetAddress UserInterpreter::match_target_address(std::string const & token) {
+TargetAddress
+UserInterpreter::match_target_address(std::string const & token,
+                                      SeismicNetwork const & sn) {
 
     // format SCOPE NUMBER (SCOPE NUMBER)*optionally
     // examples of the token string: "sn", "st0", "st1q0", "st0q0s1"
@@ -131,8 +133,27 @@ TargetAddress UserInterpreter::match_target_address(std::string const & token) {
 
         Target target;
 
-        target.scope = match_scope(token, token_index);
-        target.index = Utility::match_positive_number(token, token_index);
+        if (token[token_index] == '[' and token_index == 0) {
+
+            target.scope = Scope::station;
+
+            auto const end_bracket_index = token.find(']');
+            if (end_bracket_index == std::string::npos) {
+                throw WarningException("UserInterpreter",
+                                       "match_target_address",
+                                       "bracket '[' not matched with a ']'");
+            }
+            // substring inside the brackets
+            auto station_name = token.substr(1, end_bracket_index - 1);
+            // capitalize station name
+            for (auto & c: station_name) c = std::toupper(c);
+            target.index = sn.station_index(station_name);
+            token_index += end_bracket_index + 1;
+
+        } else {
+            target.scope = match_scope(token, token_index);
+            target.index = Utility::match_positive_number(token, token_index);
+        }
 
         ta.add_target(target);
     }
@@ -154,14 +175,14 @@ void UserInterpreter::run_user_input(std::string const & user_input) {
     // ---------------------------------------------------------------------- //
     if (input_tokens.size() == 1) {
         // see comments below for respective functions
-        auto ta = match_target_address(input_tokens[0]);
-        instruction_interpreter.merge_and_check_target_address(ta);
+        auto ta = match_target_address(input_tokens[0], ii.cm.sn);
+        ii.merge_and_check_target_address(ta);
 
         auto constexpr action = Action::edit;
         auto constexpr kind = Kind::target;
         std::string const option = "";
         auto const ui = UserInstruction(action, kind, option);
-        instruction_interpreter.run_instruction(ui, ta);
+        ii.run_instruction(ui, ta);
         return;
     }
 
@@ -212,8 +233,8 @@ void UserInterpreter::run_user_input(std::string const & user_input) {
 
         // use the current target address
         // no merging/checking of target_address needed
-        instruction_interpreter.check_instruction_map(ui);
-        instruction_interpreter.run_instruction(ui);
+        ii.check_instruction_map(ui);
+        ii.run_instruction(ui);
 
     } else if (input_tokens.size() == 3) {
 
@@ -223,15 +244,16 @@ void UserInterpreter::run_user_input(std::string const & user_input) {
         // like "st0s0" (instead of st0q0s0 or q0s0 or s0), gets checked next
         // it can also create an incomplete ta, like "s0" which is ok if
         // it can be merged on the next steps
-        auto ta = match_target_address(input_tokens[target_address_index]);
+        auto ta = match_target_address(input_tokens[target_address_index],
+                                       ii.cm.sn);
 
         // also does basic checks for the target address
         // do the different targets in ta, actually exists in the sn?
-        instruction_interpreter.merge_and_check_target_address(ta);
+        ii.merge_and_check_target_address(ta);
 
         // is this intructin valid? good: get ping, bad: set ping
-        instruction_interpreter.check_instruction_map(ui, ta);
-        instruction_interpreter.run_instruction(ui, ta);
+        ii.check_instruction_map(ui, ta);
+        ii.run_instruction(ui, ta);
 
     } else {
 
@@ -275,13 +297,13 @@ void UserInterpreter::user_input_loop(std::string const & qrun_fname) {
 
         try {
 
-            instruction_interpreter.show_prompt();
+            ii.show_prompt();
             std::cout << user_input;
 
             if (user_input == "") continue;
 
             if (user_input == "..") {
-                instruction_interpreter.current_ta_remove_one_target();
+                ii.current_ta_remove_one_target();
                 continue;
             }
 
@@ -289,7 +311,7 @@ void UserInterpreter::user_input_loop(std::string const & qrun_fname) {
             if (user_input == "quit") {
 
                 UserInstruction const ui(Action::quit, Kind::mzn);
-                instruction_interpreter.run_instruction(ui);
+                ii.run_instruction(ui);
                 std::cout << std::endl << "\nbye" << std::endl;
                 break;
             }
@@ -314,7 +336,7 @@ void UserInterpreter::user_input_loop() {
 
     while (true) {
 
-        instruction_interpreter.show_prompt();
+        ii.show_prompt();
 
         std::getline(std::cin, user_input);
         std::cout << std::flush << "### " << Time::sys_time_of_day() << " ###";
@@ -324,7 +346,7 @@ void UserInterpreter::user_input_loop() {
             if (user_input == "") continue;
 
             if (user_input == "..") {
-                instruction_interpreter.current_ta_remove_one_target();
+                ii.current_ta_remove_one_target();
                 continue;
             }
 
@@ -332,7 +354,7 @@ void UserInterpreter::user_input_loop() {
             if (user_input == "quit") {
 
                 UserInstruction const ui(Action::quit, Kind::mzn);
-                instruction_interpreter.run_instruction(ui);
+                ii.run_instruction(ui);
                 std::cout << std::endl << "\nbye" << std::endl;
                 break;
             }
