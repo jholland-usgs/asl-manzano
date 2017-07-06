@@ -207,8 +207,6 @@ InstructionInterpreter::check_ta_in_sn(TargetAddress const & ta) const {
 
         throw_no_ta_in_sn();
     }
-
-
 }
 
 } // <- mzn
