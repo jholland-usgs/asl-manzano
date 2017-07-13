@@ -3,12 +3,10 @@
 #include <vector>
 #include <exception>
 #include <cstdlib>
-#include "mzn_except.h"
 #include "serial_connection.h"
 
 // -------------------------------------------------------------------------- //
 int main(int argc, char **argv) {
-
 
     std::cout << "\n +++++++++++++++++++++++++++ "
               << "\n +           TUP           + "
@@ -21,7 +19,7 @@ int main(int argc, char **argv) {
         auto const port = "/dev/ttyS3";
         auto constexpr boudrate = 115200;
         auto constexpr timeout = std::chrono::milliseconds(500);
-        SerialConnection sc(port, boudrate, timeout);
+        mzn::SerialConnection sc(port, boudrate, timeout);
         sc.setup_connection();
 
         using Message = std::string;
