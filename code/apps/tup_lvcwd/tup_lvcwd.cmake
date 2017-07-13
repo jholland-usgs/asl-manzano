@@ -20,3 +20,4 @@ include_directories(${DIR_tup_lvcwd}/inc)
 set(SOURCES_tup_lvcwd ${SOURCES_connection}
                       ${DIR_connection}/src/serial_connection.cpp
                       ${DIR_tup_lvcwd}/src/tup_lvcwd.cpp)
+

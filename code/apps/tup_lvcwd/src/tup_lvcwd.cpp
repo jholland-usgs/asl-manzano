@@ -14,22 +14,28 @@ int main(int argc, char **argv) {
               << "\n +        Watchdog         + "
               << "\n +++++++++++++++++++++++++++ ";
 
+    using Message = std::string;
+    auto const port = "/dev/ttyS2";
+    auto constexpr boudrate = 115200;
+    auto constexpr timeout = std::chrono::milliseconds(500);
+    auto constexpr ret_size = 548;
+
     try {
 
-        auto const port = "/dev/ttyS2";
-        auto constexpr boudrate = 115200;
-        auto constexpr timeout = std::chrono::milliseconds(500);
         mzn::SerialConnection sc(port, boudrate, timeout);
         sc.setup_connection();
 
-        using Message = std::string;
-        auto constexpr ret_size = 548;
-        Message sc_msg_recv = "";
-        sc_msg_recv.resize(ret_size);
-        auto const msg = "sn?";
-        Message sc_msg_send = msg + std::string("\r");
-        sc.send_recv(sc_msg_send, sc_msg_recv);
-        std::cout << std::endl << "[" << sc_msg_recv << "]\n";
+        auto sc_send_recv = [&sc](auto const msg) {
+            Message sc_msg_recv = "";
+            sc_msg_recv.resize(ret_size);
+            Message sc_msg_send = msg + std::string("\r");
+            sc.send_recv(sc_msg_send, sc_msg_recv);
+            // std::cout << std::endl << "[" << sc_msg_recv << "]\n";
+            return sc_msg_recv;
+        }
+
+        auto const response = sc_send_recv("sn?");
+        std::cout << std::endl << "response:[" << response << "]";
 
     } catch (std::exception & e) {
 
