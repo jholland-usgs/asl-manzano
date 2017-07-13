@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 
     try {
 
-        auto const port = "/dev/ttyS3";
+        auto const port = "/dev/ttyS2";
         auto constexpr boudrate = 115200;
         auto constexpr timeout = std::chrono::milliseconds(500);
         mzn::SerialConnection sc(port, boudrate, timeout);
