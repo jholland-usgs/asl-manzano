@@ -784,8 +784,10 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
 
     // stream full sequence
     // ---------------------------------------------------------------------- //
-    std::cout << std::endl << "auto cal sequence for " << ta << ":\n";
-    for (auto const & msg_task : msg_tasks) msg_task.stream<C1Qcal>(std::cout);
+    if (msg_tasks.size() > 1) {
+        std::cout << std::endl << "auto cal sequence for " << ta << ":\n";
+        for (auto const & msg_task : msg_tasks) msg_task.stream<C1Qcal>(std::cout);
+    }
 
     // e300 keep alive setup
     // ---------------------------------------------------------------------- //
@@ -879,15 +881,16 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             Comm::run<Action::set, Kind::reg>(ta);
 
             // check if a calibration is going on
-            for (int i = 0; i < 2; i++) {
-
-                if ( cal_is_running() ) break;
+            auto cal_is_running_tries = 0;
+            while ( cal_is_running() ) {
 
                 // add some more wiggle time, digitizer still running cals
                 auto constexpr wiggle_duration = std::chrono::seconds(10);
                 std::this_thread::sleep_for(wiggle_duration);
+                cal_is_running_tries++;
+                std::cout << std::endl << "another cal is running" << std::flush;
 
-                if (i == 2) {
+                if (cal_is_running_tries == 3) {
                     throw FatalException("Comm",
                                          "run<auto, cal>",
                                          "Calibrations are not coordinated");
@@ -912,7 +915,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
 
             if (msg_tasks.size() > 1) {
                 // add some wiggle time in between
-                auto constexpr wiggle_duration = std::chrono::seconds(20);
+                auto constexpr wiggle_duration = std::chrono::seconds(10);
                 // sleep on this thread, each msg task has the run_duration
                 // already calculated.
                 auto const sleep_duration = msg_task.run_duration() +
