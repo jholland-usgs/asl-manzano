@@ -505,7 +505,7 @@ void Comm::run<Action::start, Kind::cal>(TA const & ta, OI const & oi) {
         s.port_e300_ref().cal_connect();
     }
 
-    // send and receive commands
+    // C1Qcal
     auto cmd_input = input_store.get_input_cmd<action, kind>(ta, oi);
 
     auto const sce = sensor_control_cal(q, s);
@@ -784,8 +784,10 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
 
     // stream full sequence
     // ---------------------------------------------------------------------- //
-    std::cout << std::endl << "auto cal sequence for " << ta << ":\n";
-    for (auto const & msg_task : msg_tasks) msg_task.stream<C1Qcal>(std::cout);
+    if (msg_tasks.size() > 1) {
+        std::cout << std::endl << "auto cal sequence for " << ta << ":\n";
+        for (auto const & msg_task : msg_tasks) msg_task.stream<C1Qcal>(std::cout);
+    }
 
     // e300 keep alive setup
     // ---------------------------------------------------------------------- //
@@ -879,15 +881,18 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             Comm::run<Action::set, Kind::reg>(ta);
 
             // check if a calibration is going on
-            for (int i = 0; i < 2; i++) {
-
-                if ( cal_is_running() ) break;
+            auto cal_is_running_tries = 0;
+            while ( cal_is_running() ) {
 
                 // add some more wiggle time, digitizer still running cals
-                auto constexpr wiggle_duration = std::chrono::seconds(10);
+                auto constexpr wiggle_duration = std::chrono::seconds(5);
                 std::this_thread::sleep_for(wiggle_duration);
+                cal_is_running_tries++;
+                std::cout << std::endl << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                                       << " another cal is running"
+                                       << std::flush;
 
-                if (i == 2) {
+                if (cal_is_running_tries == 5) {
                     throw FatalException("Comm",
                                          "run<auto, cal>",
                                          "Calibrations are not coordinated");
@@ -911,12 +916,9 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             Comm::run<Action::set, Kind::dereg>(ta);
 
             if (msg_tasks.size() > 1) {
-                // add some wiggle time in between
-                auto constexpr wiggle_duration = std::chrono::seconds(20);
                 // sleep on this thread, each msg task has the run_duration
                 // already calculated.
-                auto const sleep_duration = msg_task.run_duration() +
-                                            wiggle_duration;
+                auto const sleep_duration = msg_task.run_duration();
 
                 CmdFieldTime<> sleep_until_time;
                 sleep_until_time(std::chrono::system_clock::now() + sleep_duration);

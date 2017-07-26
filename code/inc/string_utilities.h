@@ -104,6 +104,15 @@ unsigned match_positive_number(std::string const & token,
 }
 
 // -------------------------------------------------------------------------- //
+inline
+bool is_positive_number(std::string const & s) {
+
+    if ( s.empty() ) return false;
+    for (auto const & c : s) if ( not std::isdigit(c) ) return false;
+    return true;
+}
+
+// -------------------------------------------------------------------------- //
 template <typename Period>
 using DurationInt = std::chrono::duration<unsigned, Period>;
 
