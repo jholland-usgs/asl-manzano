@@ -28,7 +28,7 @@ CmdFileReader::calculate_delays(std::vector<Seconds> const & run_durations) {
     std::vector<Seconds> delays;
     delays.reserve( run_durations.size() );
 
-    Seconds constexpr wiggle_seconds(30);
+    Seconds constexpr wiggle_seconds(1);
     Seconds delay_seconds(0);
 
     for (auto const & run_duration : run_durations) {

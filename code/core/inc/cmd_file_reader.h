@@ -108,10 +108,16 @@ std::vector<C1Qcal>
 CmdFileReader::construct_cmds(UserInstruction const & ui,
                               TargetAddress const & ta) {
 
+    auto const & option = ui.option_input.option;
+    bool const option_is_positive_number = Utility::is_positive_number(option);
+    bool const option_is_cal_name =
+        not (option.empty() or option_is_positive_number);
 
     // is the expected cal sequence on the cal sequence list?
     auto const & s = sn_.s_const_ref(ta);
-    auto const sensor_cals_json = Utility::get_cals_json(s.config.cals);
+    auto const sensor_cals_json = option_is_cal_name ?
+                                  Utility::get_cals_json(option) :
+                                  Utility::get_cals_json(s.config.cals);
 
     // --------------------------------------------------------------------- //
     std::vector<C1Qcal> cmds;
@@ -240,7 +246,7 @@ CmdFileReader::construct_cmds(UserInstruction const & ui,
     };
 
     // check if only a specific cmd is desired
-    if (ui.option_input.option != "") {
+    if (option_is_positive_number) {
 
         std::size_t token_index = 0;
 

@@ -505,7 +505,7 @@ void Comm::run<Action::start, Kind::cal>(TA const & ta, OI const & oi) {
         s.port_e300_ref().cal_connect();
     }
 
-    // send and receive commands
+    // C1Qcal
     auto cmd_input = input_store.get_input_cmd<action, kind>(ta, oi);
 
     auto const sce = sensor_control_cal(q, s);
@@ -885,12 +885,14 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             while ( cal_is_running() ) {
 
                 // add some more wiggle time, digitizer still running cals
-                auto constexpr wiggle_duration = std::chrono::seconds(10);
+                auto constexpr wiggle_duration = std::chrono::seconds(5);
                 std::this_thread::sleep_for(wiggle_duration);
                 cal_is_running_tries++;
-                std::cout << std::endl << "another cal is running" << std::flush;
+                std::cout << std::endl << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                                       << " another cal is running"
+                                       << std::flush;
 
-                if (cal_is_running_tries == 3) {
+                if (cal_is_running_tries == 5) {
                     throw FatalException("Comm",
                                          "run<auto, cal>",
                                          "Calibrations are not coordinated");
@@ -914,12 +916,9 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             Comm::run<Action::set, Kind::dereg>(ta);
 
             if (msg_tasks.size() > 1) {
-                // add some wiggle time in between
-                auto constexpr wiggle_duration = std::chrono::seconds(10);
                 // sleep on this thread, each msg task has the run_duration
                 // already calculated.
-                auto const sleep_duration = msg_task.run_duration() +
-                                            wiggle_duration;
+                auto const sleep_duration = msg_task.run_duration();
 
                 CmdFieldTime<> sleep_until_time;
                 sleep_until_time(std::chrono::system_clock::now() + sleep_duration);
