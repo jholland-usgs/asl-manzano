@@ -113,7 +113,6 @@ CmdFileReader::construct_cmds(UserInstruction const & ui,
     bool const option_is_cal_name =
         not (option.empty() or option_is_positive_number);
 
-    // is the expected cal sequence on the cal sequence list?
     auto const & s = sn_.s_const_ref(ta);
     auto const sensor_cals_json = option_is_cal_name ?
                                   Utility::get_cals_json(option) :
