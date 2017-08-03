@@ -317,6 +317,15 @@ get_default_cmd<Action::start, Kind::cal>(TargetAddress const & ta,
         cmd.amplitude(-6);
         cmd.settling_time( Minutes(2) );
         cmd.cal_duration( Minutes(2) );
+        cmd.trailer_time( Minutes(2) );
+        cmd.frequency_divider(1); // 1hz for sine waveform
+
+    } else if (option == "random") {
+
+        cmd.waveform.waveform(BmCalWaveform::Waveform::sine);
+        cmd.amplitude(-6);
+        cmd.settling_time( Minutes(0) );
+        cmd.cal_duration( Minutes(2) );
         cmd.trailer_time( Minutes(1) );
         cmd.frequency_divider(1); // 1hz for sine waveform
 
