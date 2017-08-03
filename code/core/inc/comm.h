@@ -26,8 +26,6 @@
 #include "date.h" // hinnant's date library
 
 namespace mzn {
-
-
 //! Commands are setup and send/recv from this class
 /*!
     @author rfigueroa@usgs.gov
@@ -183,6 +181,40 @@ private:
                                                 "gs nullptr");
 
         return gs -> current_data_sequence_number();
+    }
+
+    // ---------------------------------------------------------------------- //
+    CmdFieldTime<uint32_t, Time::k_shift_seconds_1970_2000>
+    q_time(Digitizer & q) {
+
+        // request status
+        C1Rqstat cmd_rqstat;
+        cmd_rqstat.request_bitmap.global_status(true);
+        // status
+        C1Stat cmd_stat; // Status
+
+        md.send_recv(q.port_config, cmd_rqstat, cmd_stat, false);
+
+        CxGlobalStatus * gs =
+            dynamic_cast<CxGlobalStatus *>( cmd_stat.inner_commands[0].get() );
+
+        if (gs == nullptr) throw FatalException("Comm", "autocal", "gs nullptr");
+
+        // Q330 manual: "Seconds offset ... when added to a data sequence number
+        // is seconds since January 1 2000"
+        auto const q_seq_number = gs -> current_data_sequence_number.data();
+        auto const q_seconds_offset = gs -> seconds_offset.data();
+        auto const q_sec_since_epoch = q_seq_number + q_seconds_offset;
+
+        CmdFieldTime<uint32_t, Time::k_shift_seconds_1970_2000> q_now_time;
+        q_now_time.data(q_sec_since_epoch);
+
+        std::cout << std::endl << "q_now_seq_num: " << q_sec_since_epoch;
+        std::cout << std::endl << "q_now_time: " << q_now_time;
+        std::cout << std::endl << " ### now: "
+                          << Time::sys_time_of_day() << " ###\n";
+
+        return q_now_time;
     }
 
     //! These two functions can be generalized for any of the 14 output
@@ -372,6 +404,10 @@ inline
 void Comm::run<Action::get, Kind::stat>(TA const & ta,  OI const & oi) {
     // C1Rqstat, C1Stat (multi command)
     q_send_recv<Action::get, Kind::stat>(ta, oi);
+    // TODO: make its own command
+    auto & q = sn.q_ref(ta);
+    auto const t = q_time(q);
+    std::cout << std::endl << "time [" << t << "]";
 }
 
 // -------------------------------------------------------------------------- //
@@ -836,7 +872,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             // sets cancel_keep_alive to false
             // but it can be set to true during the keep_alive_delay
             s.port_e300_ref().keep_alive(total_plan_run_duration,
-                                     keep_alive_delay);
+                                         keep_alive_delay);
         }
     }
 
@@ -863,9 +899,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
 
         auto const & cs = gs -> calibrator_status;
 
-        return ( cs.calibration_enable_is_on_this_second() or
-                 cs.calibration_signal_is_on_this_second() or
-                 cs.calibrator_should_be_generating_a_signal_but_isnt() );
+        return cs.calibration_signal_is_on_this_second();
     };
 
     // main loop of auto calibration
@@ -1531,5 +1565,7 @@ void Comm::run<Action::start, Kind::link>(TA const & ta, OI const & oi) {
         std::cout << response;
     }
 }
+
+
 } // end namespace
 #endif // _MZN_COMM_H_

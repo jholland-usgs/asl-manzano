@@ -46,6 +46,7 @@
     {"amplitude": -24, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
   ]
 },
+
 "STS_2_SG": {
   "cals": [
     {"amplitude": -36, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
@@ -54,6 +55,19 @@
     {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 1.0},
     {"amplitude": -42, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
     {"amplitude": -30, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
+  ]
+},
+
+"T120_STS_6_TEST": {
+  "cals": [
+    {"amplitude": -36, "settling_time": {"h":0,"m":10},  "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":10}, "wave_form": "sine", "frequency": 0.004},
+    {"amplitude": -36, "settling_time": {"h":0,"m":10},  "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":10}, "wave_form": "sine", "frequency": 0.02},
+    {"amplitude": -12, "settling_time": {"h":0,"m":10},  "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":10}, "wave_form": "sine", "frequency": 0.1},
+    {"amplitude": -6,  "settling_time": {"h":0,"m":10},  "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":10}, "wave_form": "sine", "frequency": 1.0},
+    {"amplitude": -42, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
+    {"amplitude": -30, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
+    {"amplitude": -30, "settling_time": {"h":0,"m":0},  "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":15}, "wave_form": "random", "frequency": 1.25},
+    {"amplitude": -6,  "settling_time": {"h":0,"m":10}, "cal_duration": {"h":15,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 125}
   ]
 },
 
@@ -162,18 +176,6 @@
     {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 1.0},
     {"amplitude": -42, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
     {"amplitude": -42, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
-  ]
-},
-
-"KS36000": {
-  "cals": [
-    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
-    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
-    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.1},
-    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 1.0},
-    {"amplitude": -6, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
-    {"amplitude": -6, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
-    {"amplitude": -6, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
   ]
 },
 
