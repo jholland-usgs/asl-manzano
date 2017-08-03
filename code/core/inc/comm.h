@@ -899,7 +899,9 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
 
         auto const & cs = gs -> calibrator_status;
 
-        return cs.calibration_signal_is_on_this_second();
+        return ( cs.calibrator_should_be_generating_a_signal_but_isnt() or
+                 cs.calibration_enable_is_on_this_second() or
+                 cs.calibration_signal_is_on_this_second() );
     };
 
     // main loop of auto calibration
@@ -990,9 +992,13 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
         std::cerr << std::endl << "cancelling auto cal"
                   << "\n deregistering: \n";
         Comm::run<Action::set, Kind::dereg>(ta);
-        std::cerr << "\n cancelling keep alive for e300: \n";
-        // ok to set even if keep_alive(...)  was not called here
-        if (s.config.has_e300) s.port_e300_ref().cancel_keep_alive();
+
+        if (s.config.has_e300) {
+            std::cerr << "\n cancelling keep alive for e300: \n";
+            // ok to set even if keep_alive(...)  was not called here
+            s.port_e300_ref().cancel_keep_alive();
+        }
+
         std::cerr << std::endl << "rethrow";
         throw e;
     }
