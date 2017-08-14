@@ -71,6 +71,14 @@
   ]
 },
 
+
+"randoms": {
+  "cals": [
+    {"amplitude": -24, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
+    {"amplitude": -24, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
+  ]
+},
+
 "T360": {
   "cals": [
     {"amplitude": -30, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
