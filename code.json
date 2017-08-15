@@ -1,0 +1,24 @@
+{
+  "name": "asl-manzano",
+  "organization": "U.S. Geological Survey",
+  "description": "Manzano is a library to communicate with hardware used in seismological stations",
+  "status": "preliminary",
+  "homepage": "https://usgs.github.com/usgs/asl-manzano/wiki",
+  "downloadURL": "https://github.com/usgs/asl-manzano/archive/master.zip",
+
+  "openSourceProject": 1,
+  "license": "https://github.com/usgs/asl-manzano/blob/master/LICENSE.md",
+  "vcs": "git",
+  "repository": "https://github.com/usgs/asl-manzano.git",
+
+  "tags": ["digitizer", "sensor", "falcon"],
+  "languages": ["C++", "CMake", "Bash"],
+
+  "contact": {
+    "name": "Rafael Figueroa",
+    "email": "rfigueroa@usgs.gov"
+  },
+  "updated": {
+    "metadataLastUpdated": "2017-08-15"
+  }
+}
