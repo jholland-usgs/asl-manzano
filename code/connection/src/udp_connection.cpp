@@ -3,7 +3,6 @@
 #include "udp_connection.h"
 
 namespace mzn {
-
 //! move to the type of message
 // -------------------------------------------------------------------------- //
 /*

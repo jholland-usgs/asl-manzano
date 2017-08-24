@@ -16,7 +16,8 @@ if(UNIX AND NOT APPLE)
 endif()
 
 # ---- normal connection library for test ---- #
-add_library(connection ${SOURCES_connection})
+add_library(connection ${SOURCES_connection}
+                       ${DIR_connection}/src/dummy_q_port.cpp)
 
 set_target_properties(connection
                       PROPERTIES

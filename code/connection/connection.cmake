@@ -19,7 +19,6 @@ include_directories(${DIR_MZN}/cmd_field/inc/)
 include_directories(${DIR_connection}/inc/)
 
 set(SOURCES_connection ${SOURCES_exceptions}
-                       ${DIR_connection}/src/dummy_q_port.cpp
                        ${DIR_connection}/src/message.cpp
                        ${DIR_connection}/src/udp_connection.cpp
                        ${DIR_connection}/src/tcp_connection.cpp

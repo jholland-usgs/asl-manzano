@@ -1,15 +1,12 @@
 // Manzano software
-
 #include "connection_handler.h"
 
 namespace mzn {
-
 // -------------------------------------------------------------------------- //
 std::chrono::seconds constexpr ConnectionHandler::timeout_duration;
 
 // -------------------------------------------------------------------------- //
 void ConnectionHandler::connect() {
-
 
     std::lock_guard<std::mutex> lk(uc_mutex_);
 
