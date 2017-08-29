@@ -12,10 +12,8 @@ inline
 void ip_format_check(std::string const & ip) {
 
     try {
-
         // TODO: update for ipv6
         auto const ip_tokens = get_tokens(ip, '.');
-
         if (ip_tokens.size() != 4) throw WarningException("JsonSn",
                                                           "ip_format_check",
                                                           "not 4 byte format");
@@ -64,7 +62,7 @@ Json json_add_s() {
     ask<std::string>(s_json, "model", "STS_2, STS_1, etc");
     ask<std::string>(s_json, "cals", "STS_2, STS_2_HF_TEST, etc");
 
-    auto const confirm = ask_yes("Has E300");
+    bool const confirm = ask_yes("Has E300");
 
     if (confirm) {
         s_json["port_e300"] = json_add_ch();
@@ -110,10 +108,11 @@ Json json_add_st() {
     ask<std::string>(st_json, "station_name", "ABCDF");
 
     // capitilize station name
-    auto station_name = st_json["station_name"];
+    // need to specify type for return, to force into a string
+    std::string station_name = st_json["station_name"];
     for (auto & c: station_name) c = std::toupper(c);
-    st_json["station_name"] = station_name;
 
+    st_json["station_name"] = station_name;
     st_json["digitizer"] = Json::array();
     st_json["data_processor"] = Json::array();
 
@@ -147,9 +146,8 @@ Json json_change_s(Json const & original_json) {
     ask<std::string>(s_json, original_json, "model", "STS_2, STS_1, etc");
     ask<std::string>(s_json, original_json, "cals", "STS_2, STS_2_HF_TEST, etc");
 
-    auto const has_e300 = not original_json["port_e300"].empty();
-
-    auto const confirm = ask_yes("Has E300", has_e300);
+    bool const has_e300 = not original_json["port_e300"].empty();
+    bool const confirm = ask_yes("Has E300", has_e300);
 
     if (confirm and has_e300) {
         // modify existing
@@ -354,7 +352,7 @@ Sensor s_from_json(JsonRef const s_json) {
     std::string const model = s_json["model"];
     std::string const cals  = s_json["cals"];
 
-    auto const has_e300 = not s_json["port_e300"].empty();
+    bool const has_e300 = not s_json["port_e300"].empty();
 
     if (has_e300) {
 
@@ -483,21 +481,16 @@ Json json_add_child_from_ta(SeismicNetwork const & sn,
     switch (parent_scope) {
 
         case Scope::seismic_network: {
-
-             if (child_scope == Scope::station) return json_add_st();
-
+            if (child_scope == Scope::station) return json_add_st();
             throw WarningException("JsonSn",
                                    "json_child_from_ta",
                                    "seismic network childs are stations");
         }
 
         case Scope::station: {
-
             switch (child_scope) {
-
                 case Scope::digitizer      : return json_add_q();
                 case Scope::data_processor : return json_add_dp();
-
                 default: throw WarningException("JsonSn",
                                                 "json_child_from_ta",
                                                 "station childs are q and dp");
@@ -505,9 +498,7 @@ Json json_add_child_from_ta(SeismicNetwork const & sn,
         }
 
         case Scope::digitizer: {
-
             if (child_scope == Scope::sensor) return json_add_s();
-
             throw WarningException("JsonSn",
                                    "json_child_from_ta",
                                    "digitizer childs are sensors");
