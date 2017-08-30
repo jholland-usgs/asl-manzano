@@ -72,6 +72,7 @@ public:
 
     // --------------------------------------------------------------------- //
     Station const & st_const_ref(std::string const & station_name) const;
+    Station & st_ref(std::string const & station_name);
 
     // --------------------------------------------------------------------- //
     bool has_station(std::string const & station_name) const {

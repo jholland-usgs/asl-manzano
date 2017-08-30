@@ -43,6 +43,7 @@ Json json_add_ch(std::string const & ip_remote,
                  std::string const & auth_code,
                  int const & port_host) {
 
+    std::cout << std::endl << "**IP**<" << ip_remote << ">";
     ip_format_check(ip_remote);
 
     Json ch_json;
@@ -86,7 +87,7 @@ Json json_add_s(std::string const & input,
 
     if (confirm) {
         // yellow manzano has not been installed on the gsn yet
-        std::string const ip_remote = "";
+        std::string const ip_remote = "0.0.0.0";
         int const port_remote = 0;
         std::string const auth_code = "";
         int const port_host = 0;

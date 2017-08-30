@@ -132,6 +132,7 @@ SeismicNetwork::st_const_ref(std::string const & station_name) const {
 }
 
 // ------------ Get references to sn targets -------------- //
+
 // -------------------------------------------------------------------------- //
 Station & SeismicNetwork::st_ref(TargetAddress const & ta) {
 
@@ -174,6 +175,21 @@ Sensor & SeismicNetwork::s_ref(TargetAddress const & ta) {
     auto q_index = ta.st_child.index;
     auto s_index = ta.q_child.index;
     return st[st_index].q[q_index].s[s_index];
+}
+
+// -------------------------------------------------------------------------- //
+Station &
+SeismicNetwork::st_ref(std::string const & station_name) {
+
+    for (auto & station : this->st) {
+        if (station.config.station_name == station_name) return station;
+    }
+
+    std::stringstream ss;
+    ss << "station [" << station_name << "] could not be found";
+    throw WarningException( "SeismicNetwork",
+                            "st_ref",
+                            ss.str() );
 }
 
 // -------------------------------------------------------------------------- //

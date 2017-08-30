@@ -76,6 +76,12 @@ void MceCli::user_input_loop() {
             }
 
             // -------------------------------------------------------------- //
+            if (user_input == "csv") {
+                csv_to_config(sn);
+                continue;
+            }
+
+            // -------------------------------------------------------------- //
             if (user_input == "@") {
                 mcew_connection.update_all(sn);
                 continue;
@@ -461,37 +467,72 @@ void MceCli::change_config(SeismicNetwork & sn,
 
 // for filling from csv file
 // -------------------------------------------------------------------------- //
-void MceCli::add_to_config(SeismicNetwork & sn,
-                           std::string const & csv_file_name) const {
+void MceCli::csv_to_config(SeismicNetwork & sn) const {
+
+    auto json_sn = Utility::json_from_sn(sn);
 
     std::ifstream csv_fs;
     auto const home_path = Utility::get_environmental_variable("HOME");
     auto const csv_dir_path = home_path + std::string("/station_files");
     csv_fs.open(csv_dir_path + "/good.csv");
 
+    int port_remote = 3330;
     std::string line;
     while ( std::getline(csv_fs, line) ) {
 
         auto const tokens = Utility::get_tokens(line);
-        if (tokens.size() < 8) throw std::logic_error("add_to_config <8 tokens");
+        if (tokens.size() < 9) throw std::logic_error("add_to_config <8 tokens");
 
         // get properties from line
         auto const & station_name = tokens[0];
-        auto const & sensor_name = tokens[3];
+        auto const & model = tokens[3];
         auto const q_index = std::stoi(tokens[4]);
-        auto const & sensor_input = tokens[5];
-        auto const & ip = tokens[6];
-        auto const & serial_number = tokens[7];
+        auto const & input = tokens[5];
+        auto const & ip_remote = tokens[6];
+        auto const port_host = std::stoi(tokens[7]);
+        auto const & serial_number = tokens[8];
+        auto const & auth_code = tokens[9];
+
+        std::cout << std::endl;
+        std::cout << station_name << " " << model << " " << input
+                  << " ip_remote:_" << ip_remote << "_";
+
+        auto add_s = [&](auto & q) {
+            auto const s_json = Utility::json_add_s(input, model, model);
+            q.s.push_back( Utility::s_from_json(s_json) );
+        };
+
+        auto add_q = [&](auto & st) {
+            port_remote++;
+            auto const q_json = Utility::json_add_q(serial_number,
+                                                    ip_remote,
+                                                    port_remote,
+                                                    auth_code,
+                                                    port_host);
+            st.q.push_back( Utility::q_from_json(q_json) );
+        };
 
         if ( sn.has_station(station_name) ) {
-            auto const & st = sn.st_const_ref(station_name);
+            auto & st = sn.st_ref(station_name);
             if ( q_index < st.q.size() ) {
-                auto const & q = st.q[q_index];
+                // best case, only add the sensor
+                add_s(st.q[q_index]);
+            } else {
+                // add digitizer and sensor
+                add_q(st);
+                add_s( st.q.back() );
             }
+
+        } else {
+            auto const st_json = Utility::json_add_st(station_name);
+            sn.st.push_back( Utility::st_from_json(st_json) );
+            auto & st = sn.st.back();
+            add_q(st);
+            add_s( st.q.back() );
         }
-
-
     }
+
+    Utility::save_to_config_file(sn, config_file_path);
 }
 
 } // end namespace
