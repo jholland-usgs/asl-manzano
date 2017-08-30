@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 #include "station.h"
 #include "target_address.h"
@@ -71,6 +72,14 @@ public:
 
     // --------------------------------------------------------------------- //
     Station const & st_const_ref(std::string const & station_name) const;
+
+    // --------------------------------------------------------------------- //
+    bool has_station(std::string const & station_name) const {
+        for (unsigned i = 0; i < st.size(); i++) {
+            if (station_name == st[i].config.station_name) return true;
+        }
+        return false;
+    }
 
     // --------------------------------------------------------------------- //
     unsigned station_index(std::string const & station_name) const {

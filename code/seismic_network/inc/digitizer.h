@@ -50,6 +50,17 @@ public:
     port_config( std::move(port_config) ),
     config(serial_number) {}
 
+    //! check sensor configuration with digitizer model, currently 2 inputs only
+    void check() const {
+        if (s.size() < 2) return;
+        // A/B good, A/A bad, B/B bad
+        if (s.size() == 2 and s[0].config.input != s[1].config.input) return;
+        // bad
+        for (auto const & s_ : s) std::cerr << s_;
+        throw FatalException("Digitizer",
+                             "check",
+                             "sensor configuration conflict");
+    }
     ~Digitizer() = default;
 
 public:

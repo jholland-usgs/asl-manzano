@@ -459,4 +459,39 @@ void MceCli::change_config(SeismicNetwork & sn,
     Utility::save_to_config_file(sn, config_file_path);
 }
 
+// for filling from csv file
+// -------------------------------------------------------------------------- //
+void MceCli::add_to_config(SeismicNetwork & sn,
+                           std::string const & csv_file_name) const {
+
+    std::ifstream csv_fs;
+    auto const home_path = Utility::get_environmental_variable("HOME");
+    auto const csv_dir_path = home_path + std::string("/station_files");
+    csv_fs.open(csv_dir_path + "/good.csv");
+
+    std::string line;
+    while ( std::getline(csv_fs, line) ) {
+
+        auto const tokens = Utility::get_tokens(line);
+        if (tokens.size() < 8) throw std::logic_error("add_to_config <8 tokens");
+
+        // get properties from line
+        auto const & station_name = tokens[0];
+        auto const & sensor_name = tokens[3];
+        auto const q_index = std::stoi(tokens[4]);
+        auto const & sensor_input = tokens[5];
+        auto const & ip = tokens[6];
+        auto const & serial_number = tokens[7];
+
+        if ( sn.has_station(station_name) ) {
+            auto const & st = sn.st_const_ref(station_name);
+            if ( q_index < st.q.size() ) {
+                auto const & q = st.q[q_index];
+            }
+        }
+
+
+    }
+}
+
 } // end namespace

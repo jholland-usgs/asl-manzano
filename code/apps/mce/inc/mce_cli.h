@@ -69,6 +69,11 @@ public:
                        std::string const & user_input,
                        TargetAddress & ta) const;
 
+    //! add from csv file
+    // ---------------------------------------------------------------------- //
+    void add_to_config(SeismicNetwork & sn,
+                       std::string const & csv_file_name) const;
+
     void remove_from_config(SeismicNetwork & sn, TargetAddress & ta) const;
     void change_config(SeismicNetwork & sn, TargetAddress const & ta) const;
 };

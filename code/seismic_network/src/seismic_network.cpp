@@ -21,6 +21,7 @@ SeismicNetwork::SeismicNetwork() : st{} {
         for (auto const & st_json : sn_json["station"]) {
             st.push_back( Utility::st_from_json(st_json) );
         }
+        for (auto const & st_ : st) for (auto const & q : st_.q) q.check();
 
     } catch (std::out_of_range const & e) {
 
@@ -41,6 +42,7 @@ SeismicNetwork::SeismicNetwork(std::string const & file_path) : st{} {
         for (auto const & st_json : sn_json["station"]) {
             st.push_back( Utility::st_from_json(st_json) );
         }
+        for (auto const & st_ : st) for (auto const & q : st_.q) q.check();
 
     } catch (std::out_of_range const & e) {
 
@@ -59,6 +61,7 @@ SeismicNetwork::SeismicNetwork(Json const & sn_json) : st{} {
         for (auto const & st_json : sn_json["station"]) {
             st.push_back( Utility::st_from_json(st_json) );
         }
+        for (auto const & st_ : st) for (auto const & q : st_.q) q.check();
 
     } catch (std::out_of_range const & e) {
 
