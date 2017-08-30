@@ -38,6 +38,25 @@ void ip_format_check(std::string const & ip) {
 // -------------------------------------------------------------------------- //
 // -------------------------------------------------------------------------- //
 inline
+Json json_add_ch(std::string const & ip_remote,
+                 int const & port_remote,
+                 std::string const & auth_code,
+                 int const & port_host) {
+
+    ip_format_check(ip_remote);
+
+    Json ch_json;
+    ch_json["ip_remote"] = ip_remote;
+    ch_json["port_remote"] = port_remote;
+    ch_json["auth_code"] = auth_code;
+    ch_json["port_host"] = port_host;
+    ch_json["protocol_version"] = 2;
+
+    return ch_json;
+}
+
+// -------------------------------------------------------------------------- //
+inline
 Json json_add_ch() {
 
     Json ch_json;
@@ -47,10 +66,39 @@ Json json_add_ch() {
     ask<int>(         ch_json, "port_remote", ">5000");
     ask<std::string>( ch_json, "auth_code", "");
     ask<int>(         ch_json, "port_host", ">2000");
-    ask<int>(         ch_json, "protocol_version", "2");
-
+    ch_json["protocol_version"] = 2;
 
     return ch_json;
+}
+
+// -------------------------------------------------------------------------- //
+inline
+Json json_add_s(std::string const & input,
+                std::string const & model,
+                std::string const & cals) {
+
+    Json s_json;
+    s_json["input"] = input;
+    s_json["model"] = model;
+    s_json["cals"] = cals;
+
+    bool const confirm = (model == "STS-1");
+
+    if (confirm) {
+        // yellow manzano has not been installed on the gsn yet
+        std::string const ip_remote = "";
+        int const port_remote = 0;
+        std::string const auth_code = "";
+        int const port_host = 0;
+        s_json["port_e300"] = json_add_ch(ip_remote,
+                                          port_remote,
+                                          auth_code,
+                                          port_host);
+    } else {
+        s_json["port_e300"] = Json::object();
+    }
+
+    return s_json;
 }
 
 // -------------------------------------------------------------------------- //
@@ -75,6 +123,25 @@ Json json_add_s() {
 
 // -------------------------------------------------------------------------- //
 inline
+Json json_add_q(std::string const & serial_number,
+                std::string const & ip_remote,
+                int const & port_remote,
+                std::string const & auth_code,
+                int const & port_host) {
+
+    Json q_json;
+    q_json["serial_number"] = serial_number;
+    q_json["port_config"] = json_add_ch(ip_remote,
+                                        port_remote,
+                                        auth_code,
+                                        port_host);
+    q_json["sensor"] = Json::array();
+
+    return q_json;
+}
+
+// -------------------------------------------------------------------------- //
+inline
 Json json_add_q() {
 
     Json q_json;
@@ -84,6 +151,22 @@ Json json_add_q() {
     q_json["sensor"] = Json::array();
 
     return q_json;
+}
+
+// -------------------------------------------------------------------------- //
+inline
+Json json_add_dp(std::string const & user,
+                 std::string const & pw,
+                 std::string const & ip) {
+
+    ip_format_check(ip);
+
+    Json dp_json;
+    dp_json["user"] = user ;
+    dp_json["pw"] = pw;
+    dp_json["ip"] = ip;
+
+    return dp_json;
 }
 
 // -------------------------------------------------------------------------- //
@@ -102,21 +185,29 @@ Json json_add_dp() {
 
 // -------------------------------------------------------------------------- //
 inline
-Json json_add_st() {
+Json json_add_st(std::string const & station_name) {
 
     Json st_json;
-    ask<std::string>(st_json, "station_name", "ABCDF");
-
-    // capitilize station name
-    // need to specify type for return, to force into a string
-    std::string station_name = st_json["station_name"];
-    for (auto & c: station_name) c = std::toupper(c);
 
     st_json["station_name"] = station_name;
     st_json["digitizer"] = Json::array();
     st_json["data_processor"] = Json::array();
 
     return st_json;
+}
+
+// -------------------------------------------------------------------------- //
+inline
+Json json_add_st() {
+
+    Json st_json;
+    ask<std::string>(st_json, "station_name", "ABCDF");
+    // capitilize station name
+    // need to specify type for return, to force into a string
+    std::string station_name = st_json["station_name"];
+    for (auto & c: station_name) c = std::toupper(c);
+
+    return json_add_st(station_name);
 }
 
 // -------------------------------------------------------------------------- //
