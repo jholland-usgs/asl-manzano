@@ -476,7 +476,7 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
     auto const csv_dir_path = home_path + std::string("/station_files");
     csv_fs.open(csv_dir_path + "/good.csv");
 
-    int port_remote = 3330;
+    int port_host = 3330;
     std::string line;
     while ( std::getline(csv_fs, line) ) {
 
@@ -489,7 +489,7 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
         auto const q_index = std::stoi(tokens[4]);
         auto const & input = tokens[5];
         auto const & ip_remote = tokens[6];
-        auto const port_host = std::stoi(tokens[7]);
+        auto const port_remote = std::stoi(tokens[7]);
         auto const & serial_number = tokens[8];
         auto const & auth_code = tokens[9];
 
@@ -503,7 +503,7 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
         };
 
         auto add_q = [&](auto & st) {
-            port_remote++;
+            port_host++;
             auto const q_json = Utility::json_add_q(serial_number,
                                                     ip_remote,
                                                     port_remote,
