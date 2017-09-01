@@ -1,4 +1,5 @@
 {
+
 "STS-1": {
   "cals": [
     {"amplitude": -30, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
@@ -44,25 +45,6 @@
   ]
 },
 
-"randoms": {
-  "cals": [
-    {"amplitude": -24, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
-    {"amplitude": -24, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
-  ]
-},
-
-"T360": {
-  "cals": [
-    {"amplitude": -30, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
-    {"amplitude": -18, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
-    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.1},
-    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 1.0},
-    {"amplitude": -30, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
-    {"amplitude": -24, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
-    {"amplitude": -24, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
-  ]
-},
-
 "TR-240": {
   "cals": [
     {"amplitude": -42, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
@@ -74,7 +56,19 @@
   ]
 },
 
-"KS54": {
+"TR-360": {
+  "cals": [
+    {"amplitude": -30, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
+    {"amplitude": -18, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
+    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.1},
+    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 1.0},
+    {"amplitude": -30, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
+    {"amplitude": -24, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
+    {"amplitude": -24, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
+  ]
+},
+
+"KS-54": {
   "cals": [
     {"amplitude": -12, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
     {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
@@ -86,7 +80,7 @@
   ]
 },
 
-"CMG-3T": {
+"CMG3-T": {
   "cals": [
     {"amplitude": -42, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
     {"amplitude": -36, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
@@ -97,18 +91,7 @@
   ]
 },
 
-"CMG-3T_B": {
-  "cals": [
-    {"amplitude": -42, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
-    {"amplitude": -36, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
-    {"amplitude": -24, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.1},
-    {"amplitude": -6, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":10}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 1.0},
-    {"amplitude": -42, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
-    {"amplitude": -36, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
-  ]
-},
-
-"CMG-3T_B_COLD": {
+"CMG3-TB_COLD": {
   "cals": [
     {"amplitude": -42, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
     {"amplitude": -36, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
@@ -127,6 +110,21 @@
     {"amplitude": -6, "settling_time": {"h":0,"m":15}, "cal_duration": {"h":0,"m":15}, "trailer_time": {"h":0,"m":15}, "wave_form": "step"},
     {"amplitude": -6, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
     {"amplitude": -6, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
+  ]
+},
+
+"ES-T": {
+  "cals": [
+    {"amplitude": -42, "settling_time": {"h":0,"m":1}, "cal_duration": {"h":0,"m":5}, "trailer_time": {"h":0,"m":1}, "wave_form": "random", "frequency": 1.25},
+    {"amplitude": -42, "settling_time": {"h":0,"m":1}, "cal_duration": {"h":0,"m":5}, "trailer_time": {"h":0,"m":1}, "wave_form": "random", "frequency": 1.25},
+    {"amplitude": -42, "settling_time": {"h":0,"m":1}, "cal_duration": {"h":0,"m":5}, "trailer_time": {"h":0,"m":1}, "wave_form": "random", "frequency": 1.25}
+  ]
+},
+
+"randoms": {
+  "cals": [
+    {"amplitude": -24, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":0}, "wave_form": "random", "frequency": 1.25},
+    {"amplitude": -24, "settling_time": {"h":0,"m":0}, "cal_duration": {"h":4,"m":0}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 1.25}
   ]
 }
 

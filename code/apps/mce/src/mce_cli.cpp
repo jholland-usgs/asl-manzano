@@ -474,7 +474,7 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
     std::ifstream csv_fs;
     auto const home_path = Utility::get_environmental_variable("HOME");
     auto const csv_dir_path = home_path + std::string("/station_files");
-    csv_fs.open(csv_dir_path + "/good.csv");
+    csv_fs.open(csv_dir_path + "/config_mzn.csv");
 
     int port_host = 3330;
     std::string line;
@@ -484,7 +484,7 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
         if (tokens.size() < 9) throw std::logic_error("add_to_config <8 tokens");
 
         // get properties from line
-        auto const & station_name = tokens[0];
+        auto const & station_name = tokens[1];
         auto const & model = tokens[3];
         auto const q_index = std::stoi(tokens[4]);
         auto const & input = tokens[5];
