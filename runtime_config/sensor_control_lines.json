@@ -1,18 +1,22 @@
 {
-"STS_1": {
-            "cal":    {"line": 4, "active_high": true}
-         },
 
-"STS_2": {
-            "center": {"line": 1, "active_high": true},
-            "cal":    {"line": 4, "active_high": true}
-         },
+"STS_1": {"cal":{"line": 4, "active_high": true}},
+"STS_2_SG": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"STS_2_HG": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"STS_2.5_SG": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"STS_5A": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"STS_6A": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"TR-120PH": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"TR-120BH": {"center":{"line": 2, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"TR-240": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"TR-360PH": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"TR-360BH": {"center":{"line": 2, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"CMG-3T": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
+"KS-54": {},
+"GS-13": {},
+"Titan":{},
+"ES-T": {}
 
-"TR_240": {},
-"KS54000": {},
-"CMG3_T": {},
-"CMG3_TB": {},
-"KS36000": {},
-"GS13": {},
-"ES_T": {}
 }
+
+
