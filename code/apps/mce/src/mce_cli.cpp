@@ -492,13 +492,14 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
         auto const port_remote = std::stoi(tokens[7]);
         auto const & serial_number = tokens[8];
         auto const & auth_code = tokens[9];
+        auto const cal = tokens[10] == "" ? "None" : tokens[10];
 
         std::cout << std::endl;
         std::cout << station_name << " " << model << " " << input
                   << " ip_remote:_" << ip_remote << "_";
 
         auto add_s = [&](auto & q) {
-            auto const s_json = Utility::json_add_s(input, model, model);
+            auto const s_json = Utility::json_add_s(input, model, cal);
             q.s.push_back( Utility::s_from_json(s_json) );
         };
 
