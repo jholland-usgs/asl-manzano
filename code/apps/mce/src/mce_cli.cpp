@@ -498,6 +498,8 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
         std::cout << station_name << " " << model << " " << input
                   << " ip_remote:_" << ip_remote << "_";
 
+        /* this works but currently bugged on old version of gcc
+           used at a server
         auto add_s = [&](auto & q) {
             auto const s_json = Utility::json_add_s(input, model, cal);
             q.s.push_back( Utility::s_from_json(s_json) );
@@ -512,24 +514,56 @@ void MceCli::csv_to_config(SeismicNetwork & sn) const {
                                                     port_host);
             st.q.push_back( Utility::q_from_json(q_json) );
         };
+        */
 
         if ( sn.has_station(station_name) ) {
             auto & st = sn.st_ref(station_name);
             if ( q_index < st.q.size() ) {
                 // best case, only add the sensor
-                add_s(st.q[q_index]);
+                // add_s(st.q[q_index]);
+                // --------------------------------------------------------- //
+                auto & q = st.q[q_index];
+                auto const s_json = Utility::json_add_s(input, model, cal);
+                q.s.push_back( Utility::s_from_json(s_json) );
+
             } else {
                 // add digitizer and sensor
-                add_q(st);
-                add_s( st.q.back() );
+                // add_q(st);
+                // --------------------------------------------------------- //
+                port_host++;
+                auto const q_json = Utility::json_add_q(serial_number,
+                                                        ip_remote,
+                                                        port_remote,
+                                                        auth_code,
+                                                        port_host);
+                st.q.push_back( Utility::q_from_json(q_json) );
+
+                // add_s( st.q.back() );
+                // --------------------------------------------------------- //
+                auto & q = st.q.back();
+                auto const s_json = Utility::json_add_s(input, model, cal);
+                q.s.push_back( Utility::s_from_json(s_json) );
             }
 
         } else {
             auto const st_json = Utility::json_add_st(station_name);
             sn.st.push_back( Utility::st_from_json(st_json) );
             auto & st = sn.st.back();
-            add_q(st);
-            add_s( st.q.back() );
+            // add_q(st);
+            // ------------------------------------------------------------- //
+            port_host++;
+            auto const q_json = Utility::json_add_q(serial_number,
+                                                    ip_remote,
+                                                    port_remote,
+                                                    auth_code,
+                                                    port_host);
+            st.q.push_back( Utility::q_from_json(q_json) );
+
+            // add_s( st.q.back() );
+            // ------------------------------------------------------------- //
+            auto & q = st.q.back();
+            auto const s_json = Utility::json_add_s(input, model, cal);
+            q.s.push_back( Utility::s_from_json(s_json) );
         }
     }
 
