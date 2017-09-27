@@ -23,7 +23,6 @@ void MceCli::user_input_loop() {
         // ----------------------------------------------------------------- //
         ii.check_ta_in_sn(ta_);
 
-
         // show prompt
         // ------------------------------------------------------------------ //
         ii.cm.stream_output.show<Kind::target>(ta_);

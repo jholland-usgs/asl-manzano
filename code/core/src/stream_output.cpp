@@ -7,8 +7,12 @@ namespace mzn {
 // -------------------------------------------------------------------------- //
 void StreamOutput::show_target() const {
 
-    os << "\nsn : seismic_network";
+    os << "\nstations:\n";
+    for (auto const & st : sn_.st) os << st.config.station_name << " ";
+    os << "\n";
 
+    /*
+    this works but with many stations it takes too much screen space
     for (unsigned i = 0; i < sn_.st.size(); i++) {
 
         os << "\n│\n";
@@ -21,6 +25,7 @@ void StreamOutput::show_target() const {
             show_target(sn_.st[i], i, std::vector<bool> {true});
         }
     }
+    */
 
 }
 
