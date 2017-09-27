@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 
         if (args.size() > 1) {
             // expects the file name
-            std::cout << "arg" << args[1];
+            std::cout << "\nfile: " << args[1] << std::endl;
         } else {
             // interactive
             mce_cli.user_input_loop();

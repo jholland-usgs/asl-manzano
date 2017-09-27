@@ -56,7 +56,7 @@
   ]
 },
 
-"STS-6": {
+"STS-6A": {
   "cals": [
     {"amplitude": -36, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.004},
     {"amplitude": -36, "settling_time": {"h":0,"m":5}, "cal_duration": {"h":0,"m":40}, "trailer_time": {"h":0,"m":5}, "wave_form": "sine", "frequency": 0.02},
