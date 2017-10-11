@@ -147,7 +147,6 @@ Json json_add_q() {
 
     Json q_json;
     ask<std::string>(q_json, "serial_number", "012345ABCDEF");
-
     q_json["port_config"] =  json_add_ch();
     q_json["sensor"] = Json::array();
 

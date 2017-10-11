@@ -43,6 +43,57 @@ void capitalize_tokens(std::vector<std::string> & tokens) {
 }
 
 // -------------------------------------------------------------------------- //
+template <typename T>
+inline
+void capitalize_alpha(T & token) {}
+
+// -------------------------------------------------------------------------- //
+template <>
+inline
+void capitalize_alpha(std::string & token) {
+    std::cout << std::endl << "***CAPCAP***" << std::endl;
+    for (auto & c : token) if ( std::isalpha(c) ) std::toupper(c);
+}
+
+// -------------------------------------------------------------------------- //
+template <typename T>
+inline
+T checked_cin() {
+    // checks for expected type and allows the result to be constant
+    // std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    // accept enter as response
+    T token;
+    std::cin >> token;
+
+    if ( std::cin.fail() ) {
+        std::cin.clear();
+        throw WarningException( "Utility", "checked_cin", "wrong input type");
+    }
+    return token;
+}
+
+// -------------------------------------------------------------------------- //
+template <typename T>
+inline
+T checked_cin(bool & gave_input) {
+    // getline only works with strings
+    std::string token;
+    std::getline(std::cin, token);
+
+    if ( token.empty() ) {
+        gave_input = false;
+        return T{};
+    }
+
+    gave_input = true;
+    std::stringstream ss;
+    ss << token;
+    T value;
+    ss >> value;
+    return value;
+}
+
+// -------------------------------------------------------------------------- //
 inline
 void expect_string(std::string const & expected,
                    std::string const & token) {

@@ -53,6 +53,7 @@ Json read_json(std::string const & filename) {
     return cals_json;
 }
 
+
 // -------------------------------------------------------------------------- //
 template <typename T>
 void ask(Json & json,
@@ -63,19 +64,9 @@ void ask(Json & json,
     if (hint != "") std::cout << " (" << hint << ")";
     std::cout << ": ";
 
-    T value;
-    // dont accept enter as response, wait until there is some response
-    std::cin >> value;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-
-    if ( std::cin.fail() ) {
-        std::cin.clear();
-        std::stringstream ss;
-        ss << "error with user response for key " << key;
-        throw WarningException( "JsonSn", "ask", ss.str() );
-    }
-
-    json[key] = value;
+    T input = Utility::checked_cin<T>();
+    Utility::capitalize_alpha<T>(input);
+    json[key] = input;
 }
 
 // -------------------------------------------------------------------------- //
@@ -90,25 +81,13 @@ void ask(Json & json,
     std::cout << "[" << original_json[key] << "]";
     std::cout << ": ";
 
-    // accept enter as response
-    std::string input;
-    std::getline(std::cin, input);
-
-    if ( std::cin.fail() ) {
-        std::cin.clear();
-        std::stringstream ss;
-        ss << "error with user response for key " << key;
-        throw WarningException( "JsonSn", "ask", ss.str() );
-    }
-
-    if (input == "") {
-        json[key] = original_json[key];
-        return;
-    }
-
-    if (std::is_same<T, std::string>::value) json[key] = input;
-    else if (std::is_same<T, int>::value) json[key] = std::stoi(input);
-    else throw std::logic_error("@JsonSn, ask, wrong type");
+    bool gave_input;
+    T input = Utility::checked_cin<T>(gave_input);
+    if (gave_input) {
+        Utility::capitalize_alpha<T>(input);
+        std::cout << std::endl << "{" << input << "}";
+        json[key] = input;
+    } else json[key] = original_json[key];
 }
 
 // -------------------------------------------------------------------------- //
@@ -122,13 +101,8 @@ bool ask_yes(std::string const & prompt, bool const original = false) {
 
     std::string input;
 
-    if (original == true) {
-        // accept enter as response
-        std::getline(std::cin, input);
-    } else {
-        // wait for actual response, enter will not skip this
-        std::cin >> input;
-    }
+    if (original == true) std::getline(std::cin, input);
+    else std::cin >> input;
 
     if ( std::cin.fail() ) {
         std::cin.clear();
