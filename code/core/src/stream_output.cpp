@@ -2,14 +2,11 @@
 
 namespace mzn {
 
-
-
 // -------------------------------------------------------------------------- //
 void StreamOutput::show_target() const {
 
-    os << "\nstations:\n";
+    os << "\n\n";
     for (auto const & st : sn_.st) os << st.config.station_name << " ";
-    os << "\n";
 
     /*
     this works but with many stations it takes too much screen space
@@ -36,7 +33,7 @@ void StreamOutput::show_target(Station const & st,
 
     if (margins.size() == 0) os << "\n";
 
-    os << "st[" << target_index << "] : " << "station" << "(" << st << ")";
+    os << "[" << st.config.station_name << "]";
 
     auto margins_end = margins;
     auto margins_mid = margins;
@@ -278,10 +275,7 @@ void StreamOutput::show_margins(std::vector<bool> const & margins) const {
 void StreamOutput::show_prompt(TargetAddress const & ta) const {
 
     if (ta.sn_child.scope == Scope::station) {
-
-        os << std::endl << "\n"
-            << sn_.st[ta.sn_child.index] << ":" << ta << " » ";
-
+        os << std::endl << "\n" << sn_.st[ta.sn_child.index] << ta << " » ";
     } else {
         os << std::endl << "\n" << ta << " » ";
     }

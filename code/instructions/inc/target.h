@@ -62,8 +62,10 @@ struct Target {
 inline
 std::ostream & operator<<(std::ostream & os,
                           Target const & target) {
-
-    os << target.scope << "[" << target.index << "]";
+    // stations will be printed with name instead of number
+    if (target.scope != Scope::station) {
+        os << target.scope << target.index;
+    }
     return os;
 }
 

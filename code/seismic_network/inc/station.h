@@ -69,7 +69,7 @@ inline
 std::ostream & operator<<(std::ostream & st_os,
                           Station const & st) {
 
-    st_os <<  st.config.station_name;
+    st_os << "[" << st.config.station_name << "]";
     return st_os;
 };
 

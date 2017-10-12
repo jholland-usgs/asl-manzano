@@ -2,6 +2,7 @@
 #define _MZN_JSON_CALS_H_
 
 #include "json_mzn.h"
+#include "system_calls.h"
 
 namespace mzn {
 namespace Utility {
@@ -64,11 +65,9 @@ void check_cal_json(Json const & cal) {
     cal_field_check("m", cal["trailer_time"]);
 }
 
-//! return json with the cal sequence for a specific sensor
-//! cal_key is typically the same as sensor model
 // -------------------------------------------------------------------------- //
 inline
-Json get_cals_json(std::string const & cal_key) {
+Json get_cals_json(std::string const & cals) {
 
     auto const runtime_config_path = get_runtime_config_path();
     auto const cal_file_path = runtime_config_path +
@@ -79,7 +78,7 @@ Json get_cals_json(std::string const & cal_key) {
 
     try {
 
-        auto const sensor_cals_json = cals_json_ref[cal_key];
+        auto const sensor_cals_json = cals_json_ref[cals];
         auto const sensor_cals_json_ref = JsonRef(sensor_cals_json);
         auto const array_cals_json = sensor_cals_json_ref["cals"];
         // check for the right format
@@ -92,7 +91,7 @@ Json get_cals_json(std::string const & cal_key) {
         std::cerr << e.what();
 
         std::stringstream ss;
-        ss << "sensor (" << cal_key << ") not found in cal sequences file";
+        ss << "sensor (" << cals << ") not found in cal sequences file";
         throw WarningException( "Utility",
                                 "get_cals",
                                  ss.str() );

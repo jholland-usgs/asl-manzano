@@ -22,6 +22,7 @@ namespace Utility {
 inline
 std::vector<std::string> get_tokens(std::string const & line,
                                     char const delimiter = ',') {
+
     std::vector<std::string> tokens;
     std::stringstream ss;
     ss << line;
@@ -50,7 +51,8 @@ void capitalize_alpha(T & token) {}
 template <>
 inline
 void capitalize_alpha(std::string & token) {
-    for (auto & c : token) if ( std::isalpha(c) ) c = std::toupper(c);
+    std::cout << std::endl << "***CAPCAP***" << std::endl;
+    for (auto & c : token) if ( std::isalpha(c) ) std::toupper(c);
 }
 
 // -------------------------------------------------------------------------- //
@@ -58,9 +60,11 @@ template <typename T>
 inline
 T checked_cin() {
     // checks for expected type and allows the result to be constant
+    // std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     // accept enter as response
     T token;
     std::cin >> token;
+
     if ( std::cin.fail() ) {
         std::cin.clear();
         throw WarningException( "Utility", "checked_cin", "wrong input type");
@@ -72,23 +76,20 @@ T checked_cin() {
 template <typename T>
 inline
 T checked_cin(bool & gave_input) {
-    // getline only works with string like objects
+    // getline only works with strings
     std::string token;
     std::getline(std::cin, token);
-    // is ok to input nothing
+
     if ( token.empty() ) {
         gave_input = false;
         return T{};
     }
-    // use ss to reinterpret the user input into T instead std::string
+
     gave_input = true;
     std::stringstream ss;
     ss << token;
     T value;
     ss >> value;
-    if ( ss.fail() ) {
-        throw WarningException("Utility", "checked_cin", "wrong input type");
-    }
     return value;
 }
 

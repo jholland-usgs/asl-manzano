@@ -9,10 +9,10 @@
 #include <type_traits>
 
 #include "mzn_cmake_config.h"
+
 #include "mzn_except.h"
 #include "json.h"
 #include "string_utilities.h"
-#include "system_calls.h"
 
 namespace mzn {
 namespace Utility {
@@ -22,18 +22,22 @@ inline
 Json read_json(std::string const & filename) {
 
     std::ifstream config_fs;
+
     config_fs.open(filename);
 
     if (not config_fs) {
         std::stringstream ss;
         ss << "Can't open configuration file(" << std::endl;
         ss << filename << ")" << std::endl;
-        throw FatalException("Utility", "read_json", ss.str() );
+        throw FatalException("Utility",
+                             "read_json",
+                             ss.str() );
     }
 
     // read in the contents of the entire file
     std::stringstream config_ss;
     config_ss << config_fs.rdbuf();
+
     // parses the read-in file as a json object
     auto const cals_json = Json::parse( config_ss.str() );
 
@@ -41,11 +45,14 @@ Json read_json(std::string const & filename) {
         std::stringstream ss;
         ss << "Not in json format(" << std::endl;
         ss << filename << ")" << std::endl;
-        throw FatalException("Utility", "read_json", ss.str() );
+        throw FatalException("Utility",
+                             "read_json",
+                             ss.str() );
     }
 
     return cals_json;
 }
+
 
 // -------------------------------------------------------------------------- //
 template <typename T>
@@ -78,6 +85,7 @@ void ask(Json & json,
     T input = Utility::checked_cin<T>(gave_input);
     if (gave_input) {
         Utility::capitalize_alpha<T>(input);
+        std::cout << std::endl << "{" << input << "}";
         json[key] = input;
     } else json[key] = original_json[key];
 }
@@ -92,6 +100,7 @@ bool ask_yes(std::string const & prompt, bool const original = false) {
     std::cout << ": ";
 
     std::string input;
+
     if (original == true) std::getline(std::cin, input);
     else std::cin >> input;
 
@@ -103,27 +112,8 @@ bool ask_yes(std::string const & prompt, bool const original = false) {
     }
 
     if (input == "" and original == true) return true;
+
     if (input == "y") return true; else return false;
-}
-
-// -------------------------------------------------------------------------- //
-inline
-std::vector<std::string> json_keys(std::string const & filename) {
-    std::vector<std::string> keys;
-    auto const runtime_config_path = get_runtime_config_path();
-    auto const file_path = runtime_config_path + std::string("/") + filename;
-    auto const j = Utility::read_json(file_path);
-    for (auto it = j.begin(); it != j.end(); ++it) keys.push_back( it.key() );
-    return keys;
-}
-
-// -------------------------------------------------------------------------- //
-inline
-std::string json_keys_str(std::vector<std::string> const & keys) {
-    std::stringstream ss;
-    for (auto const & key : keys) ss << "\n    " << key;
-    ss << "\n           ";
-    return ss.str();
 }
 
 // -------------------------------------------------------------------------- //

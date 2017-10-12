@@ -1,11 +1,10 @@
 #ifndef _MZN_JSON_SN_H_
 #define _MZN_JSON_SN_H_
 
-#include <algorithm>
 #include "json_mzn.h"
-#include "json_cals.h"
 
 namespace mzn {
+
 namespace Utility {
 
 // -------------------------------------------------------------------------- //
@@ -18,6 +17,7 @@ void ip_format_check(std::string const & ip) {
         if (ip_tokens.size() != 4) throw WarningException("JsonSn",
                                                           "ip_format_check",
                                                           "not 4 byte format");
+
         for (unsigned i = 0; i < ip_tokens.size(); i++) {
             int const ipb =  std::stoi(ip_tokens[i]);
             if (ipb < 0 or ipb > 255) {
@@ -108,32 +108,16 @@ Json json_add_s() {
 
     Json s_json;
     ask<std::string>(s_json, "input", "A or B");
-    if (s_json["input"] != "A" and s_json["input"] != "B") {
-        throw WarningException("Utility", "json_add_s", "input not A/B");
-    }
-
-    auto check_key = [](std::string const & key, auto const & keys) {
-        auto const it = std::find(keys.cbegin(), keys.cend(), key);
-        std::stringstream ss;
-        if ( it == keys.end() ) {
-            ss << "cal/model: " << key << " not found on config file";
-            throw WarningException("Utility", "json_change_s", ss.str() );
-        }
-    };
-
-    auto const model_keys = Utility::json_keys("sensor_control_lines.json");
-    auto const model_keys_str = Utility::json_keys_str(model_keys);
-    ask<std::string>(s_json, "model", model_keys_str);
-    check_key(s_json["model"], model_keys);
-
-    auto const cal_keys = Utility::json_keys("cal_sequences.json");
-    auto const cal_keys_str = Utility::json_keys_str(cal_keys);
-    ask<std::string>(s_json, "cals", cal_keys_str);
-    check_key(s_json["cals"], cal_keys);
+    ask<std::string>(s_json, "model", "STS_2, STS_1, etc");
+    ask<std::string>(s_json, "cals", "STS_2, STS_2_HF_TEST, etc");
 
     bool const confirm = ask_yes("Has E300");
-    if (confirm) s_json["port_e300"] = json_add_ch();
-    else s_json["port_e300"] = Json::object();
+
+    if (confirm) {
+        s_json["port_e300"] = json_add_ch();
+    } else {
+        s_json["port_e300"] = Json::object();
+    }
 
     return s_json;
 }
@@ -250,28 +234,8 @@ Json json_change_s(Json const & original_json) {
 
     Json s_json;
     ask<std::string>(s_json, original_json, "input", "A or B");
-    if (s_json["input"] != "A" and s_json["input"] != "B") {
-        throw WarningException("Utility", "json_change_s", "input not A/B");
-    }
-
-    auto check_key = [](std::string const & key, auto const & keys) {
-        auto const it = std::find(keys.cbegin(), keys.cend(), key);
-        std::stringstream ss;
-        if ( it == keys.end() ) {
-            ss << "cal/model: " << key << " not found on config file";
-            throw WarningException("Utility", "json_change_s", ss.str() );
-        }
-    };
-
-    auto const model_keys = Utility::json_keys("sensor_control_lines.json");
-    auto const model_keys_str = Utility::json_keys_str(model_keys);
-    ask<std::string>(s_json, original_json, "model", model_keys_str);
-    check_key(s_json["model"], model_keys);
-
-    auto const cal_keys = Utility::json_keys("cal_sequences.json");
-    auto const cal_keys_str = Utility::json_keys_str(cal_keys);
-    ask<std::string>(s_json, original_json, "cals", cal_keys_str);
-    check_key(s_json["cals"], cal_keys);
+    ask<std::string>(s_json, original_json, "model", "STS_2, STS_1, etc");
+    ask<std::string>(s_json, original_json, "cals", "STS_2, STS_2_HF_TEST, etc");
 
     bool const has_e300 = not original_json["port_e300"].empty();
     bool const confirm = ask_yes("Has E300", has_e300);
