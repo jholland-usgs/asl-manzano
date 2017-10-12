@@ -14,7 +14,7 @@
 "CMG-3T": {"center":{"line": 1, "active_high": true}, "cal":{"line": 4, "active_high": true}},
 "KS-54": {},
 "GS-13": {},
-"Titan":{},
+"TITAN":{},
 "ES-T": {}
 
 }
