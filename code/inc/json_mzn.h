@@ -6,6 +6,7 @@
 #include <exception>
 #include <cstdlib>
 #include <limits>
+#include <algorithm>
 #include <type_traits>
 
 #include "mzn_cmake_config.h"
@@ -106,6 +107,7 @@ bool ask_yes(std::string const & prompt, bool const original = false) {
     if (input == "y") return true; else return false;
 }
 
+
 // -------------------------------------------------------------------------- //
 inline
 std::vector<std::string> json_keys(std::string const & filename) {
@@ -114,6 +116,7 @@ std::vector<std::string> json_keys(std::string const & filename) {
     auto const file_path = runtime_config_path + std::string("/") + filename;
     auto const j = Utility::read_json(file_path);
     for (auto it = j.begin(); it != j.end(); ++it) keys.push_back( it.key() );
+    std::sort( keys.begin(), keys.end() );
     return keys;
 }
 
@@ -136,17 +139,11 @@ public:
     JsonRef(Json const & json) : json(json) {}
 
     auto operator[](std::string const key) const {
-
         if ( json.find(key) == json.end() ) {
-
             std::stringstream ss;
             ss << "Error attempting to get value for key: " << key;
-            throw FatalException("Utility",
-                                 "JsonRef[]",
-                                 ss.str() );
-        } else {
-            return json[key];
-        }
+            throw FatalException("Utility", "JsonRef[]", ss.str() );
+        } else return json[key];
     }
 
     bool has(std::string  const key) const {

@@ -26,7 +26,7 @@ void MceCli::user_input_loop() {
         // show prompt
         // ------------------------------------------------------------------ //
         ii.cm.stream_output.show<Kind::target>(ta_);
-        std::cout << "\n---------------------------------------------";
+        std::cout << "\n---------------------------------------------\n";
         ii.cm.stream_output.show_prompt(ta_);
 
         // ------------------------------------------------------------------ //
@@ -185,7 +185,8 @@ void MceCli::user_input_loop() {
                           << "\n        Has E300? (y/n) [true]: "
                           << "\n   or change original value: "
                           << "\n        input (A or B)[\"B\"]: A"
-                          << "\n        Has E300? (y/n) [true]: n";
+                          << "\n        Has E300? (y/n) [true]: n"
+                          << std::endl;
                 continue;
             }
 

@@ -66,7 +66,11 @@ Json json_add_ch() {
 
     ask<int>(         ch_json, "port_remote", ">5000");
     ask<std::string>( ch_json, "auth_code", "");
-    ask<int>(         ch_json, "port_host", ">2000");
+    // set automatically
+    // fixed numbers to prevent two users on the same server attempting to work
+    // on the same station at the same time
+    // ask<int>(         ch_json, "port_host", ">2000");
+    ch_json["port_host"] = max_port_host() + 1;
     ch_json["protocol_version"] = 2;
 
     return ch_json;
@@ -238,8 +242,11 @@ Json json_change_ch(Json const & original_json) {
 
     ask<int>(         ch_json, original_json, "port_remote", ">5000");
     ask<std::string>( ch_json, original_json, "auth_code", "");
-    ask<int>(         ch_json, original_json, "port_host", ">2000");
-    ask<int>(         ch_json, original_json, "protocol_version", "2");
+    // leave this out of MCE, advanced option to change by devs instead of users
+    // ask<int>(         ch_json, original_json, "port_host", ">2000");
+    // ask<int>(         ch_json, original_json, "protocol_version", "2");
+    ch_json["port_host"] = original_json["port_host"];
+    ch_json["protocol_version"] = original_json["protocol_version"];
 
     return ch_json;
 }

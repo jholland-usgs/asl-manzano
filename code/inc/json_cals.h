@@ -99,6 +99,21 @@ Json get_cals_json(std::string const & cal_key) {
     }
 }
 
+// -------------------------------------------------------------------------- //
+inline
+int max_port_host() {
+    auto const runtime_config_path = get_runtime_config_path();
+    auto const file_path = runtime_config_path + std::string("/config.json");
+    auto const j = Utility::read_json(file_path);
+    int max_ = 0;
+    for (auto const & st_json : j["station"]) {
+        for (auto const & q_json : st_json["digitizer"]) {
+             int const & port_host = q_json["port_config"]["port_host"];
+             if (port_host > max_) max_ = port_host;
+        }
+    }
+    return max_;
+}
 } // <- Utility
 } // <- mzn
 
