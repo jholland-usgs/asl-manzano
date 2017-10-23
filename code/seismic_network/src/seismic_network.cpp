@@ -15,7 +15,6 @@ SeismicNetwork::SeismicNetwork() : st{} {
 
         auto const runtime_config_path = Utility::get_runtime_config_path();
         std::string const file_path = runtime_config_path + "/config.json";
-
         auto sn_json = Utility::read_json(file_path);
 
         for (auto const & st_json : sn_json["station"]) {
@@ -24,7 +23,6 @@ SeismicNetwork::SeismicNetwork() : st{} {
         for (auto const & st_ : st) for (auto const & q : st_.q) q.check();
 
     } catch (std::out_of_range const & e) {
-
         // thrown by Json
         throw WarningException( "SeismicNetwork",
                                 "setup_from_file",
@@ -45,7 +43,6 @@ SeismicNetwork::SeismicNetwork(std::string const & file_path) : st{} {
         for (auto const & st_ : st) for (auto const & q : st_.q) q.check();
 
     } catch (std::out_of_range const & e) {
-
         // thrown by Json
         throw WarningException( "SeismicNetwork",
                                 "setup_from_file",

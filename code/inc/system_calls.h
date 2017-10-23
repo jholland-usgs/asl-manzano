@@ -23,16 +23,12 @@ inline
 std::string get_environmental_variable(std::string const & v) {
 
     char const * home_path = std::getenv( v.c_str() );
-
     if (home_path == nullptr) {
-
         auto const error_msg = std::string("No environmental variable: ") + v;
-
         throw FatalException( "Manzano",
                               "get_environmental_variable",
                               error_msg );
     }
-
     return std::string(home_path);
 }
 

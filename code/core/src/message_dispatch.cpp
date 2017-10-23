@@ -74,14 +74,12 @@ void MessageDispatch::send_recv(ConnectionHandler & q_port,
             msg_return_size = mtu_;
 
         } else if (cmd_recv.cmd_data_size() == 0) {
-
             // the expected recv msg is c1_ack, more space is needed
             // just in case a c1_cerr
             auto constexpr c1_cerr_cmd_data_size = 2;
             msg_return_size = qdp_begin_cmd_data_ + c1_cerr_cmd_data_size ;
 
         } else {
-
             // calculation for commands where the data size is known
             msg_return_size = qdp_begin_cmd_data_ + cmd_recv.cmd_data_size();
         }
@@ -91,20 +89,15 @@ void MessageDispatch::send_recv(ConnectionHandler & q_port,
         msg_recv.resize(msg_return_size);
 
         try {
-
             q_port.uc.send_recv(msg_send, msg_recv);
+        } catch (InfoException const & e) {
 
-        } catch(InfoException & e) {
-
-            if (retry + 1 != max_retry) {
-                continue; // try again
-            } else {
-
+            if (retry + 1 != max_retry) continue; // try again
+            else {
                 std::cerr << e.what();
-
                 throw WarningException(
                     "MessageDispatch",
-                    "send_recv",
+                    "end_recv",
                     "could not send_recv msg on udp connection");
             }
         }

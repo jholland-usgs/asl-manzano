@@ -446,48 +446,58 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
     std::vector<uint8_t> tokens_msg;
 
     while (true) {
-
         cmd_rqmem.starting_address(starting_address);
-
-        using Co = typename Co<Action::get, Kind::token>::type;
-        Co cmd_mem;
-
+        // intermediate output cmd. Combining several C1Mem we make one T2Tokens
+        C1Mem cmd_mem;
         md.send_recv(q.port_config, cmd_rqmem, cmd_mem, false);
         CxMem * mem = dynamic_cast<CxMem *>( cmd_mem.inner_commands[0].get() );
+        if (mem == nullptr) throw FatalException("Comm", "get token", "mem nullptr");
 
-        if (mem == nullptr) throw FatalException("Comm",
-                                                 "get token",
-                                                 "mem nullptr");
-
+        // the command includes information about size
         auto const mem_reported_size = cmd_mem.byte_count();
         auto const & mem_msg = mem->memory_contents.data();
 
         // size of segment_number + total_number_of_segments
         auto constexpr mem_header_size = 4;
         auto const mem_size = mem_msg.size() + mem_header_size;
-
         if (mem_size != mem_reported_size) {
             throw FatalException("Comm",
                                  "get token",
                                  "mem size differs from reported");
         }
-
         // one big tokens_msg, from memory chunks
         // the chunks are incomplete, might cut in the middle of a token
         // the big tokens_msg does have entire tokens
         tokens_msg.insert( tokens_msg.end(), mem_msg.begin(), mem_msg.end() );
-
+        // check if done with chunks
         auto const current = mem->segment_number;
         auto const limit = mem->total_number_of_segments;
         if (current == limit) break;
-
+        // prepare next request
         auto constexpr memory_chunk_size = 448;
         starting_address += memory_chunk_size;
     }
-
+    // stream and store output
     T2Tokens tokens;
     tokens.msg_to_data(tokens_msg, 0);
-    std::cout << std::endl << tokens;
+    //std::cout << std::endl << tokens;
+    // create task_id
+    auto constexpr ui_id = UserInstruction::hash(Action::get, Kind::token);
+    auto const task_id = ta.hash() + ui_id;
+    // move to cmd store
+    output_store.cmd_map[task_id] = std::make_unique<T2Tokens>( std::move(tokens) );
+}
+
+// -------------------------------------------------------------------------- //
+template<>
+inline
+void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
+    if (not output_store.contains<Action::get, Kind::token>(ta) {
+        run<Action::get, Kind::token>(ta, oi);
+    }
+    std::unique_ptr<T2Tokens> tokens_ptr =
+        output_store.pop_output_cmd<Action::get, Kind::token>(ta);
+    std::cout << std::endl << *tokens_ptr;
 }
 
 // -------------------------------------------------------------------------- //
@@ -506,17 +516,13 @@ void Comm::run<Action::get, Kind::reg>(TA const & ta, OI const & oi) {
 
     // get current reg status from q, C2Regchk, C2Regresp
     auto & q = sn.q_ref(ta);
-
     C2Regresp cmd_regresp;
-
     q_is_reg(q, cmd_regresp);
-
     std::cout << cmd_regresp;
 
     // create task_id
     auto constexpr ui_id = UserInstruction::hash(Action::get, Kind::reg);
     auto const task_id = ta.hash() + ui_id;
-
     // move to cmd store
     output_store.cmd_map[task_id] =
         std::make_unique<C2Regresp>( std::move(cmd_regresp) );

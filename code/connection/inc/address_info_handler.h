@@ -63,9 +63,21 @@ struct TimeoutDuration {
         tv_usec = MicroSeconds(timeout_remainder).count();
     }
 
+    std::chrono::microseconds timeout_duration() const {
+        return std::chrono::microseconds(tv_usec) + std::chrono::seconds(tv_sec);
+    }
+
     time_t tv_sec = 0;
     long int tv_usec = 0;
+
 };
+
+// -------------------------------------------------------------------------- //
+inline
+std::ostream & operator<<(std::ostream & os, TimeoutDuration const & timeout) {
+    os << timeout.tv_sec << "s" << timeout.tv_usec << "us";
+    return os;
+}
 
 // -------------------------------------------------------------------------- //
 inline

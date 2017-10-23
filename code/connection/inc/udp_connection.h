@@ -132,7 +132,6 @@ private:
 inline
 std::ostream & operator<< (std::ostream & uc_os,
                            UdpConnection const & uc) {
-
     uc_os << "uc[" << uc.port_remote() << "]";
     return uc_os;
 };
@@ -182,10 +181,8 @@ void UdpConnection::send(M const & msg) {
 
     // Failure
     if (send_result < 0) {
-
         std::string const msg_error = std::string("error in sending msg: \n")
                                       + std::strerror(errno);
-
         throw InfoException("UdpConnection", "send", msg_error);
     }
 
@@ -207,13 +204,10 @@ void UdpConnection::recv(M & msg_recv) {
                                0,
                                (sockaddr *)&sin_remote_recv_,
                                (socklen_t *)&sock_addr_len_);
-
     // Failure
     if (recv_result < 0) {
-
         std::string const msg_error = std::string("error in receiving msg: ")
                                       + std::strerror(errno);
-
         throw InfoException("UdpConnection", "recv", msg_error);
     }
 
