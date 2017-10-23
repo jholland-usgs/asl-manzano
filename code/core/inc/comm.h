@@ -9,10 +9,8 @@
 #include <iomanip>
 #include <type_traits>
 #include <random>
-
 #include "cmd_file_reader.h"
 #include "msg_task_manager.h"
-
 #include "output_store.h"
 #include "input_store.h"
 #include "stream_output.h"
@@ -20,15 +18,13 @@
 #include "message_dispatch.h"
 #include "string_utilities.h"
 #include "system_calls.h"
-
 // external libraries
 #include "md5.h" // jason holland's (usgs) md5 library
 #include "date.h" // hinnant's date library
 
 namespace mzn {
 //! Commands are setup and send/recv from this class
-/*!
-    @author rfigueroa@usgs.gov
+/*! @author rfigueroa@usgs.gov
  */
 // -------------------------------------------------------------------------- //
 class Comm {
@@ -41,13 +37,10 @@ public:
 public:
     //! holds config, status and connections to hardware targets
     SeismicNetwork sn;
-
     //! takes cmd and send/recv a msg
     MessageDispatch md;
-
     //! holds the outputs of the send/recv commands
     OutputStore output_store;
-
     //! has functions to setup input commands
     /*! either creating an acceptable default, using a "shortcut option"
         or using a "live option" which takes a user created command
@@ -56,23 +49,18 @@ public:
         @see InputStore for more info on default/shortcut/live options
       */
     InputStore input_store;
-
     //! streams output to console
     StreamOutput stream_output;
-
     //! holds this computer ip as seen by digitizer registrations
     std::atomic<uint32_t> ip_address_number;
 
 private:
-
     //! manages multi-threaded msg task that are waiting to be sent
     MsgTaskManager msg_task_manager_;
-
     //! uses threads to setup timed send of qcal cmds
     CmdFileReader cmd_file_reader_;
 
 public:
-
     //! primary template
     //! a template specialization for each legal combination is provided
     //! can use typename std::enable_if<action != Action::get>::type
@@ -441,12 +429,12 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
 
     // send and receive commands
     auto cmd_rqmem = input_store.get_input_cmd<Action::get, Kind::token>(ta, oi);
-    uint16_t starting_address = 0;
+    uint16_t address = 0;
     auto & q = sn.q_ref(ta);
     std::vector<uint8_t> tokens_msg;
 
     while (true) {
-        cmd_rqmem.starting_address(starting_address);
+        cmd_rqmem.starting_address(address);
         // intermediate output cmd. Combining several C1Mem we make one T2Tokens
         C1Mem cmd_mem;
         md.send_recv(q.port_config, cmd_rqmem, cmd_mem, false);
@@ -474,8 +462,8 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
         auto const limit = mem->total_number_of_segments;
         if (current == limit) break;
         // prepare next request
-        auto constexpr memory_chunk_size = 448;
-        starting_address += memory_chunk_size;
+        auto constexpr chunk_size = 448;
+        address += chunk_size;
     }
     // stream and store output
     T2Tokens tokens;
@@ -492,12 +480,28 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
 template<>
 inline
 void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
-    if (not output_store.contains<Action::get, Kind::token>(ta) {
+    if (not output_store.contains<Action::get, Kind::token>(ta)) {
         run<Action::get, Kind::token>(ta, oi);
     }
-    std::unique_ptr<T2Tokens> tokens_ptr =
+    std::unique_ptr<T2Tokens> const tokens_ptr =
         output_store.pop_output_cmd<Action::get, Kind::token>(ta);
-    std::cout << std::endl << *tokens_ptr;
+    auto const & tokens = *tokens_ptr;
+    std::cout << std::endl << tokens;
+    std::vector<uint8_t> tokens_msg;
+    tokens.data_to_msg(tokens_msg, 0);
+    C1Smem cmd_smem;
+    // split into chunks and process
+    auto constexpr chunk_size = 448;
+    auto const mem_size = tokens_msg.size();
+    auto chunk = 0u;
+    for (uint16_t address = 0; address < mem_size; address += chunk_size) {
+        chunk++;
+    }
+
+    // process into smaller commands
+    /*
+    auto & q = sn.q_ref(ta);
+    */
 }
 
 // -------------------------------------------------------------------------- //

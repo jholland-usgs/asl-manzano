@@ -1355,6 +1355,33 @@
     ]
 },
 
+"cx_smem":{
+  "cmd_fields":[
+    {"cf_name": "segment_number", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+    {"cf_name": "total_number_of_segments", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+    {"cf_name": "memory_contents", "cf_size": 0, "cf_type": "CmdFieldVector<0>"}
+  ],
+  "cmd_number": "0",
+  "crc_and_header": false,
+  "originator": "both"
+},
+
+"c1_smem":{
+    "cmd_fields":[
+      {"cf_name": "starting_address", "cf_size": 4, "cf_type": "CmdFieldHex<uint32_t>"},
+      {"cf_name": "byte_count", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+      {"cf_name": "memory_type", "cf_size": 2, "cf_type": "BmMemoryType"}
+    ],
+    "cmd_number": "0x40",
+    "crc_and_header": true,
+    "originator": "q",
+    "container_type": "vector",
+    "container_info": "nb",
+    "inner_commands":
+    [
+      {"key_name": "cx_mem"}
+    ]
+},
 "dt_open":{
 "cmd_fields":
   [

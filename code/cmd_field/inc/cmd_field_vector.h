@@ -26,10 +26,11 @@ public:
     //! initializes base
     explicit
     CmdFieldVector();
-
     ~CmdFieldVector() = default;
 
-    //! same signature as CmdField
+    //! same signature as CmdField! NOTE: reads msg to the end!
+    // the message will need to be split before passing if larger
+    // than the relevant data portion
     std::size_t msg_to_data(M const & msg, std::size_t const mf_pos);
     std::size_t data_to_msg(M & msg, std::size_t const mf_pos) const;
 
@@ -41,9 +42,7 @@ public:
 // -------------------------------------------------------------------------- //
 template <std::size_t N>
 inline
-CmdFieldVector<N>::CmdFieldVector() :
-        CmdField<data_type, N>{} {
-
+CmdFieldVector<N>::CmdFieldVector() : CmdField<data_type, N>{} {
     this->data_.resize(N);
 };
 
@@ -121,7 +120,6 @@ template <>
 inline
 std::size_t CmdFieldVector<0>::msg_to_data(M const & msg,
                                            std::size_t const mf_pos) {
-
     // TODO add a third argument for count? hard to generalize
     // could be default to std::npos and then a check, for now is always
     // to the end of the message. If done it should be everywhere.
@@ -134,9 +132,7 @@ std::size_t CmdFieldVector<0>::msg_to_data(M const & msg,
                                        "msg size " + std::to_string( msg.size() )
                                        + ", mf_pos " + std::to_string(mf_pos)
                                        + ", N " + std::to_string(N) );
-
     data_.resize(N);
-
     // no temporary objects, only cast
     auto data_index = 0;
     using DataType = typename data_type::value_type;

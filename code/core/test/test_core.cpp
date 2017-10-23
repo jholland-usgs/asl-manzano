@@ -21,16 +21,13 @@
 // -------------------------------------------------------------------------- //
 class FixtureCore : public ::testing::Test {
 public:
-
     mzn::Comm cm;
     virtual void SetUp() {}
 };
 
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCore, stream_plotter) {
-
     using namespace mzn;
-
     std::cout << std::endl << "start\n";
 }
 
