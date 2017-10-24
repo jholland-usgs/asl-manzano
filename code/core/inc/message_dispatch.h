@@ -1,6 +1,5 @@
 // ** message_dispatch Object ** //
 // Manzano software
-
 #ifndef _MZN_MESSAGE_DISPATCH_H
 #define _MZN_MESSAGE_DISPATCH_H
 
@@ -16,11 +15,9 @@
 #include <memory>
 #include <chrono>
 #include <mutex>
-
 #include <thread>
 
 #include "md5.h"
-
 #include "seismic_network.h"
 #include "commands.h"
 
@@ -44,29 +41,24 @@ public:
     // --------------------------------------------------------------------- //
     MessageDispatch() = default;
     ~MessageDispatch() = default;
-
     //! can't copy
     // --------------------------------------------------------------------- //
     MessageDispatch(MessageDispatch const & md) = delete;
     MessageDispatch & operator=(MessageDispatch const & md) = delete;
-
     // --------------------------------------------------------------------- //
     void send_recv(ConnectionHandler & connection_handler,
                    Command const & cmd_send,
                    Command & cmd_recv,
                    bool const print = true);
-
     // --------------------------------------------------------------------- //
     void data_recv(Digitizer & q,
                    DtOpen const & cmd_send,
                    Qdp::Message & msg_recv,
                    bool const print = true) const;
-
 private:
 
     //! locking send_recv so that only one thread can access it
     std::mutex send_recv_mutex_;
-
     //! constants of the current version of the digitizer qdp
     //! qdp: Quanterra Data Packet
     uint16_t static constexpr qdp_begin_crc_ = 0;
@@ -76,7 +68,6 @@ private:
     uint16_t static constexpr cerr_qdp_message_size_ = 14;
     //! mtu: digitizer maximum transferable unit
     uint16_t static constexpr mtu_ = 576;
-
     //! cmd -> qdp_message
     /*! creates the qdp_message with the qdp header
         calls crc_calc and sets the crc
@@ -89,13 +80,10 @@ private:
     Qdp::Message create_qdp_msg(ConnectionHandler & connection_handler,
                                 Command const & cmd,
                                 bool const to_send = true) const;
-
     //! creates CRC for new qdp_messages and checking received messages
     template <typename M>
     static
     std::array<uint8_t, 4> calc_crc(M const & msg);
-
-
     // TODO: move to constexpr as it was
     static
     std::array<uint32_t const, 256> const crc_table_;

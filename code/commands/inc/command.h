@@ -87,27 +87,24 @@ public:
 
     // --------------------------------------------------------------------- //
     uint16_t const cmd_number() const {return cmd_number_;}
-    uint16_t const cmd_data_size() const {return cmd_data_size_;}
     bool const multi_cmd() const {return multi_cmd_;}
+
+    // --------------------------------------------------------------------- //
+    uint16_t const cmd_data_size() const {return cmd_data_size_;}
 
 protected:
     //! Corresponds to the command number in the qdp header.
     /*! used in message_dispatch.cpp to check which msg was received
-        for the different commands, e.g.: 0X23 for qcal.
-     */
+        for the different commands, e.g.: 0X23 for qcal.  */
     uint8_t const cmd_number_;
-
     //! The sum of all N for all the cmd_field.
     /*! used in message_dispatch.cpp to fill the msg length in qdp header.
         used in message_dispatch.cpp to know the size of expected msg.
         used in udp_connection.cpp to fit the msg size.
-        used in all cmds to check msg size in msg_to_data and data_to_msg
-     */
+        used in all cmds to check msg size in msg_to_data and data_to_msg */
     uint16_t const cmd_data_size_;
-
     //! flag: is this a command that contains other commands?
-    /*! used in message_dispatch.cpp to setup the size of expected mc msgs.
-     */
+    //! used in message_dispatch.cpp to setup the size of expected mc msgs.
     bool const multi_cmd_;
 
 public:
@@ -117,16 +114,13 @@ public:
     virtual
     uint16_t data_to_msg(std::vector<uint8_t> & msg,
                          uint16_t mf_begin) const noexcept(false) = 0;
-
     //! pure virtual, calls msg_to_data on cmd fields in order, auto generated
     //! @throws logic msg too short
     // --------------------------------------------------------------------- //
     virtual
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) noexcept(false) = 0;
-
 protected:
-
     //! Pure virtual, called by operator<<
     virtual
     std::ostream & os_print(std::ostream & os) const = 0;
@@ -136,7 +130,6 @@ protected:
 inline
 std::ostream & operator<<(std::ostream & cmd_os,
                           Command const & cmd) {
-
     return cmd.os_print(cmd_os);
 }
 

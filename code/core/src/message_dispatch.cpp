@@ -9,32 +9,27 @@ namespace mzn {
 Qdp::Message MessageDispatch::create_qdp_msg(ConnectionHandler & q_port,
                                              Command const & cmd,
                                              bool const to_send /*yes*/) const {
+    // create an empty message
+    Qdp::Message msg_send( qdp_begin_cmd_data_ +  cmd.cmd_data_size() );
+    // put data into the msg, some cmds (with CmdFieldVector) enlarge the msg
+    auto const msg_size = cmd.data_to_msg(msg_send, qdp_begin_cmd_data_);
+    auto const data_size = msg_size - qdp_begin_cmd_data_;
 
-    // ----------- setup header ----------- //
+    // setup header
     if (to_send) q_port.inc_sequence_number();
-
     QdpHeader qdp_header;
-
     qdp_header.command_number( cmd.cmd_number() );
     qdp_header.firmware_version(q_port.protocol_version);
-    qdp_header.length( cmd.cmd_data_size() );
+    qdp_header.length(data_size);
     qdp_header.sequence_number( q_port.sequence_number() );
     qdp_header.acknowledge_number( q_port.acknowledge_number() );
 
-    // ----------- create an empty message ----------- //
-    Qdp::Message msg_send(qdp_begin_cmd_data_ + qdp_header.length());
-
-    // ----------- put the header into the msg ----------- //
+    // put the header into the msg
     qdp_header.data_to_msg(msg_send, qdp_begin_header_);
-
-    // ----------- put the data into the msg ----------- //
-    cmd.data_to_msg(msg_send, qdp_begin_cmd_data_);
-
-    // ----------- do & save the crc calculation ----------- //
+    // do & save the crc calculation
     QdpCrc qdp_crc;
     qdp_crc.crc( calc_crc(msg_send) );
-
-    // ----------- put the crc calc into the msg ----------- //
+    // put the crc calc into the msg
     qdp_crc.data_to_msg(msg_send, qdp_begin_crc_);
 
     return msg_send;
@@ -85,8 +80,7 @@ void MessageDispatch::send_recv(ConnectionHandler & q_port,
         }
 
         // ----------------- UdpConnection send and receive ----------------- //
-        Qdp::Message msg_recv;
-        msg_recv.resize(msg_return_size);
+        Qdp::Message msg_recv(msg_return_size);
 
         try {
             q_port.uc.send_recv(msg_send, msg_recv);
