@@ -270,10 +270,9 @@ get_default_cmd<Action::get, Kind::token>(TargetAddress const & ta,
     //  unless there an option is provided and is in the cmd_map
     //if (ui.option != "") return get_live_cmd<C1Ping4>(ui.option);
     using Ci = typename Ci<Action::get, Kind::token>::type;
-    Ci cmd;
-
-    cmd.byte_count(0);
     using MT = BmMemoryType::MemoryType;
+    Ci cmd;
+    cmd.byte_count(0);
 
     if (option == "1") cmd.memory_type.memory_type(MT::data_port_1); else
     if (option == "2") cmd.memory_type.memory_type(MT::data_port_2); else
@@ -289,6 +288,27 @@ get_default_cmd<Action::get, Kind::token>(TargetAddress const & ta,
     return cmd;
 }
 
+// -------------------------------------------------------------------------- //
+template<>
+inline
+typename Ci<Action::set, Kind::token>::type
+InputStore::
+get_default_cmd<Action::set, Kind::token>(TargetAddress const & ta,
+                                          std::string const & option) {
+    //  unless there an option is provided and is in the cmd_map
+    //if (ui.option != "") return get_live_cmd<C1Ping4>(ui.option);
+    using Ci = typename Ci<Action::set, Kind::token>::type;
+    using MT = BmMemoryType::MemoryType;
+    Ci cmd;
+
+    if (option == "1") cmd.memory_type.memory_type(MT::data_port_1); else
+    if (option == "2") cmd.memory_type.memory_type(MT::data_port_2); else
+    if (option == "3") cmd.memory_type.memory_type(MT::data_port_3); else
+    if (option == "4") cmd.memory_type.memory_type(MT::data_port_4); else
+    throw_bad_option(option);
+
+    return cmd;
+}
 // -------------------------------------------------------------------------- //
 template<>
 inline

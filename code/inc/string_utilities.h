@@ -15,8 +15,63 @@
 #include "mzn_except.h"
 
 namespace mzn {
-
 namespace Utility {
+
+// -------------------------------------------------------------------------- //
+template<typename T>
+inline
+void print_vector(T const & v, std::ostream & os = std::cout) {
+    os << "[";
+    for (auto const & b : v) {
+        os << static_cast<int>(b) << ", ";
+    }
+    os << "]";
+}
+/*
+ _______________________________________________________________________
+ | 01 02 03 04 | 0D 0E 0F 10 | 19 1A 1B 1C | 25 26 27 28 | 31 32 33 34 |
+ | 05 06 07 08 | 11 12 13 14 | 1D 1E 1F 20 | 29 2A 2B 2C | 35 36       |
+ | 09 0A 0B 0C | 15 16 17 18 | 21 22 23 24 | 2D 2E 2F 30 |             | */
+
+//! streams binary data formatted in columns, use for debugging and vectors
+// -------------------------------------------------------------------------- //
+template<typename M>
+inline
+void stream_hex(M const & msg, std::ostream & os = std::cout) {
+    std::string separator_lines(71, '_');
+    std::string separator = " " + separator_lines;
+    auto constexpr bigcols = 5u;
+    auto constexpr cols = 4u;
+    auto constexpr total_cols = cols * bigcols;
+    // extra rows
+    auto const msg_size = msg.size();
+    auto const rows_int = msg_size / total_cols;
+    auto const rows = msg_size % total_cols == 0 ? rows_int : rows_int + 1;
+    os << "\n" << separator;
+    auto i = 0u;
+    os << std::uppercase << std::hex;
+
+    for (auto row = 0u; row < rows; row++) {
+        os << "\n |";
+        for (auto bigcol = 0u; bigcol < bigcols; bigcol++) {
+            os << " ";
+            for (auto col = 0u; col < cols; col++) {
+                i = col;
+                i += bigcol * rows * cols;
+                i += row * cols;
+
+                if (i < msg.size() ) {
+                    auto b = msg[i];
+                    os << std::setw(2) << std::setfill('0')
+                              << static_cast<const int>(b) << " ";
+                } else os << "   ";
+            }
+            os << "|";
+        }
+    }
+    os << std::nouppercase << std::dec;
+    os << "\n" << std::endl;
+}
 
 // -------------------------------------------------------------------------- //
 inline
@@ -223,16 +278,6 @@ std::chrono::seconds match_duration(std::string const & token) {
     return d;
 }
 
-// -------------------------------------------------------------------------- //
-template<typename T>
-inline
-void print_vector(T const & v, std::ostream & os = std::cout) {
-    os << "[";
-    for (auto const & b : v) {
-        os << static_cast<int>(b) << ", ";
-    }
-    os << "]";
-}
 
 } // <- Utility
 } // <- mzn

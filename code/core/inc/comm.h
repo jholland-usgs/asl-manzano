@@ -426,7 +426,6 @@ void Comm::run<Action::get, Kind::dev>(TA const & ta, OI const & oi) {
 template<>
 inline
 void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
-
     // send and receive commands
     auto cmd_rqmem = input_store.get_input_cmd<Action::get, Kind::token>(ta, oi);
     uint16_t address = 0;
@@ -435,9 +434,15 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
 
     while (true) {
         cmd_rqmem.starting_address(address);
-        // intermediate output cmd. Combining several C1Mem we make one T2Tokens
+        // header of output cmd. Combining several C1Mem we make one T2Tokens
+        // cannot be done at once as each C1Mem needs to be requested separately
+        // since its size is basically at the mtu (maximum transfer unit)
         C1Mem cmd_mem;
         md.send_recv(q.port_config, cmd_rqmem, cmd_mem, false);
+        // one of the reasons to have CxMem separate from C1Mem
+        if ( cmd_mem.inner_commands.empty() ) {
+            throw InfoException("Comm", "get_token", "no token data on memory");
+        }
         CxMem * mem = dynamic_cast<CxMem *>( cmd_mem.inner_commands[0].get() );
         if (mem == nullptr) throw FatalException("Comm", "get token", "mem nullptr");
 
@@ -446,7 +451,7 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
         auto const & mem_msg = mem->memory_contents.data();
 
         // size of segment_number + total_number_of_segments
-        auto constexpr mem_header_size = 4;
+        auto constexpr mem_header_size = 4u;
         auto const mem_size = mem_msg.size() + mem_header_size;
         if (mem_size != mem_reported_size) {
             throw FatalException("Comm",
@@ -462,7 +467,7 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
         auto const limit = mem->total_number_of_segments;
         if (current == limit) break;
         // prepare next request
-        auto constexpr chunk_size = 448;
+        auto constexpr chunk_size = 448u;
         address += chunk_size;
     }
     // stream and store output
@@ -483,32 +488,69 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     if (not output_store.contains<Action::get, Kind::token>(ta)) {
         run<Action::get, Kind::token>(ta, oi);
     }
+    // pop_output_cmd throws if not found. Can a digitizer start without any tokens?
+    // if so, then the special case would need to be handled with an empty object
     std::unique_ptr<T2Tokens> const tokens_ptr =
         output_store.pop_output_cmd<Action::get, Kind::token>(ta);
-    auto const & tokens = *tokens_ptr;
+    auto & tokens = *tokens_ptr;
     std::cout << std::endl << tokens;
-    std::vector<uint8_t> tokens_msg;
-    tokens.data_to_msg(tokens_msg, 0);
-    C1Smem cmd_smem;
+    // there is no way to know the size at runtime just from looking at the cmd
+    // in general it could be gotten when processing the input
+    // the typical size is around 2000, 8000 is the maximum from the manual
+    auto constexpr mem_size_max = 8000u;
+    std::vector<uint8_t> tokens_msg(mem_size_max);
+    // return of data_to_msg is the pos for the next cmd, but we are done
+    auto const mem_size = tokens.data_to_msg(tokens_msg, 0);
+    tokens_msg.resize(mem_size);
+    tokens_msg[4] = 89u;
     // split into chunks and process
-    auto constexpr chunk_size = 448;
-    auto const mem_size = tokens_msg.size();
-    auto chunk = 0u;
-    for (uint16_t address = 0; address < mem_size; address += chunk_size) {
-        chunk++;
-    }
-
-    // process into smaller commands
+    // -----------------------------
     /*
+    CmdFieldHex<uint32_t> starting_address;
+    CmdField<uint16_t> byte_count;
+    BmMemoryType memory_type;
+    CmdField<uint16_t> segment_number;
+    CmdField<uint16_t> total_number_of_segments;
+    CmdFieldVector<0> memory_contents; */
+    auto constexpr full_chunk_size = 448u;
+    auto const size_div = std::div(mem_size, full_chunk_size);
+    auto const number_of_chunks =
+        (size_div.rem == 0) ? size_div.quot : size_div.quot + 1;
     auto & q = sn.q_ref(ta);
-    */
+    uint16_t address = 0;
+    for (auto i = 0u; i < number_of_chunks; i++) {
+        bool const last_chunk = (i + 1 == number_of_chunks);
+        auto const chunk_size = last_chunk ? size_div.rem : full_chunk_size;
+        // C1Smem is implemented as a single command (no CxSmem) as there is
+        // always a minimum token memory data to provide
+        // only sets memory type according to option
+        auto cmd_smem = input_store.get_input_cmd<Action::set, Kind::token>(ta, oi);
+        cmd_smem.starting_address(address);
+        auto constexpr mem_header_size = 4u;
+        cmd_smem.byte_count(chunk_size + mem_header_size);
+        cmd_smem.segment_number(i + 1);
+        cmd_smem.total_number_of_segments(number_of_chunks);
+        auto const chunk_msg_begin = tokens_msg.begin() + address;
+        auto const chunk_msg_end = chunk_msg_begin + chunk_size;
+        std::vector<uint8_t> const chunk_msg(chunk_msg_begin, chunk_msg_end);
+        cmd_smem.memory_contents(chunk_msg);
+        // std::cout << std::endl << cmd_smem;
+        // cmd_data_size does not include the memory size but data_to_msg
+        // will resize the message on the CmdFieldVector data_to_msg
+        // std::vector<uint8_t> smem_msg( cmd_smem.cmd_data_size() );
+        // cmd_smem.data_to_msg(smem_msg, 0);
+        C1Cack cmd_recv;
+        md.send_recv(q.port_config, cmd_smem, cmd_recv, true);
+        // q.port_config.uc.send(smem_msg);
+        // std::cout << std::endl << cmd_recv;
+        address += full_chunk_size;
+    }
 }
 
 // -------------------------------------------------------------------------- //
 template<>
 inline
 void Comm::run<Action::stop, Kind::cal>(TA const & ta, OI const & oi) {
-
     // C1Stop, C1Cack
     q_send_recv<Action::stop, Kind::cal>(ta, oi);
 }
@@ -1033,10 +1075,10 @@ void Comm::run<Action::auto_, Kind::stat>(TA const & ta, OI const & oi) {
     using Point = std::array<int16_t, 3>;
 
     // ---------------------------------------------------------------------- //
-    auto constexpr number_of_axis = 3;
+    auto constexpr number_of_axis = 3u;
     auto constexpr period = std::chrono::milliseconds(500);
-    auto constexpr pps = 2; // points per second (changes with period)
-    auto constexpr ppl = 2;  // points per line, changes plot looks
+    auto constexpr pps = 2u; // points per second (changes with period)
+    auto constexpr ppl = 2u;  // points per line, changes plot looks
 
     StreamPlotter<int16_t, number_of_axis, pps, int8_t> sp(ppl);
 
@@ -1129,7 +1171,7 @@ void Comm::run<Action::set, Kind::center>(TA const & ta, OI const & oi) {
     using Minutes = std::chrono::minutes;
 
     // mass centering set
-    auto constexpr maximum_tries = 5;
+    auto constexpr maximum_tries = 5u;
     auto constexpr normal_interval = Minutes(2);
     auto constexpr squelch_interval = Minutes(3);
 
@@ -1296,7 +1338,7 @@ void Comm::run<Action::auto_, Kind::center>(TA const & ta, OI const & oi) {
     };
 
     std::vector<Point> bps;
-    auto constexpr max_attempts = 5;
+    auto constexpr max_attempts = 5u;
     bool success = false;
 
     OptionInput const oi_show_wait("&2m");
@@ -1398,7 +1440,7 @@ void Comm::run<Action::auto_, Kind::qview>(TA const & ta, OI const & oi) {
         // it provides 40 points but only 39 are usable.
         // the first point (absolute value) of the 40 is actually given by
         // starting value, the other 39 are calculated using the differences
-        auto constexpr N = 40;
+        auto constexpr N = 40u;
         std::vector<Point> qview_values(N);
 
         // you can get data from before seq_number_

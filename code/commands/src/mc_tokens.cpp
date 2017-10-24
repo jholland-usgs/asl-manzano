@@ -3,6 +3,7 @@
 #include "t1_fir_filter.h"
 #include "t2_tokens.h"
 #include "c1_mem.h"
+#include "c1_smem.h"
 
 namespace mzn {
 

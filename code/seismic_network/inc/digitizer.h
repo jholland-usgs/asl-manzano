@@ -23,12 +23,10 @@ class Digitizer {
 
 private:
     struct Config {
-
         friend class Digitizer;
 
         Config(uint64_t const serial_number,
                std::string const model = "Q330") :
-
             serial_number(serial_number),
             model(model) {
         }
@@ -46,9 +44,8 @@ public:
     explicit
     Digitizer(uint64_t const serial_number,
               ConnectionHandler port_config) :
-
-    port_config( std::move(port_config) ),
-    config(serial_number) {}
+        port_config( std::move(port_config) ),
+        config(serial_number) {}
 
     //! check sensor configuration with digitizer model, currently 2 inputs only
     void check() const {

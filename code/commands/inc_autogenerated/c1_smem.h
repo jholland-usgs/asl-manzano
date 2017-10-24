@@ -7,14 +7,10 @@
 
 #include "command.h"
 
-
-#include "cx_mem.h"
-
-#include "command_vector_nb.h"
 namespace mzn {
 
 // -------------------------------------------------------------------------- //
-class C1Smem : public CommandVectorNb {
+class C1Smem : public Command {
 
 friend std::ostream & operator<<(std::ostream & cmd_os, C1Smem const & cmd);
 
@@ -25,22 +21,22 @@ public:
 
     C1Smem(C1Smem && rhs) = default;
     C1Smem & operator=(C1Smem && rhs) = default;
+    C1Smem(C1Smem const & rhs) = default;
+    C1Smem & operator=(C1Smem const & rhs) = default;
     std::string const cmd_name = "c1_smem";
 
     CmdFieldHex<uint32_t> starting_address;
     CmdField<uint16_t> byte_count;
     BmMemoryType memory_type;
+    CmdField<uint16_t> segment_number;
+    CmdField<uint16_t> total_number_of_segments;
+    CmdFieldVector<0> memory_contents;
 
     uint16_t msg_to_data(std::vector<uint8_t> const & msg,
                          uint16_t mf_begin) override;
 
     uint16_t data_to_msg(std::vector<uint8_t> & msg,
                          uint16_t mf_begin) const override;
-    // max keys implementation in a separate function/file
-    // not part of auto generation
-    uint16_t nb(std::vector<uint8_t> const & msg,
-                uint16_t mf_begin) const override;
-    void create_new_ic(uint8_t const  cmd_key) override;
 
 private:
 

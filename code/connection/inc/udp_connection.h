@@ -13,6 +13,7 @@
 
 // Utility
 #include <cstring>
+#include <iomanip>
 
 #include <iostream>
 #include <string>
@@ -22,6 +23,7 @@
 #include "message.h"
 #include "address_info_handler.h"
 #include "mzn_except.h"
+#include "string_utilities.h"
 
 namespace mzn {
 
@@ -76,12 +78,6 @@ public:
     void close_socket();
     void shutdown_socket();
 
-    //! utility to print array/vector type objects, if using std::string
-    //! it would be better to just use their operator<<
-    template< typename M = std::vector<uint8_t> >
-    static
-    void print_msg(M const & msg);
-
     //! @throws InfoException
     template< typename M = std::vector<uint8_t> >
     void send(M const & msg);
@@ -125,7 +121,7 @@ private:
     int const port_host_;
 
     //! print debug messages
-    bool debug_ = false;
+    bool debug_ = true;
 };
 
 // -------------------------------------------------------------------------- //
@@ -135,14 +131,6 @@ std::ostream & operator<< (std::ostream & uc_os,
     uc_os << "uc[" << uc.port_remote() << "]";
     return uc_os;
 };
-
-// -------------------------------------------------------------------------- //
-template<typename M>
-void UdpConnection::print_msg(M const & msg) {
-    std::cout << std::uppercase <<std::showbase << std::hex << "\n{";
-    for (auto const & b : msg) std::cout << static_cast<const int>(b) << ", ";
-    std::cout << "}\n" << std::noshowbase << std::uppercase << std::dec;
-}
 
 // -------------------------------------------------------------------------- //
 template<typename SendType, typename RecvType>
@@ -189,7 +177,7 @@ void UdpConnection::send(M const & msg) {
     // Success!
     if (debug_) {
         std::cout << "\nsent bytes: " << send_result << "\n";
-        print_msg(msg);
+        Utility::stream_hex(msg);
     }
 }
 
@@ -224,7 +212,7 @@ void UdpConnection::recv(M & msg_recv) {
 
         std::cout << "\nreceived bytes: " << recv_result << std::endl;
 
-        print_msg(msg_recv);
+        Utility::stream_hex(msg_recv);
 
         std::cout << "\ngot msg from: "
                   << std::hex << sin_remote_recv_.sin_addr.s_addr

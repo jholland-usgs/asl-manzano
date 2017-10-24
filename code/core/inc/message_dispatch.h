@@ -72,10 +72,8 @@ private:
     uint16_t static constexpr qdp_begin_crc_ = 0;
     uint16_t static constexpr qdp_begin_header_ = 4;
     uint16_t static constexpr qdp_begin_cmd_data_ = 12;
-
     //! size of the qdp_message for cerr
     uint16_t static constexpr cerr_qdp_message_size_ = 14;
-
     //! mtu: digitizer maximum transferable unit
     uint16_t static constexpr mtu_ = 576;
 
@@ -111,7 +109,6 @@ std::array<uint8_t, 4>
 MessageDispatch::calc_crc(M const & msg) {
 
     uint32_t constexpr mask_lsbyte(0xFF);
-
     uint32_t crc_msbyte = 0;
     uint32_t crc = 0;
     uint32_t crc_table_index = 0;
@@ -121,9 +118,7 @@ MessageDispatch::calc_crc(M const & msg) {
     // to be sent to the digitizers
     // the code follows the digitizer's communication protocol manual
     // and dp writer's manual
-
     for (int i = qdp_begin_header_; i < msg.size(); i++) {
-
         uint32_t const msg_byte( msg[i] );
         crc_table_index = (crc_msbyte ^ msg_byte) & mask_lsbyte;
         crc = (crc << 8) ^ crc_table_[crc_table_index];

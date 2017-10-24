@@ -21,6 +21,10 @@ TEST_F(FixtureConnection, connection_setup) {
 }
 
 // -------------------------------------------------------------------------- //
+TEST_F(FixtureConnection, print_msg) {
+    std::string msg = "0123456789*abcdefghijklmnopqrstuvwxyz((ABCDEFGHIJKLMNOPQRSTUVWXYZ)))abcdefghijklmnopqrstuvwxyz----123456789+++++";
+}
+// -------------------------------------------------------------------------- //
 TEST_F(FixtureConnection, list_serial_ports) {
 
     std::string const serial_port = "/dev/ttyS1";

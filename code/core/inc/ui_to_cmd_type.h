@@ -36,6 +36,7 @@ template <> struct Ci<Action::get,   Kind::output> {using type = C1Rqsc;};
 template <> struct Ci<Action::get,   Kind::dev>    {using type = C1Rqdev;};
 template <> struct Ci<Action::get,   Kind::stat>   {using type = C1Rqstat;};
 template <> struct Ci<Action::get,   Kind::token>  {using type = C1Rqmem;};
+template <> struct Ci<Action::set,   Kind::token>  {using type = C1Smem;};
 template <> struct Ci<Action::set,   Kind::ctrl>   {using type = C1Ctrl;};
 template <> struct Ci<Action::stop,  Kind::cal>    {using type = C1Stop;};
 template <> struct Ci<Action::start, Kind::cal>    {using type = C1Qcal;};

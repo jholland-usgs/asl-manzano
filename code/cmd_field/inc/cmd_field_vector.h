@@ -52,7 +52,7 @@ inline
 std::ostream & operator<<(std::ostream & cf_os,
                           CmdFieldVector<osN> const & cf) {
     auto const & v = cf.data();
-    Utility::print_vector(v, cf_os);
+    Utility::stream_hex(v, cf_os);
     return cf_os;
 }
 
@@ -151,17 +151,9 @@ inline
 std::size_t CmdFieldVector<0>::data_to_msg(M & msg,
                                            std::size_t const mf_pos) const {
     auto const N = this->data_.size();
-
     // needs to be checked here since it is not known at compile time
-    if (msg.size()  < N + mf_pos) {
-        throw WarningException(
-            "CmdFieldVector",
-            "data_to_msg",
-            "msg size " + std::to_string( msg.size() )
-            + ", mf_pos " + std::to_string(mf_pos)
-            + ", N " + std::to_string(N)
-        );
-    }
+    // callers will size N == 0 and will not make space for msg, lets make it
+    if (msg.size()  < N + mf_pos) msg.resize(N + mf_pos);
 
     auto data_index = 0;
     for (auto i = mf_pos; i < mf_pos + N; i++) {

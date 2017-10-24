@@ -90,7 +90,7 @@ public:
 
     //! connection timeout
     static
-    std::chrono::seconds constexpr timeout_duration = std::chrono::seconds(2);
+    std::chrono::seconds constexpr timeout_duration = std::chrono::seconds(3);
 
     int sequence_number() const {return sequence_number_; }
     int acknowledge_number() const {return acknowledge_number_;}
