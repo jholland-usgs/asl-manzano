@@ -467,13 +467,13 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
         auto const limit = mem->total_number_of_segments;
         if (current == limit) break;
         // prepare next request
-        auto constexpr chunk_size = 448u;
-        address += chunk_size;
+        auto constexpr full_chunk_size = 448u;
+        address += full_chunk_size;
     }
     // stream and store output
     T2Tokens tokens;
     tokens.msg_to_data(tokens_msg, 0);
-    //std::cout << std::endl << tokens;
+    std::cout << std::endl << tokens;
     // create task_id
     auto constexpr ui_id = UserInstruction::hash(Action::get, Kind::token);
     auto const task_id = ta.hash() + ui_id;
@@ -493,7 +493,7 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     std::unique_ptr<T2Tokens> const tokens_ptr =
         output_store.pop_output_cmd<Action::get, Kind::token>(ta);
     auto & tokens = *tokens_ptr;
-    std::cout << std::endl << tokens;
+    // std::cout << std::endl << tokens;
     // there is no way to know the size at runtime just from looking at the cmd
     // in general it could be gotten when processing the input
     // the typical size is around 2000, 8000 is the maximum from the manual
@@ -502,7 +502,6 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     // return of data_to_msg is the pos for the next cmd, but we are done
     auto const mem_size = tokens.data_to_msg(tokens_msg, 0);
     tokens_msg.resize(mem_size);
-    tokens_msg[4] = 89u;
     // split into chunks and process
     // -----------------------------
     /*
@@ -512,37 +511,45 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     CmdField<uint16_t> segment_number;
     CmdField<uint16_t> total_number_of_segments;
     CmdFieldVector<0> memory_contents; */
-    auto constexpr full_chunk_size = 448u;
-    auto const size_div = std::div(mem_size, full_chunk_size);
+    // the actual maximum msg size is 450 bytes, from which 448 bytes are
+    // written to memory (not clear which 2 bytes are left out) or
+    // maybe is written in a different way. It is confirmed that the msg
+    // should have the 12 bytes of smem header + 438 bytes of actual token mem
+    auto constexpr tkn_mem_max = 438u;
+
+    auto const size_div = std::div(mem_size, tkn_mem_max);
     auto const number_of_chunks =
         (size_div.rem == 0) ? size_div.quot : size_div.quot + 1;
     auto & q = sn.q_ref(ta);
     uint16_t address = 0;
     for (auto i = 0u; i < number_of_chunks; i++) {
         bool const last_chunk = (i + 1 == number_of_chunks);
-        auto const chunk_size = last_chunk ? size_div.rem : full_chunk_size;
+        auto const mem_chunk_size = last_chunk ? size_div.rem : tkn_mem_max;
         // C1Smem is implemented as a single command (no CxSmem) as there is
         // always a minimum token memory data to provide
         // only sets memory type according to option
         auto cmd_smem = input_store.get_input_cmd<Action::set, Kind::token>(ta, oi);
         cmd_smem.starting_address(address);
-        auto constexpr mem_header_size = 4u;
-        cmd_smem.byte_count(chunk_size + mem_header_size);
+        // 4B = segment_number (2B) and total_number_of_segments (2B), max 442u
+        cmd_smem.byte_count(mem_chunk_size + 4u);
         cmd_smem.segment_number(i + 1);
         cmd_smem.total_number_of_segments(number_of_chunks);
-        auto const chunk_msg_begin = tokens_msg.begin() + address;
-        auto const chunk_msg_end = chunk_msg_begin + chunk_size;
+        auto const chunk_msg_begin = tokens_msg.begin() + tkn_mem_max * i;
+        auto const chunk_msg_end = chunk_msg_begin + mem_chunk_size;
         std::vector<uint8_t> const chunk_msg(chunk_msg_begin, chunk_msg_end);
         cmd_smem.memory_contents(chunk_msg);
         // std::cout << std::endl << cmd_smem;
         // cmd_data_size does not include the memory size but data_to_msg
         // will resize the message on the CmdFieldVector data_to_msg
-        // std::vector<uint8_t> smem_msg( cmd_smem.cmd_data_size() );
-        // cmd_smem.data_to_msg(smem_msg, 0);
+        /*
+        std::vector<uint8_t> smem_msg( cmd_smem.cmd_data_size() );
+        cmd_smem.data_to_msg(smem_msg, 0);
+        std::cout << std::endl << "SMEM MSG:" << std::endl;
+        Utility::stream_hex(smem_msg);
+        */
         C1Cack cmd_recv;
         md.send_recv(q.port_config, cmd_smem, cmd_recv, true);
-        // q.port_config.uc.send(smem_msg);
-        // std::cout << std::endl << cmd_recv;
+        auto constexpr full_chunk_size = 448u;
         address += full_chunk_size;
     }
 }

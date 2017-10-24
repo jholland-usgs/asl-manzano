@@ -39,7 +39,9 @@ template<typename M>
 inline
 void stream_hex(M const & msg, std::ostream & os = std::cout) {
     std::string separator_lines(71, '_');
+    std::string separator_spaces(71, '_');
     std::string separator = " " + separator_lines;
+    std::string spaces = " " + separator_lines;
     auto constexpr bigcols = 5u;
     auto constexpr cols = 4u;
     auto constexpr total_cols = cols * bigcols;
@@ -69,6 +71,7 @@ void stream_hex(M const & msg, std::ostream & os = std::cout) {
             os << "|";
         }
     }
+
     os << std::nouppercase << std::dec;
     os << "\n" << std::endl;
 }
