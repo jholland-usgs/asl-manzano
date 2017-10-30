@@ -31,15 +31,12 @@ class CommandMap : public CommandContainer {
 
 public:
 
-    CommandMap(uint16_t const cmd_number,
-                    uint16_t const cmd_data_size);
-
+    CommandMap(uint16_t const cmd_number, uint16_t const cmd_data_size);
     ~CommandMap() = default;
     CommandMap(CommandMap && rhs) noexcept;
     CommandMap & operator=(CommandMap && rhs) noexcept;
     //CommandMap & operator=(CommandMap const && rhs) const noexcept {};
     //CommandMap(CommandMap const &) = default;
-
     virtual
     std::vector<uint8_t> const keys() const = 0;
 

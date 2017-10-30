@@ -36,7 +36,7 @@ using SysClock = std::chrono::system_clock;
 //! internal representation type
 // -------------------------------------------------------------------------- //
 template <typename Rep = std::chrono::seconds::rep>
-using Seconds = std::chrono::duration<Rep, std::ratio<1, 1> >;
+using Seconds = std::chrono::duration<Rep, std::ratio<1> >;
 
 template <typename Rep = std::chrono::microseconds::rep>
 using MicroSeconds = std::chrono::duration<Rep, std::micro>;

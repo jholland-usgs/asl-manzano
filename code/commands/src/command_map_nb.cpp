@@ -42,22 +42,19 @@ uint16_t CommandMapNb::msg_to_data(std::vector<uint8_t> const & msg,
     while (mf_begin < vector_begin_index + N) {
 
         mf_begin = map_key_cf.msg_to_data(msg, mf_begin);
-
         auto const map_key = map_key_cf();
 
         // create new ic unique_ptr and insert to inner_commands
         // pure virtual in command_container, @throw if nullptr
         create_new_ic(map_key);
-
         mf_begin = inner_commands.back()->msg_to_data(msg, mf_begin);
-
         auto const cmd_index = inner_commands.size();
-
         set_command_index(map_key, cmd_index);
     }
 
     return mf_begin;
 }
+
 // -------------------------------------------------------------------------- //
 uint16_t CommandMapNb::data_to_msg(std::vector<uint8_t> & msg,
                                    uint16_t mf_begin) const {

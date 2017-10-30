@@ -50,7 +50,6 @@ protected:
     virtual
     void create_new_ic(uint8_t const cmd_key) = 0;
 
-
     //! streams all commands in inner_commands
     std::ostream & os_print(std::ostream & cmd_os) const override;
 };

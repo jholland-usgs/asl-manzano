@@ -22,7 +22,13 @@
 class FixtureCore : public ::testing::Test {
 public:
     mzn::Comm cm;
-    virtual void SetUp() {}
+    mzn::TargetAddress ta;
+
+    virtual void SetUp() {
+        using namespace mzn;
+        ta.sn_child = Target(Scope::station);
+        ta.st_child = Target(Scope::digitizer);
+    }
 };
 
 // -------------------------------------------------------------------------- //
@@ -34,26 +40,31 @@ TEST_F(FixtureCore, stream_plotter) {
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCore, tokens) {
     using namespace mzn;
-    TargetAddress ta;
-    ta.sn_child = Target(Scope::station);
-    ta.st_child = Target(Scope::digitizer);
     std::string oi = "1";
+    /*
     cm.run<Action::set, Kind::reg>(ta, oi);
     cm.run<Action::set, Kind::token>(ta, oi);
+    cm.run<Action::set, Kind::dereg>(ta, oi);
+    */
+}
+
+// -------------------------------------------------------------------------- //
+TEST_F(FixtureCore, tokens_manager) {
+    using namespace mzn;
+    std::string oi = "1";
+    cm.run<Action::set, Kind::reg>(ta, oi);
+    cm.run<Action::get, Kind::token>(ta, oi);
     cm.run<Action::set, Kind::dereg>(ta, oi);
 }
 
 // -------------------------------------------------------------------------- //
 TEST_F(FixtureCore, msg_task) {
-
     /*
     using namespace mzn;
-
     SeismicNetwork sn{};
     CmdFileReader cmd_file_reader_(sn);
 
     auto const ui = UserInstruction(Action::plan, Kind::cal);
-
     auto const ta = TargetAddress( Target(Scope::station),
                                    Target(Scope::digitizer),
                                    Target(Scope::sensor) );

@@ -18,6 +18,7 @@
 #include "message_dispatch.h"
 #include "string_utilities.h"
 #include "system_calls.h"
+#include "tokens_manager.h"
 // external libraries
 #include "md5.h" // jason holland's (usgs) md5 library
 #include "date.h" // hinnant's date library
@@ -69,7 +70,6 @@ public:
     inline
     void run(TargetAddress const & ta,
              OptionInput const & oi = OptionInput{}) {
-
         std::stringstream ss;
         ss << "Comm::run general case is not defined"
            << "\nAction: " << action << " Kind: " << kind;
@@ -94,12 +94,10 @@ private:
         Co cmd_output{};
 
         auto & q = sn.q_ref(ta);
-
         md.send_recv(q.port_config, cmd_input, cmd_output, true);
 
         auto constexpr ui_id = UserInstruction::hash(action, kind);
         auto const task_id = ta.hash() + ui_id;
-
         // Co needs to be move_constructible
         output_store.cmd_map[task_id] =
             std::make_unique<Co>( std::move(cmd_output) );
@@ -233,7 +231,6 @@ private:
         throw WarningException("Comm",
                                "sensor_control_cal",
                                "No sensor control configured for calibration");
-
         return sce;
     }
 
@@ -262,7 +259,6 @@ private:
         throw WarningException("Comm",
                                "sensor_control_center",
                                "No sensor control configured for centering");
-
         return sce;
     }
 
@@ -270,16 +266,13 @@ private:
     template <typename Point>
     inline
     Point boom_positions(Digitizer & q, Sensor const & s) {
-
         // request status
         C1Rqstat cmd_rqstat;
         cmd_rqstat.request_bitmap.boom_positions(true);
         // status
         C1Stat cmd_stat;
-
         // needs to be registered
         md.send_recv(q.port_config, cmd_rqstat, cmd_stat, false);
-
         // get global status
         CxBoomPositions * bp =
             dynamic_cast<CxBoomPositions *>( cmd_stat.inner_commands[0].get() );
@@ -493,6 +486,8 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     std::unique_ptr<T2Tokens> const tokens_ptr =
         output_store.pop_output_cmd<Action::get, Kind::token>(ta);
     auto & tokens = *tokens_ptr;
+    TokensManager tm{tokens};
+    std::cout << tm.network_name();
     // std::cout << std::endl << tokens;
     // there is no way to know the size at runtime just from looking at the cmd
     // in general it could be gotten when processing the input

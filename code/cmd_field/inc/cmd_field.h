@@ -285,18 +285,6 @@ std::size_t CmdField<float, 4>::data_to_msg(M & msg,
     return mf_pos + N;
 }
 
-//! utility
-// -------------------------------------------------------------------------- //
-template <typename T>
-struct IsStdArray {bool constexpr static value = false;};
-template <typename T, std::size_t N>
-struct IsStdArray<std::array<T, N>> {bool constexpr static value = true;};
-// -------------------------------------------------------------------------- //
-template <typename T>
-struct IsStdBitset {bool constexpr static value = false;};
-template <std::size_t N>
-struct IsStdBitset<std::bitset<N>> {bool constexpr static value = true;};
-
 } // << mzn
 
 #endif
