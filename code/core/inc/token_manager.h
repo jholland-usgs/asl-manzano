@@ -20,9 +20,10 @@ public:
     ~TokenManager() = default;
 
     std::string network_name() const;
-    void set_hf_on(Sensor::Input const & input);
-    void set_hf_off(Sensor::Input const & input);
-    void set_channel(std::string const & location_code,
+    //! returns true if it changed something
+    bool set_hf_on(Sensor::Input const & input);
+    bool set_hf_off(Sensor::Input const & input);
+    bool set_channel(std::string const & location_code,
                      std::string const & seed_name,
                      bool const on);
     void stream_channels(std::ostream & os = std::cout);
