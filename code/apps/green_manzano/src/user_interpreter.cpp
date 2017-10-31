@@ -52,6 +52,7 @@ Kind UserInterpreter::match_kind(std::string const & token) {
     if (token == "token")   return Kind::token;
     if (token == "wait")    return Kind::wait;
     if (token == "dev")     return Kind::dev;
+    if (token == "mod")     return Kind::mod;
     if (token == "output")  return Kind::output;
 
     // no kind found for that token

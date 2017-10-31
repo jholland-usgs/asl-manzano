@@ -100,6 +100,7 @@ void InstructionInterpreter::match(UserInstruction const & ui,
         case Kind::stat:    cm.run<action, Kind::stat>(ta, oi);    break;
         case Kind::qview:   cm.run<action, Kind::qview>(ta, oi);   break;
         case Kind::dev:     cm.run<action, Kind::dev>(ta, oi);     break;
+        case Kind::mod:     cm.run<action, Kind::mod>(ta, oi);     break;
         case Kind::ctrl:    cm.run<action, Kind::ctrl>(ta, oi);    break;
         case Kind::reg:     cm.run<action, Kind::reg>(ta, oi);     break;
         case Kind::dereg:   cm.run<action, Kind::dereg>(ta, oi);   break;

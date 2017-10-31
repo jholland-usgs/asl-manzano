@@ -20,7 +20,7 @@
 #include "system_calls.h"
 #include "token_manager.h"
 // external libraries
-#include "md5.h" // jason holland's (usgs) md5 library
+#include "md5.h" // james holland's (usgs) md5 library
 #include "date.h" // hinnant's date library
 
 namespace mzn {
@@ -418,6 +418,14 @@ inline
 void Comm::run<Action::get, Kind::dev>(TA const & ta, OI const & oi) {
     // devices, C1Rqdev, C1Dev (multicommand)
     q_send_recv<Action::get, Kind::dev>(ta, oi);
+}
+
+// -------------------------------------------------------------------------- //
+template<>
+inline
+void Comm::run<Action::get, Kind::mod>(TA const & ta, OI const & oi) {
+    // memory module, C1Rqmod, C1Mod (multicommand)
+    q_send_recv<Action::get, Kind::mod>(ta, oi);
 }
 
 // -------------------------------------------------------------------------- //

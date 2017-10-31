@@ -288,6 +288,45 @@
 
   },
 
+
+  "c1_rqmod":{
+    "cmd_fields":[
+    ],
+    "cmd_number": "0x43",
+    "crc_and_header": true,
+    "originator": "dp"
+
+  },
+
+
+  "cx_mod":{
+    "cmd_fields":[
+
+        {"cf_name": "module_name", "cf_size": 12, "cf_type": "CmdFieldPstring<12>"},
+        {"cf_name": "revision", "cf_size": 2, "cf_type": "CmdField<uint16_t>"},
+        {"cf_name": "overlay_number", "cf_size": 2, "cf_type": "CmdFieldHex<uint16_t>"},
+        {"cf_name": "module_crc", "cf_size": 4, "cf_type": "CmdFieldArrayUByte<4>"}
+
+    ],
+    "cmd_number": "0",
+    "crc_and_header": false,
+    "originator": "q"
+  },
+  
+
+  "c1_mod":{
+    "cmd_fields" : [],
+    "cmd_number": "0xB9",
+    "crc_and_header": true,
+    "originator": "q",
+    "container_type": "vector",
+    "container_info": "ni",
+    "inner_commands":[
+        {"key_name": "cx_mod"}
+    ]
+
+  },
+
   "cx_global_status":{
     "cmd_fields":[
 

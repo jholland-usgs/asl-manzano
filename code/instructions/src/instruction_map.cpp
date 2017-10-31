@@ -65,6 +65,7 @@ InstructionMap::filter_kinds(TargetAddress const & ta, Action const action) {
                           Kind::ping,
                           Kind::reg,
                           Kind::dev,
+                          Kind::mod,
                           Kind::token,
                           Kind::stat};
 
