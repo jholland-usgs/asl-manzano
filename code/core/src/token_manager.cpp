@@ -24,12 +24,10 @@ void TokenManager::set_channel(std::string const & location_code,
     for (auto & token : tokens.inner_commands) {
         auto * channel = dynamic_cast<T1LogicalChannelQueue *>( token.get() );
         if (channel != nullptr) {
+            // these two variables should identify a channel
             if (channel->location_code == cf_location_code and
                 channel->seed_name == cf_seed_name) {
-                // these two variables should identify a channel
-                found = true;
                 std::cout << *channel;
-                std::cout << channel->option;
                 bool hf_on = not channel->option.dont_include_this_lcq_when_calculating_freq_bitmap();
                 std::cout << "\nhf is:" << std::boolalpha << hf_on << std::noboolalpha;
                 std::cout << "\nhf want:" << std::boolalpha << on << std::noboolalpha;
@@ -37,6 +35,8 @@ void TokenManager::set_channel(std::string const & location_code,
                     channel->option.dont_include_this_lcq_when_calculating_freq_bitmap(not on);
                     std::cout << "\nchannel changed";
                 }
+                found = true;
+                break;
             }
         }
     }
