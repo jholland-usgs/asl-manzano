@@ -33,6 +33,10 @@ void TokenManager::set_channel(std::string const & location_code,
                 bool hf_on = not channel->option.dont_include_this_lcq_when_calculating_freq_bitmap();
                 std::cout << "\nhf_on:" << std::boolalpha << hf_on << std::noboolalpha;
                 std::cout << "\nwant:" << std::boolalpha << on << std::noboolalpha;
+                if (hf_on != on) {
+                    channel->option.dont_include_this_lcq_when_calculating_freq_bitmap(not on);
+                    std::cout << "\nchannel changed";
+                }
             }
 
         }
