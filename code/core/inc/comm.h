@@ -471,7 +471,7 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
     // stream and store output
     T2Tokens tokens;
     tokens.msg_to_data(tokens_msg, 0);
-    // std::cout << std::endl << tokens;
+    std::cout << std::endl << "tokens get success\n";
     // create task_id
     auto constexpr ui_id = UserInstruction::hash(Action::get, Kind::token);
     auto const task_id = ta.hash() + ui_id;
@@ -551,6 +551,8 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
         auto constexpr full_chunk_size = 448u;
         address += full_chunk_size;
     }
+
+    std::cout << std::endl << "tokens set success\n";
 }
 
 // -------------------------------------------------------------------------- //
@@ -1012,6 +1014,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
                  cal->waveform.waveform() == BmCalWaveform::Waveform::random);
 
             if (is_high_freq) {
+                std::cout << std::endl << "--- Setting up HF cals ---\n";
                 auto tokens_ptr = pop_tokens(ta);
                 TokenManager tm{tokens_ptr};
                 tm.set_hf_on(s.config.input);
