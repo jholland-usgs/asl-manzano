@@ -31,5 +31,5 @@ set(SOURCES_core ${SOURCES_md5}
                  ${DIR_CORE}/src/msg_task.cpp
                  ${DIR_CORE}/src/msg_task_manager.cpp
                  ${DIR_CORE}/src/message_dispatch.cpp
-                 ${DIR_CORE}/src/tokens_manager.cpp
+                 ${DIR_CORE}/src/token_manager.cpp
                  )

@@ -18,7 +18,7 @@
 #include "message_dispatch.h"
 #include "string_utilities.h"
 #include "system_calls.h"
-#include "tokens_manager.h"
+#include "token_manager.h"
 // external libraries
 #include "md5.h" // jason holland's (usgs) md5 library
 #include "date.h" // hinnant's date library
@@ -60,6 +60,11 @@ private:
     MsgTaskManager msg_task_manager_;
     //! uses threads to setup timed send of qcal cmds
     CmdFileReader cmd_file_reader_;
+
+    // --------------------------------------------------------------------- //
+    void save_tokens(std::unique_ptr<T2Tokens> & tokens_ptr,
+                     TargetAddress const & ta);
+    std::unique_ptr<T2Tokens> pop_tokens(TargetAddress const & ta);
 
 public:
     //! primary template
@@ -466,7 +471,7 @@ void Comm::run<Action::get, Kind::token>(TA const & ta,  OI const & oi) {
     // stream and store output
     T2Tokens tokens;
     tokens.msg_to_data(tokens_msg, 0);
-    std::cout << std::endl << tokens;
+    // std::cout << std::endl << tokens;
     // create task_id
     auto constexpr ui_id = UserInstruction::hash(Action::get, Kind::token);
     auto const task_id = ta.hash() + ui_id;
@@ -479,17 +484,12 @@ template<>
 inline
 void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     if (not output_store.contains<Action::get, Kind::token>(ta)) {
-        OptionInput const oi_data_port("1");
-        run<Action::get, Kind::token>(ta, oi_data_port);
+        throw WarningException("Comm", "run set token", "no tokens to set");
     }
     // pop_output_cmd throws if not found. Can a digitizer start without any tokens?
     // if so, then the special case would need to be handled with an empty object
-    std::unique_ptr<T2Tokens> const tokens_ptr =
+    std::unique_ptr<T2Tokens> tokens_ptr =
         output_store.pop_output_cmd<Action::get, Kind::token>(ta);
-    // TODO: do on its own function
-    auto & tokens = *tokens_ptr;
-    TokensManager tm{tokens};
-    tm.set_hf_on();
     // else if (oi.option == "hfoff") tm.set_hf_off();
     //else throw WarningException("Comm", "run set token", "bad option");
 
@@ -499,7 +499,7 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     auto constexpr mem_size_max = 8000u;
     std::vector<uint8_t> tokens_msg(mem_size_max);
     // return of data_to_msg is the pos for the next cmd, but we are done
-    auto const mem_size = tokens.data_to_msg(tokens_msg, 0);
+    auto const mem_size = tokens_ptr->data_to_msg(tokens_msg, 0);
     tokens_msg.resize(mem_size);
     // split into chunks and process
     // -----------------------------
@@ -1000,30 +1000,56 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             std::cout << "\nnext cal:\n";
             msg_task.stream<C1Qcal>(std::cout);
 
+            // modify tokens if high frequency
+            // ------------------------------------------------------------- //
+            auto const * cal = dynamic_cast<C1Qcal *>( msg_task.cmd_send.get() );
+            if (cal == nullptr) throw FatalException("Comm",
+                                                     "autocal",
+                                                     "cal nullptr");
+            bool const is_high_freq = cal->frequency_divider() == 1 and
+                (cal->waveform.waveform() == BmCalWaveform::Waveform::white_noise or
+                 cal->waveform.waveform() == BmCalWaveform::Waveform::red_noise or
+                 cal->waveform.waveform() == BmCalWaveform::Waveform::random);
+
+            if (is_high_freq) {
+                auto tokens_ptr = pop_tokens(ta);
+                TokenManager tm{tokens_ptr};
+                tm.set_hf_on();
+                save_tokens(tokens_ptr, ta);
+            }
+
+            // dance
+            // ------------------------------------------------------------- //
             md.send_recv( q.port_config,
                           *(msg_task.cmd_send.get()),
                           *(msg_task.cmd_recv.get()) );
-
             // no throw so far, received c1_cack
             msg_task.done = true;
 
             Comm::run<Action::set, Kind::dereg>(ta);
 
-            if (msg_tasks.size() > 1) {
+            // wait if needed
+            // ------------------------------------------------------------- //
+            if (msg_tasks.size() > 1 or is_high_freq) {
                 // sleep on this thread, each msg task has the run_duration
                 // already calculated.
                 auto const sleep_duration = msg_task.run_duration();
-
                 CmdFieldTime<> sleep_until_time;
                 sleep_until_time(std::chrono::system_clock::now() + sleep_duration);
-
                 std::cout << std::endl << " ### now: "
                           << Time::sys_time_of_day() << " ###\n";
-
                 std::cout << std::endl << "sleep for: " << sleep_duration
                           << " until: " << sleep_until_time << std::endl;
-
                 std::this_thread::sleep_for(sleep_duration);
+            }
+
+            // reset tokens
+            // ------------------------------------------------------------- //
+            if (is_high_freq) {
+                auto tokens_ptr = pop_tokens(ta);
+                TokenManager tm{tokens_ptr};
+                tm.set_hf_off();
+                save_tokens(tokens_ptr, ta);
             }
         }
 

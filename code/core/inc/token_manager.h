@@ -3,22 +3,21 @@
 #define _MZN_TOKENS_MANAGER_H
 
 #include "seismic_network.h"
-#include "message_dispatch.h"
+#include "output_store.h"
 #include "commands.h"
 
 namespace mzn {
-
 //! utility functions to lookup/modify tokens from a T2Tokens object
 /*!
     @author rfigueroa@usgs.gov
  */
 // -------------------------------------------------------------------------- //
-class TokensManager {
+class TokenManager {
 
 public:
     explicit
-    TokensManager(T2Tokens & tokens);
-    ~TokensManager() = default;
+    TokenManager(std::unique_ptr<T2Tokens> & tokens);
+    ~TokenManager() = default;
 
     std::string network_name() const;
     void set_hf_on();

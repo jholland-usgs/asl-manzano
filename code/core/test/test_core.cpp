@@ -38,21 +38,15 @@ TEST_F(FixtureCore, stream_plotter) {
 }
 
 // -------------------------------------------------------------------------- //
-TEST_F(FixtureCore, tokens_manager) {
+TEST_F(FixtureCore, tokens) {
+    /*
     using namespace mzn;
     std::string oi = "1"; // data port 1
     cm.run<Action::set, Kind::reg>(ta, oi);
     cm.run<Action::get, Kind::token>(ta, oi);
-    cm.run<Action::set, Kind::dereg>(ta, oi);
-}
-
-// -------------------------------------------------------------------------- //
-TEST_F(FixtureCore, tokens) {
-    using namespace mzn;
-    std::string oi = "1";
-    cm.run<Action::set, Kind::reg>(ta, oi);
     cm.run<Action::set, Kind::token>(ta, oi);
     cm.run<Action::set, Kind::dereg>(ta, oi);
+    */
 }
 
 // -------------------------------------------------------------------------- //
