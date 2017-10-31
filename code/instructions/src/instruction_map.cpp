@@ -72,7 +72,8 @@ InstructionMap::filter_kinds(TargetAddress const & ta, Action const action) {
 
                 return VK{Kind::ctrl,
                           Kind::reg,
-                          Kind::dereg};
+                          Kind::dereg,
+                          Kind::token};
 
             case Action::stop:
 

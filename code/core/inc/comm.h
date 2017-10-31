@@ -501,6 +501,9 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     // return of data_to_msg is the pos for the next cmd, but we are done
     auto const mem_size = tokens_ptr->data_to_msg(tokens_msg, 0);
     tokens_msg.resize(mem_size);
+
+    TokenManager tm{tokens_ptr};
+    tm.stream_channels();
     // split into chunks and process
     // -----------------------------
     /*

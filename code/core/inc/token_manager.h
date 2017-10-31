@@ -25,6 +25,7 @@ public:
     void set_channel(std::string const & location_code,
                      std::string const & seed_name,
                      bool const on);
+    void stream_channels(std::ostream & os = std::cout);
 
 private:
     T2Tokens & tokens;

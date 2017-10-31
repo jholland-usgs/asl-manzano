@@ -13,6 +13,17 @@ std::string TokenManager::network_name() const {
 }
 
 // -------------------------------------------------------------------------- //
+void TokenManager::stream_channels(std::ostream & os) {
+    for (auto & token : tokens.inner_commands) {
+        auto * channel = dynamic_cast<T1LogicalChannelQueue *>( token.get() );
+        if (channel != nullptr) {
+            os << "\n" << channel->location_code
+               << channel->seed_name;
+        }
+    }
+}
+
+// -------------------------------------------------------------------------- //
 void TokenManager::set_channel(std::string const & location_code,
                                std::string const & seed_name,
                                bool const on) {
