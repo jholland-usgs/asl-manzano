@@ -479,16 +479,20 @@ template<>
 inline
 void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
     if (not output_store.contains<Action::get, Kind::token>(ta)) {
-        run<Action::get, Kind::token>(ta, oi);
+        OptionInput const oi_data_port("1");
+        run<Action::get, Kind::token>(ta, oi_data_port);
     }
     // pop_output_cmd throws if not found. Can a digitizer start without any tokens?
     // if so, then the special case would need to be handled with an empty object
     std::unique_ptr<T2Tokens> const tokens_ptr =
         output_store.pop_output_cmd<Action::get, Kind::token>(ta);
+    // TODO: do on its own function
     auto & tokens = *tokens_ptr;
     TokensManager tm{tokens};
-    std::cout << tm.network_name();
-    // std::cout << std::endl << tokens;
+    tm.set_hf_on();
+    // else if (oi.option == "hfoff") tm.set_hf_off();
+    //else throw WarningException("Comm", "run set token", "bad option");
+
     // there is no way to know the size at runtime just from looking at the cmd
     // in general it could be gotten when processing the input
     // the typical size is around 2000, 8000 is the maximum from the manual

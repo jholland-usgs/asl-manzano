@@ -20,7 +20,9 @@ public:
     TokensManager(T2Tokens & tokens);
     ~TokensManager() = default;
 
-    std::string network_name();
+    std::string network_name() const;
+    void set_hf_on();
+    void set_hf_off();
 
 private:
     T2Tokens & tokens;
