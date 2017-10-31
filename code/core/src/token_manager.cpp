@@ -42,7 +42,10 @@ void TokenManager::set_channel(std::string const & location_code,
     }
 
     if (not found) {
-        throw WarningException("TokenManager", "set_hf_on", "token not found");
+        std::stringstream ss;
+        ss << "token for channel: " << location_code << "/" << seed_name
+           << " not found";
+        throw WarningException( "TokenManager", "set_hf_on", ss.str() );
     }
 }
 
