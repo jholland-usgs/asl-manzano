@@ -40,7 +40,7 @@ bool TokenManager::set_channel(std::string const & location_code,
             // these two variables should identify a channel
             if (channel->location_code == cf_location_code and
                 channel->seed_name == cf_seed_name) {
-                std::cout << *channel;
+                std::cout << "\n" << channel->location_code << channel->seed_name;
                 bool hf_on = not channel->option.dont_include_this_lcq_when_calculating_freq_bitmap();
                 std::cout << "\nhf is:" << std::boolalpha << hf_on << std::noboolalpha;
                 std::cout << "\nhf want:" << std::boolalpha << on << std::noboolalpha;
@@ -69,15 +69,15 @@ bool TokenManager::set_channel(std::string const & location_code,
 bool TokenManager::set_hf_on(Sensor::Input const & input) {
     bool changed = false;
     if (input == Sensor::Input::a) {
-        changed = changed or set_channel("CB", "BC0", true);
-        changed = changed or set_channel("00", "EH1", true);
-        changed = changed or set_channel("00", "EH2", true);
-        changed = changed or set_channel("00", "EHZ", true);
+        changed = set_channel("CB", "BC0", true) or changed;
+        changed = set_channel("00", "EH1", true) or changed;
+        changed = set_channel("00", "EH2", true) or changed;
+        changed = set_channel("00", "EHZ", true) or changed;
     } else {
-        changed = changed or set_channel("CB", "BC1", true);
-        changed = changed or set_channel("10", "EH1", true);
-        changed = changed or set_channel("10", "EH2", true);
-        changed = changed or set_channel("10", "EHZ", true);
+        changed = set_channel("CB", "BC1", true) or changed;
+        changed = set_channel("10", "EH1", true) or changed;
+        changed = set_channel("10", "EH2", true) or changed;
+        changed = set_channel("10", "EHZ", true) or changed;
     }
     return changed;
 }
@@ -86,15 +86,15 @@ bool TokenManager::set_hf_on(Sensor::Input const & input) {
 bool TokenManager::set_hf_off(Sensor::Input const & input) {
     bool changed = false;
     if (input == Sensor::Input::a) {
-        changed = changed or set_channel("CB", "BC0", false);
-        changed = changed or set_channel("00", "EH1", false);
-        changed = changed or set_channel("00", "EH2", false);
-        changed = changed or set_channel("00", "EHZ", false);
+        changed = set_channel("CB", "BC0", false) or changed;
+        changed = set_channel("00", "EH1", false) or changed;
+        changed = set_channel("00", "EH2", false) or changed;
+        changed = set_channel("00", "EHZ", false) or changed;
     } else {
-        changed = changed or set_channel("CB", "BC1", false);
-        changed = changed or set_channel("10", "EH1", false);
-        changed = changed or set_channel("10", "EH2", false);
-        changed = changed or set_channel("10", "EHZ", false);
+        changed = set_channel("CB", "BC1", false) or changed;
+        changed = set_channel("10", "EH1", false) or changed;
+        changed = set_channel("10", "EH2", false) or changed;
+        changed = set_channel("10", "EHZ", false) or changed;
     }
     return changed;
 }
