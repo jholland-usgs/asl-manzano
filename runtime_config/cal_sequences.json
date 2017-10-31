@@ -163,6 +163,12 @@
   ]
 },
 
+"HFTEST": {
+  "cals": [
+    {"amplitude": -18, "settling_time": {"h":0,"m":2}, "cal_duration": {"h":0,"m":4}, "trailer_time": {"h":0,"m":2}, "wave_form": "random", "frequency": 125}
+  ]
+},
+
 "HFR6": {
   "cals": [
     {"amplitude": -6, "settling_time": {"h":0,"m":10}, "cal_duration": {"h":0,"m":20}, "trailer_time": {"h":0,"m":10}, "wave_form": "random", "frequency": 125}

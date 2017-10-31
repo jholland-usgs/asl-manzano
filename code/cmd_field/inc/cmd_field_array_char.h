@@ -23,6 +23,15 @@ public:
     explicit
     CmdFieldArrayChar();
 
+    //! constructor with different input_T
+    template <typename input_T>
+    explicit
+    CmdFieldArrayChar(input_T const & input_msg) :
+        CmdFieldArray<typename data_type::value_type, N>{} {
+        auto msg = std::vector<uint8_t>( input_msg.begin(), input_msg.end() );
+        this->msg_to_data(msg, 0);
+    }
+
     ~CmdFieldArrayChar() = default;
 };
 

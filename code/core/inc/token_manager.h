@@ -20,8 +20,11 @@ public:
     ~TokenManager() = default;
 
     std::string network_name() const;
-    void set_hf_on();
-    void set_hf_off();
+    void set_hf_on(Sensor::Input const & input);
+    void set_hf_off(Sensor::Input const & input);
+    void set_channel(std::string const & location_code,
+                     std::string const & seed_name,
+                     bool const on);
 
 private:
     T2Tokens & tokens;

@@ -1014,7 +1014,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             if (is_high_freq) {
                 auto tokens_ptr = pop_tokens(ta);
                 TokenManager tm{tokens_ptr};
-                tm.set_hf_on();
+                tm.set_hf_on(s.config.input);
                 save_tokens(tokens_ptr, ta);
             }
 
@@ -1048,7 +1048,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             if (is_high_freq) {
                 auto tokens_ptr = pop_tokens(ta);
                 TokenManager tm{tokens_ptr};
-                tm.set_hf_off();
+                tm.set_hf_off(s.config.input);
                 save_tokens(tokens_ptr, ta);
             }
         }

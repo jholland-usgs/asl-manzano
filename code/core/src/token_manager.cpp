@@ -13,17 +13,28 @@ std::string TokenManager::network_name() const {
 }
 
 // -------------------------------------------------------------------------- //
-void TokenManager::set_hf_on() {
-    // find a better way, like how the keys works in command map
+void TokenManager::set_channel(std::string const & location_code,
+                               std::string const & seed_name,
+                               bool const on) {
     bool found = false;
+
+    CmdFieldArrayChar<2> cf_location_code(location_code);
+    CmdFieldArrayChar<3> cf_seed_name(seed_name);
+    // find a better way, like how the keys works in command map
     for (auto & token : tokens.inner_commands) {
         auto * channel = dynamic_cast<T1LogicalChannelQueue *>( token.get() );
         if (channel != nullptr) {
-            std::cout << *channel;
-            std::cout << channel->option;
-            bool hf_on = not channel->option.dont_include_this_lcq_when_calculating_freq_bitmap();
-            std::cout << "\nhf_on:" << std::boolalpha << hf_on << std::noboolalpha;
-            found = true;
+            if (channel->location_code == cf_location_code and
+                channel->seed_name == cf_seed_name) {
+                // these two variables should identify a channel
+                found = true;
+                std::cout << *channel;
+                std::cout << channel->option;
+                bool hf_on = not channel->option.dont_include_this_lcq_when_calculating_freq_bitmap();
+                std::cout << "\nhf_on:" << std::boolalpha << hf_on << std::noboolalpha;
+                std::cout << "\nwant:" << std::boolalpha << on << std::noboolalpha;
+            }
+
         }
     }
 
@@ -33,8 +44,15 @@ void TokenManager::set_hf_on() {
 }
 
 // -------------------------------------------------------------------------- //
-void TokenManager::set_hf_off() {
-    std::cout << "TODO!";
+void TokenManager::set_hf_on(Sensor::Input const & input) {
+    if (input == Sensor::Input::a) set_channel("CB", "BC0", true);
+    else set_channel("CB", "BC1", true);
+}
+
+// -------------------------------------------------------------------------- //
+void TokenManager::set_hf_off(Sensor::Input const & input) {
+    if (input == Sensor::Input::a) set_channel("CB", "BC0", false);
+    else set_channel("CB", "BC1", false);
 }
 
 } // end namespace
