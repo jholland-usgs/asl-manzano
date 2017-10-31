@@ -550,7 +550,7 @@ void Comm::run<Action::set, Kind::token>(TA const & ta,  OI const & oi) {
         Utility::stream_hex(smem_msg);
         */
         C1Cack cmd_recv;
-        md.send_recv(q.port_config, cmd_smem, cmd_recv, true);
+        md.send_recv(q.port_config, cmd_smem, cmd_recv, false);
         auto constexpr full_chunk_size = 448u;
         address += full_chunk_size;
     }

@@ -64,10 +64,10 @@ void TokenManager::set_channel(std::string const & location_code,
 void TokenManager::set_hf_on(Sensor::Input const & input) {
     if (input == Sensor::Input::a) {
         set_channel("CB", "BC0", true);
-        set_channel("EHZ", "00", true);
+        set_channel("00", "EHZ", true);
     } else {
         set_channel("CB", "BC1", true);
-        set_channel("EHZ", "10", true);
+        set_channel("10", "EHZ", true);
     }
 }
 
@@ -75,10 +75,10 @@ void TokenManager::set_hf_on(Sensor::Input const & input) {
 void TokenManager::set_hf_off(Sensor::Input const & input) {
     if (input == Sensor::Input::a) {
         set_channel("CB", "BC0", false);
-        set_channel("EHZ", "00", false);
+        set_channel("00", "EHZ", false);
     } else {
         set_channel("CB", "BC1", false);
-        set_channel("EHZ", "10", false);
+        set_channel("10", "EHZ", false);
     }
 }
 
