@@ -1056,6 +1056,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
             // reset tokens
             // ------------------------------------------------------------- //
             if (is_high_freq) {
+                run<Action::set, Kind::reg>(ta);
                 auto tokens_ptr = pop_tokens(ta);
                 TokenManager tm{tokens_ptr};
                 bool const changed = tm.set_hf_off(s.config.input);
@@ -1064,6 +1065,7 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
                     OptionInput set_token_oi("1");
                     run<Action::set, Kind::token>(ta, set_token_oi);
                 }
+                run<Action::set, Kind::dereg>(ta);
             }
         }
 
