@@ -1016,6 +1016,8 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
                 TokenManager tm{tokens_ptr};
                 tm.set_hf_on(s.config.input);
                 save_tokens(tokens_ptr, ta);
+                OptionInput set_token_oi("1");
+                run<Action::set, Kind::token>(ta, set_token_oi);
             }
 
             // dance
@@ -1050,6 +1052,8 @@ void Comm::run<Action::auto_, Kind::cal>(TA const & ta, OI const & oi) {
                 TokenManager tm{tokens_ptr};
                 tm.set_hf_off(s.config.input);
                 save_tokens(tokens_ptr, ta);
+                OptionInput set_token_oi("1");
+                run<Action::set, Kind::token>(ta, set_token_oi);
             }
         }
 
