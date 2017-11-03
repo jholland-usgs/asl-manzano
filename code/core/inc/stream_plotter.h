@@ -150,8 +150,8 @@ void StreamPlotter<T, N, pps, Tc>::plot_line(int const i) {
         // ----------------------------------------------------------------- //
         // choose char for plot
         char c = '|';
-        if (sum_f > sum_s) c = '\\';
-        if (sum_f < sum_s) c = '/';
+        if (sum_f > sum_s) c = '/';
+        if (sum_f < sum_s) c = '\\';
 
         // only applies with user provided min_ max_ limits, allow plot loss
         // v real value already streamed, this is only for the plot
