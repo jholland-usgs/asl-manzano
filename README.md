@@ -72,7 +72,7 @@ Application to read data from a falcon web service, extract contiguous packets o
 
 ----------------------------------------------------------------------------
 ### Author / Maintainer
-Rafael Figueroa (rfigueroa@usgs.gov)
+Rafael Figueroa (rfigueroa@usgs.gov/rafael.figueroa.engineer@gmail.com)
 
 ---------------------------------------------------------
 DISCLAIMER:
