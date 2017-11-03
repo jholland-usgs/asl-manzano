@@ -71,8 +71,12 @@ GUI (Qt) tool to use Manzano interactively.
 Application to read data from a falcon web service, extract contiguous packets of information and serialize/send packets to external servers.
 
 ----------------------------------------------------------------------------
-### Author / Maintainer
-Rafael Figueroa (rfigueroa@usgs.gov/rafael.figueroa.engineer@gmail.com)
+### Maintainer
+Adam Baker (ambaker@usgs.gov)
+
+----------------------------------------------------------------------------
+### Author
+Rafael Figueroa (rafael.figueroa.engineer@gmail.com)
 
 ---------------------------------------------------------
 DISCLAIMER:
